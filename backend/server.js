@@ -11,7 +11,10 @@ app.use(cors());
 
 const JWT_SECRET = 'super_secret_stalk_key_2026';
 
-mongoose.connect('mongodb://127.0.0.1:27017/stalkManager')
+// FIXED: Now correctly uses your Render environment variable, falling back to local only if missing
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/stalkManager';
+
+mongoose.connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected securely"))
   .catch((err) => console.error("❌ MongoDB Connection FAILED!", err.message));
 
@@ -29,7 +32,7 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-// --- ORDER SCHEMA (UTR Removed, Added Account Tracking!) ---
+// --- ORDER SCHEMA ---
 const orderItemSchema = new mongoose.Schema({
   breadVariety: String, pricePerBread: Number, targetStock: Number, currentLeft: Number, expired: Number, suppliedBreads: Number, billableBreads: Number, itemTotal: Number
 });
@@ -95,7 +98,7 @@ app.get('/api/reports', async (req, res) => {
 });
 
 // ==========================================
-// 💳 MARK INVOICE AS PAID ROUTE
+// 💳 MARK INVOICE AS PAID ROUTE (Consolidated)
 // ==========================================
 app.put('/api/orders/:id/pay', async (req, res) => {
   try {
@@ -106,9 +109,9 @@ app.put('/api/orders/:id/pay', async (req, res) => {
       id,
       { 
         paymentStatus: 'PAID',
-        paymentMethod: paymentMethod || 'QR Code Settlement'
+        paymentMethod: paymentMethod || 'Direct UPI QR Scan'
       },
-      { new: true } // Returns the updated document
+      { new: true }
     );
 
     if (!updatedOrder) {
@@ -131,27 +134,6 @@ app.delete('/api/orders/:id', async (req, res) => {
     await Order.findByIdAndDelete(req.params.id);
     res.json({ message: "Bill deleted forever" });
   } catch (err) { res.status(500).json({ error: err.message }); }
-});
-
-// ============================================================================
-// 📱 1-CLICK INSTANT SETTLEMENT ROUTE (NO UTR OR DOCUMENTS NEEDED)
-// ============================================================================
-app.put('/api/orders/:id/pay', async (req, res) => {
-  try {
-    const { paymentMethod } = req.body;
-    
-    const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.id,
-      { 
-        paymentStatus: 'PAID', 
-        paymentMethod: paymentMethod || 'Direct UPI QR Scan'
-      },
-      { new: true }
-    );
-    res.json({ message: "Invoice settled successfully", order: updatedOrder });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 });
 
 // --- AI ENGINE ---
@@ -190,4 +172,5 @@ app.post('/api/ml/check-anomaly', (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.listen(5005, () => console.log(`🚀 Master Backend live on port 5005`));
+const PORT = process.env.PORT || 5005;
+app.listen(PORT, () => console.log(`🚀 Master Backend live on port ${PORT}`));
