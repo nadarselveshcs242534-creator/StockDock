@@ -576,9 +576,9 @@ export default function App() {
   const tSubText = isDark ? 'text-slate-300' : 'text-gray-600'; 
 
   const LanguageSelectDropdown = () => (
-    <div className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border transition-all duration-200 shadow-sm ${isDark ? 'bg-slate-800 border-slate-600 text-blue-400' : 'bg-white border-gray-300 text-blue-700'}`}>
+    <div className={`flex items-center gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl border transition-all duration-200 shadow-sm ${isDark ? 'bg-slate-800 border-slate-600 text-blue-400' : 'bg-white border-gray-300 text-blue-700'}`}>
       <Languages size={18} className="shrink-0" />
-      <select value={lang} onChange={(e) => setLang(e.target.value)} className="bg-transparent font-bold text-sm focus:outline-none cursor-pointer pr-1">
+      <select value={lang} onChange={(e) => setLang(e.target.value)} className="bg-transparent font-bold text-xs sm:text-sm focus:outline-none cursor-pointer pr-1">
         <option value="en" className={isDark ? 'bg-slate-800 text-white' : 'bg-white text-black'}>🇺🇸 English</option>
         <option value="hi" className={isDark ? 'bg-slate-800 text-white' : 'bg-white text-black'}>🇮🇳 हिंदी (Hindi)</option>
         <option value="ta" className={isDark ? 'bg-slate-800 text-white' : 'bg-white text-black'}>🇮🇳 தமிழ் (Tamil)</option>
@@ -593,9 +593,9 @@ export default function App() {
     return (
       <div className={`min-h-screen font-sans flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300 ${tBg}`}>
         <style>{customAnimations}</style>
-        <div className="absolute top-6 right-6 z-20 flex items-center gap-2.5">
+        <div className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 flex items-center gap-2.5">
           <LanguageSelectDropdown />
-          <button onClick={() => setTheme(isDark ? 'light' : 'dark')} className={`p-2.5 rounded-xl border transition-all duration-200 shadow-sm cursor-pointer flex items-center gap-2 ${isDark ? 'bg-slate-800 border-slate-600 text-amber-400 hover:bg-slate-700' : 'bg-white border-gray-300 text-blue-700 hover:bg-gray-100'}`}>
+          <button onClick={() => setTheme(isDark ? 'light' : 'dark')} className={`p-2 sm:p-2.5 rounded-xl border transition-all duration-200 shadow-sm cursor-pointer flex items-center gap-2 ${isDark ? 'bg-slate-800 border-slate-600 text-amber-400 hover:bg-slate-700' : 'bg-white border-gray-300 text-blue-700 hover:bg-gray-100'}`}>
             {isDark ? <Sun size={20}/> : <Moon size={20}/>}
             <span className="text-sm font-bold hidden sm:inline">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
           </button>
@@ -604,7 +604,7 @@ export default function App() {
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-[128px] pointer-events-none animate-pulse"></div>
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-violet-600/20 rounded-full blur-[128px] pointer-events-none animate-pulse" style={{ animationDelay: '1s' }}></div>
 
-        <div className={`w-full max-w-[480px] p-8 sm:p-10 rounded-[2rem] border relative z-10 animate-popup my-8 transition-colors duration-300 ${tCard}`}>
+        <div className={`w-full max-w-[480px] p-6 sm:p-10 rounded-[2rem] border relative z-10 animate-popup my-8 transition-colors duration-300 ${tCard}`}>
           <div className="text-center mb-8">
             <div className="inline-flex p-4 bg-gradient-to-tr from-blue-600 to-blue-800 rounded-2xl mb-4 shadow-lg shadow-blue-500/30"><Package className="text-white" size={36} /></div>
             <h1 className="text-3xl font-black tracking-tight text-blue-600">{t.welcome}</h1>
@@ -619,8 +619,8 @@ export default function App() {
           
           <form onSubmit={handleAuthSubmit} className="space-y-4">
             <div className={`flex p-1.5 rounded-xl mb-6 border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-100 border-gray-300'}`}>
-              <button type="button" onClick={() => setAuthForm({ ...authForm, role: 'store_owner' })} className={`flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-300 cursor-pointer ${authForm.role === 'store_owner' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>{t.storeOwner}</button>
-              <button type="button" onClick={() => setAuthForm({ ...authForm, role: 'distributor' })} className={`flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-300 cursor-pointer ${authForm.role === 'distributor' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>{t.distributor}</button>
+              <button type="button" onClick={() => setAuthForm({ ...authForm, role: 'store_owner' })} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center text-center leading-tight min-h-[48px] transition-all duration-300 cursor-pointer ${authForm.role === 'store_owner' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>{t.storeOwner}</button>
+              <button type="button" onClick={() => setAuthForm({ ...authForm, role: 'distributor' })} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center text-center leading-tight min-h-[48px] transition-all duration-300 cursor-pointer ${authForm.role === 'distributor' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>{t.distributor}</button>
             </div>
 
             {!isLoginView && (
@@ -648,7 +648,7 @@ export default function App() {
             <input type="text" name="username" required value={authForm.username} onChange={e => setAuthForm({...authForm, username: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.username} />
             <input type="password" name="password" required value={authForm.password} onChange={e => setAuthForm({...authForm, password: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.password} />
             
-            <button type="submit" className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer text-base">
+            <button type="submit" className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-black py-4 min-h-[56px] rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer text-base">
               {isLoginView ? t.loginBtn : t.registerBtn} <ArrowRight size={20}/>
             </button>
           </form>
@@ -671,7 +671,7 @@ export default function App() {
     const activeMerchant = MERCHANT_ACCOUNTS[selectedAccIdx];
     
     return (
-      <div className={`min-h-screen font-sans flex flex-col p-6 sm:p-10 transition-colors duration-300 ${tBg}`}>
+      <div className={`min-h-screen font-sans flex flex-col p-4 sm:p-10 transition-colors duration-300 ${tBg}`}>
         <style>{customAnimations}</style>
         
         {/* Gateway Header (HIDDEN DURING PRINT) */}
@@ -706,7 +706,7 @@ export default function App() {
           {/* WIZARD STEP 1: INVOICE REVIEW ONLY */}
           {/* ========================================================= */}
           {checkoutStep === 'REVIEW' && (
-            <div className={`${isPrinting ? 'col-span-1 border-none shadow-none bg-white text-black p-0 w-full' : `max-w-3xl mx-auto p-8 sm:p-12 rounded-[2rem] border flex flex-col justify-between shadow-xl ${tCard}`}`}>
+            <div className={`${isPrinting ? 'col-span-1 border-none shadow-none bg-white text-black p-0 w-full' : `max-w-3xl mx-auto p-6 sm:p-12 rounded-[2rem] border flex flex-col justify-between shadow-xl ${tCard}`}`}>
               <div>
                 <div className={`flex justify-between items-center ${isPrinting ? 'mb-6 border-b-2 border-black pb-4' : 'mb-8'}`}>
                   <span className={`text-sm font-black uppercase tracking-widest ${isPrinting ? 'text-black' : 'text-blue-600'} block`}>{t.taxInvoice}</span>
@@ -717,7 +717,7 @@ export default function App() {
                   )}
                 </div>
                 
-                <h3 className={`text-5xl font-black ${isPrinting ? 'mb-6 text-black' : 'mb-8 text-emerald-600'} font-mono`}>₹{activeCheckoutOrder.totalBillAmount}.00</h3>
+                <h3 className={`text-4xl sm:text-5xl font-black ${isPrinting ? 'mb-6 text-black' : 'mb-8 text-emerald-600'} font-mono`}>₹{activeCheckoutOrder.totalBillAmount}.00</h3>
                 
                 <div className={`space-y-4 border-t-2 py-6 my-4 text-sm font-bold ${isPrinting ? 'border-black text-black' : isDark ? 'border-slate-700 text-slate-200' : 'border-gray-200 text-gray-800'}`}>
                   <div className="flex justify-between"><span className={isPrinting ? 'text-gray-600' : tSubText}>Reference Number:</span><span className={`font-mono font-black ${isPrinting ? 'text-black' : 'text-blue-600'}`}>#{activeCheckoutOrder._id.slice(-8).toUpperCase()}</span></div>
@@ -726,7 +726,7 @@ export default function App() {
                 </div>
 
                 {/* ITEMIZED INVOICE TABLE */}
-                <div className={`mt-4 border-t-2 border-b-2 py-4 ${isPrinting ? 'max-h-none overflow-visible border-black' : `max-h-[350px] overflow-y-auto no-scrollbar ${isDark ? 'border-slate-700' : 'border-gray-200'}`}`}>
+                <div className={`mt-4 border-t-2 border-b-2 py-4 ${isPrinting ? 'max-h-none overflow-visible border-black' : `max-h-[350px] overflow-x-auto overflow-y-auto no-scrollbar ${isDark ? 'border-slate-700' : 'border-gray-200'}`}`}>
                   <table className={`w-full text-sm text-left ${isPrinting ? 'text-black' : ''}`}>
                     <thead className={`sticky top-0 z-10 backdrop-blur-md ${isPrinting ? 'bg-white text-gray-800' : `${isDark ? 'bg-slate-800/90' : 'bg-white/90'} ${tSubText}`}`}>
                       <tr>
@@ -752,7 +752,7 @@ export default function App() {
               {!isPrinting && (
                 <button 
                   onClick={() => { setCheckoutStep('PAY'); setTimeLeft(600); }}
-                  className="w-full mt-8 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-3 cursor-pointer"
+                  className="w-full mt-8 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-3 cursor-pointer min-h-[56px]"
                 >
                   {t.proceedToPay} <ArrowRight size={20}/>
                 </button>
@@ -764,7 +764,7 @@ export default function App() {
           {/* WIZARD STEP 2: PAYMENT GATEWAY ONLY */}
           {/* ========================================================= */}
           {(checkoutStep === 'PAY' || checkoutStep === 'EXPIRED') && (
-            <div className={`max-w-xl mx-auto p-8 sm:p-12 rounded-[2rem] border flex flex-col justify-between shadow-xl relative overflow-hidden ${tCard}`}>
+            <div className={`max-w-xl mx-auto p-6 sm:p-12 rounded-[2rem] border flex flex-col justify-between shadow-xl relative overflow-hidden ${tCard}`}>
               
               <button onClick={() => setCheckoutStep('REVIEW')} className={`mb-8 inline-flex whitespace-nowrap w-fit items-center gap-2 text-sm font-bold transition-colors cursor-pointer ${isDark ? 'text-slate-300 hover:text-blue-400' : 'text-gray-600 hover:text-blue-700'}`}>
                    <ArrowLeft size={18}/> {t.backToInvoice}
@@ -804,13 +804,13 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => { setTimeLeft(600); setCheckoutStep('PAY'); }}
-                    className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-sm flex items-center gap-2 shadow-md transition-all cursor-pointer"
+                    className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-sm flex items-center gap-2 shadow-md transition-all cursor-pointer min-h-[48px]"
                   >
                     <RefreshCcw size={18}/> {t.regenQr}
                   </button>
                 </div>
               ) : (
-                <div className={`flex flex-col items-center justify-center text-center p-8 rounded-2xl my-6 border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+                <div className={`flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl my-6 border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
                   
                   <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono font-black mb-6 border ${timeLeft < 180 ? 'bg-red-100 text-red-700 border-red-300 animate-pulse' : 'bg-blue-100 text-blue-700 border-blue-300'}`}>
                     <Timer size={16} className="shrink-0"/>
@@ -844,7 +844,7 @@ export default function App() {
                 type="button"
                 disabled={checkoutStep === 'EXPIRED'}
                 onClick={handleManualSettlement}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer disabled:opacity-30 disabled:pointer-events-none"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer disabled:opacity-30 disabled:pointer-events-none min-h-[56px]"
               >
                 <CheckCircle size={20}/> {t.verifySettle}
               </button>
@@ -855,7 +855,7 @@ export default function App() {
           {/* WIZARD STEP 3: SUCCESS ELECTRONIC RECEIPT */}
           {/* ========================================================= */}
           {checkoutStep === 'SUCCESS' && (
-            <div className={`max-w-2xl mx-auto p-8 sm:p-12 rounded-[2rem] border shadow-xl text-center flex flex-col items-center justify-center relative overflow-hidden ${tCard}`}>
+            <div className={`max-w-2xl mx-auto p-6 sm:p-12 rounded-[2rem] border shadow-xl text-center flex flex-col items-center justify-center relative overflow-hidden ${tCard}`}>
               <div className="w-24 h-24 rounded-full bg-emerald-100 border-4 border-emerald-500 text-emerald-600 flex items-center justify-center mb-8 shadow-sm animate-popup">
                 <CheckCircle size={56} strokeWidth={3}/>
               </div>
@@ -866,7 +866,7 @@ export default function App() {
               <p className={`text-base font-bold max-w-md mb-10 ${tSubText}`}>{t.paymentDoneSub}</p>
 
               {/* Electronic Receipt Box */}
-              <div className={`w-full rounded-2xl p-8 border text-left space-y-4 font-bold text-sm mb-10 ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+              <div className={`w-full rounded-2xl p-6 sm:p-8 border text-left space-y-4 font-bold text-sm mb-10 ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
                 <div className={`flex justify-between border-b pb-4 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <span className={tSubText}>{t.amountPaid}</span>
                   <span className="font-mono font-black text-emerald-600 text-xl">₹{activeCheckoutOrder.totalBillAmount}.00</span>
@@ -877,19 +877,19 @@ export default function App() {
                 </div>
                 <div className="flex justify-between">
                   <span className={tSubText}>{t.paidTo}</span>
-                  <span className="font-black text-blue-600 flex items-center gap-2">{activeMerchant.icon} {activeMerchant.name} ({activeMerchant.upiId})</span>
+                  <span className="font-black text-blue-600 flex items-center gap-2 flex-wrap text-right justify-end">{activeMerchant.icon} {activeMerchant.name} ({activeMerchant.upiId})</span>
                 </div>
                 <div className="flex justify-between">
                   <span className={tSubText}>Bank Server:</span>
-                  <span className="font-black">{activeMerchant.bank}</span>
+                  <span className="font-black text-right">{activeMerchant.bank}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className={tSubText}>{t.txnRef}</span>
-                  <span className="font-mono font-black text-gray-500">TXN_IND_{activeCheckoutOrder._id.slice(-8).toUpperCase()}</span>
+                  <span className="font-mono font-black text-gray-500 text-right break-all">TXN_IND_{activeCheckoutOrder._id.slice(-8).toUpperCase()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className={tSubText}>Timestamp:</span>
-                  <span className="font-black">{new Date().toLocaleString()}</span>
+                  <span className="font-black text-right">{new Date().toLocaleString()}</span>
                 </div>
               </div>
 
@@ -897,13 +897,13 @@ export default function App() {
               <div className="flex flex-col sm:flex-row gap-4 w-full">
                 <button 
                   onClick={handlePrint}
-                  className={`flex-1 py-5 rounded-xl border font-black text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${isDark ? 'bg-slate-800 hover:bg-slate-700 border-slate-600 text-slate-200' : 'bg-white hover:bg-gray-50 border-gray-300 text-gray-800'}`}
+                  className={`flex-1 py-4 sm:py-5 rounded-xl border font-black text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm min-h-[56px] ${isDark ? 'bg-slate-800 hover:bg-slate-700 border-slate-600 text-slate-200' : 'bg-white hover:bg-gray-50 border-gray-300 text-gray-800'}`}
                 >
                   <Printer size={20}/> {t.printReceipt}
                 </button>
                 <button 
                   onClick={() => { setActiveCheckoutOrder(null); setCurrentView('DASHBOARD'); setAppTab('MENU'); }} 
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 sm:py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer min-h-[56px]"
                 >
                   <Home size={20}/> Home Dashboard
                 </button>
@@ -924,7 +924,7 @@ export default function App() {
 
       {/* AI TOAST NOTIFICATION */}
       {aiToast && (
-        <div className={`fixed top-20 right-6 z-50 max-w-sm w-full p-6 rounded-[1.5rem] shadow-2xl border animate-slide-in flex flex-col gap-4 transition-colors duration-300 ${aiToast.type === 'success' ? isDark ? 'bg-slate-800 border-blue-500/50 shadow-[0_0_40px_-10px_rgba(37,99,235,0.3)]' : 'bg-white border-blue-300 shadow-xl' : isDark ? 'bg-slate-800 border-red-500/50' : 'bg-white border-red-300'}`}>
+        <div className={`fixed top-20 left-4 right-4 sm:left-auto sm:right-6 z-50 sm:max-w-sm w-auto p-5 sm:p-6 rounded-[1.5rem] shadow-2xl border animate-slide-in flex flex-col gap-4 transition-colors duration-300 ${aiToast.type === 'success' ? isDark ? 'bg-slate-800 border-blue-500/50 shadow-[0_0_40px_-10px_rgba(37,99,235,0.3)]' : 'bg-white border-blue-300 shadow-xl' : isDark ? 'bg-slate-800 border-red-500/50' : 'bg-white border-red-300'}`}>
           <div className={`flex items-start justify-between gap-2 border-b pb-4 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
             <div className="flex items-center gap-3">
               <div className={`p-3 rounded-xl text-white shadow-sm ${aiToast.type === 'success' ? 'bg-blue-600' : 'bg-red-600'}`}>
@@ -951,36 +951,36 @@ export default function App() {
       )}
 
       {/* TOP NAVIGATION BAR */}
-      <nav className={`backdrop-blur-md border-b px-8 py-5 flex items-center justify-between sticky top-0 z-30 transition-colors duration-300 print:hidden ${tNav}`}>
-        <div className="flex items-center gap-4">
-          <div className="bg-blue-600 p-3 rounded-xl text-white shadow-md"><Package size={24}/></div>
+      <nav className={`backdrop-blur-md border-b px-4 sm:px-8 py-4 sm:py-5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-4 sticky top-0 z-30 transition-colors duration-300 print:hidden ${tNav}`}>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="bg-blue-600 p-2 sm:p-3 rounded-xl text-white shadow-md"><Package size={24}/></div>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-black tracking-tight text-blue-600">StockDock</h1>
-              <span className="px-3 py-1 rounded-full text-xs font-black bg-blue-100 text-blue-700 border border-blue-300 flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> {t.live}</span>
+              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-blue-600">StockDock</h1>
+              <span className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-blue-100 text-blue-700 border border-blue-300 flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> {t.live}</span>
             </div>
-            <p className={`text-xs font-black uppercase tracking-widest mt-1 ${tSubText}`}>{user?.role === 'store_owner' ? t.storeOwner : t.distributor}</p>
+            <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mt-1 ${tSubText}`}>{user?.role === 'store_owner' ? t.storeOwner : t.distributor}</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-end">
           <LanguageSelectDropdown />
-          <button onClick={() => setTheme(isDark ? 'light' : 'dark')} className={`p-3 rounded-xl border transition-all duration-200 cursor-pointer flex items-center gap-2 ${isDark ? 'bg-slate-800 border-slate-600 text-amber-400 hover:bg-slate-700' : 'bg-white border-gray-300 text-blue-700 hover:bg-gray-100 shadow-sm'}`} title="Toggle Theme">
+          <button onClick={() => setTheme(isDark ? 'light' : 'dark')} className={`p-2.5 sm:p-3 rounded-xl border transition-all duration-200 cursor-pointer flex items-center gap-2 ${isDark ? 'bg-slate-800 border-slate-600 text-amber-400 hover:bg-slate-700' : 'bg-white border-gray-300 text-blue-700 hover:bg-gray-100 shadow-sm'}`} title="Toggle Theme">
             {isDark ? <Sun size={20}/> : <Moon size={20}/>}
             <span className="text-sm font-bold hidden md:inline">{isDark ? 'Light' : 'Dark'}</span>
           </button>
-          <div className="text-right hidden sm:block border-l pl-4 border-gray-300">
+          <div className="text-right hidden md:block border-l pl-4 border-gray-300">
             <p className="text-base font-black flex items-center justify-end gap-2">{user?.fullName || 'User'} <ShieldCheck size={18} className="text-emerald-600"/></p>
             <p className={`text-sm font-bold mt-0.5 ${tSubText}`}>{user?.role === 'store_owner' ? user?.shopName : user?.agencyName} • {user?.mobileNumber}</p>
           </div>
-          <button onClick={handleLogout} className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-black border transition-all duration-200 cursor-pointer shadow-sm ${isDark ? 'bg-slate-800 hover:bg-red-900/50 hover:text-red-400 border-slate-600 hover:border-red-500/50 text-slate-200' : 'bg-white hover:bg-red-50 hover:text-red-700 border-gray-300 text-gray-700'}`}>
-            <LogOut size={18}/> {t.signOut}
+          <button onClick={handleLogout} className={`flex items-center gap-2 px-3 sm:px-5 py-2.5 sm:py-3 rounded-xl text-sm font-black border transition-all duration-200 cursor-pointer shadow-sm ${isDark ? 'bg-slate-800 hover:bg-red-900/50 hover:text-red-400 border-slate-600 hover:border-red-500/50 text-slate-200' : 'bg-white hover:bg-red-50 hover:text-red-700 border-gray-300 text-gray-700'}`}>
+            <LogOut size={18}/> <span className="hidden sm:inline">{t.signOut}</span>
           </button>
         </div>
       </nav>
 
       {/* --- STORE OWNER & DISTRIBUTOR 4-TAB NAVIGATION BAR --- */}
-      <div className={`border-b print:hidden sticky top-[89px] z-20 backdrop-blur-md transition-colors ${isDark ? 'border-slate-800 bg-slate-900/90' : 'border-gray-200 bg-white/90'}`}>
+      <div className={`border-b print:hidden sticky top-[73px] sm:top-[89px] z-20 backdrop-blur-md transition-colors ${isDark ? 'border-slate-800 bg-slate-900/90' : 'border-gray-200 bg-white/90'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar gap-3 py-4">
           <button onClick={() => setAppTab('MENU')} className={`inline-flex whitespace-nowrap px-5 py-2.5 rounded-xl text-sm font-black items-center gap-2.5 transition-all shadow-sm cursor-pointer min-h-[44px] ${appTab === 'MENU' ? 'bg-blue-600 text-white shadow-md border-transparent' : (isDark ? 'bg-slate-800 border border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-gray-50 border border-gray-300 text-gray-700 hover:text-gray-900 hover:bg-gray-100')}`}>
             <Home size={18}/> {t.tabHome}
@@ -1035,34 +1035,34 @@ export default function App() {
 
             {/* TAB 0: HOME MENU */}
             {appTab === 'MENU' && (
-              <div className={`border rounded-[2.5rem] p-8 sm:p-14 transition-colors duration-300 print:hidden shadow-lg ${tCard}`}>
+              <div className={`border rounded-[2.5rem] p-6 sm:p-14 transition-colors duration-300 print:hidden shadow-lg ${tCard}`}>
                 <div className="text-center mb-12">
                   <div className="inline-flex p-5 bg-blue-100 border border-blue-200 text-blue-700 rounded-3xl mb-6 shadow-sm"><Store size={48} /></div>
-                  <h2 className={`text-4xl sm:text-5xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>{t.menuTitle}</h2>
+                  <h2 className={`text-3xl sm:text-5xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>{t.menuTitle}</h2>
                   <p className={`text-base font-bold mt-4 ${tSubText}`}>{t.menuSub}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                  <button onClick={() => setAppTab('ORDER')} className={`p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-400' : 'bg-white border-gray-300 hover:border-blue-500'}`}>
+                  <button onClick={() => setAppTab('ORDER')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-400' : 'bg-white border-gray-300 hover:border-blue-500'}`}>
                     <div className="bg-blue-100 border border-blue-200 text-blue-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><ShoppingBag size={32}/></div>
                     <h3 className="text-2xl font-black mb-3">{t.tabOrder}</h3>
                     <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuOrderDesc}</p>
                   </button>
 
-                  <button onClick={() => setAppTab('GRAPHS')} className={`p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-emerald-400' : 'bg-white border-gray-300 hover:border-emerald-500'}`}>
+                  <button onClick={() => setAppTab('GRAPHS')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-emerald-400' : 'bg-white border-gray-300 hover:border-emerald-500'}`}>
                     <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><BarChart3 size={32}/></div>
                     <h3 className="text-2xl font-black mb-3">{t.tabGraphs}</h3>
                     <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuGraphsDesc}</p>
                   </button>
 
-                  <button onClick={() => setAppTab('HISTORY')} className={`p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-amber-400' : 'bg-white border-gray-300 hover:border-amber-500'}`}>
+                  <button onClick={() => setAppTab('HISTORY')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-amber-400' : 'bg-white border-gray-300 hover:border-amber-500'}`}>
                     <div className="bg-amber-100 border border-amber-200 text-amber-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Clock size={32}/></div>
                     <h3 className="text-2xl font-black mb-3">{t.tabHistory}</h3>
                     <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuHistoryDesc}</p>
                   </button>
 
-                  <button onClick={() => setAppTab('PAYMENTS')} className={`p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-rose-400' : 'bg-white border-gray-300 hover:border-rose-500'}`}>
-                    {storeOwnerUnpaidOrders.length > 0 && (<span className="absolute top-8 right-8 bg-rose-600 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-md animate-pulse">{storeOwnerUnpaidOrders.length} Unpaid</span>)}
+                  <button onClick={() => setAppTab('PAYMENTS')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-rose-400' : 'bg-white border-gray-300 hover:border-rose-500'}`}>
+                    {storeOwnerUnpaidOrders.length > 0 && (<span className="absolute top-6 right-6 sm:top-8 sm:right-8 bg-rose-600 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-md animate-pulse">{storeOwnerUnpaidOrders.length} Unpaid</span>)}
                     <div className="bg-rose-100 border border-rose-200 text-rose-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><CreditCard size={32}/></div>
                     <h3 className="text-2xl font-black mb-3">{t.tabPayments}</h3>
                     <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuPaymentsDesc}</p>
@@ -1074,16 +1074,16 @@ export default function App() {
             {/* TAB 1: ORDER */}
             {appTab === 'ORDER' && (
               <div className="max-w-5xl mx-auto print:block animate-popup">
-                <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 print:hidden ${tCard}`}>
-                  <div className={`flex items-center justify-between mb-6 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 print:hidden ${tCard}`}>
+                  <div className={`flex items-center justify-between flex-wrap gap-4 mb-6 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                     <div className="flex items-center gap-4">
                       <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Layers size={28}/></div>
                       <div>
-                        <h2 className="text-2xl font-black">{t.dailyMatrix}</h2>
-                        <p className={`text-sm font-bold mt-1 ${tSubText}`}>{user?.shopTimings && user.shopTimings !== 'N/A' && `Timings: ${user.shopTimings}`}</p>
+                        <h2 className="text-xl sm:text-2xl font-black">{t.dailyMatrix}</h2>
+                        <p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{user?.shopTimings && user.shopTimings !== 'N/A' && `Timings: ${user.shopTimings}`}</p>
                       </div>
                     </div>
-                    <span className="text-sm font-black text-blue-700 bg-blue-100 px-4 py-2 rounded-xl border border-blue-300">{t.autoCalc}</span>
+                    <span className="text-[10px] sm:text-sm font-black text-blue-700 bg-blue-100 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-blue-300">{t.autoCalc}</span>
                   </div>
 
                   {/* 🍞 BRAND FILTER TOGGLE UI */}
@@ -1093,16 +1093,16 @@ export default function App() {
                         key={brand}
                         type="button"
                         onClick={() => setActiveBrandTab(brand)}
-                        className={`px-6 py-3 rounded-xl text-sm font-black whitespace-nowrap transition-all cursor-pointer min-h-[48px] ${activeBrandTab === brand ? 'bg-blue-600 text-white shadow-md border-transparent' : (isDark ? 'bg-slate-800 border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-white border-gray-300 text-gray-700 hover:text-gray-900 hover:bg-gray-100 shadow-sm')}`}
+                        className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer min-h-[44px] sm:min-h-[48px] ${activeBrandTab === brand ? 'bg-blue-600 text-white shadow-md border-transparent' : (isDark ? 'bg-slate-800 border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-white border-gray-300 text-gray-700 hover:text-gray-900 hover:bg-gray-100 shadow-sm')}`}
                       >
                         {brand === 'All' ? '🌐 All Brands' : `🍞 ${brand}`}
                       </button>
                     ))}
                   </div>
 
-                  <form onSubmit={handleMasterOrderSubmit} className="space-y-8">
+                  <form onSubmit={handleMasterOrderSubmit} className="space-y-6 sm:space-y-8">
                     <div className={`overflow-x-auto border rounded-2xl shadow-sm max-h-[500px] overflow-y-auto ${isDark ? 'border-slate-700' : 'border-gray-300'}`}>
-                      <table className="w-full text-left border-collapse relative">
+                      <table className="w-full text-left border-collapse relative min-w-[700px]">
                         <thead className={`sticky top-0 z-10 ${isDark ? 'bg-slate-800' : 'bg-gray-100'} shadow-sm`}>
                           <tr className={`border-b text-xs font-black uppercase tracking-wider ${isDark ? 'border-slate-700 text-slate-300' : 'border-gray-300 text-gray-700'}`}>
                             <th className="p-4">{t.variety}</th><th className="p-4">{t.price}</th><th className="p-4">{t.target}</th><th className="p-4">{t.left}</th><th className="p-4">{t.expired}</th><th className="p-4 text-right">{t.load}</th>
@@ -1114,7 +1114,7 @@ export default function App() {
                             const isEven = index % 2 === 0;
                             return (
                               <tr key={row.breadVariety} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                                <td className="p-4 font-black min-w-[200px]">
+                                <td className="p-4 font-black min-w-[180px]">
                                   <span className="block mb-1">{row.breadVariety.replace(`${row.brand} `, '')}</span>
                                   <span className={`inline-flex whitespace-nowrap text-[10px] uppercase tracking-wider font-black px-2 py-0.5 rounded border ${row.brand === 'Relish' ? 'bg-rose-50 text-rose-700 border-rose-200' : row.brand === 'English Oven' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-blue-50 text-blue-700 border-blue-200'}`}>{row.brand}</span>
                                 </td>
@@ -1122,15 +1122,15 @@ export default function App() {
                                 <td className={`p-4 font-black ${tSubText}`}>₹{row.pricePerBread}</td>
                                 <td className="p-4">
                                   <div className="flex items-center gap-2">
-                                    <input type="number" value={row.targetStock} onChange={e => updateRow(row.breadVariety, 'targetStock', e.target.value)} className={`w-20 p-2 border rounded-xl font-black text-blue-600 text-center focus:outline-none focus:border-blue-600 transition-all text-base ${isDark ? 'bg-slate-950 border-slate-600' : 'bg-white border-gray-300 shadow-inner'}`}/>
-                                    <button type="button" onClick={() => applyAiPrediction(row.breadVariety, row.pricePerBread, row.currentLeft)} className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-700 border border-blue-300 rounded-xl shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer" title="Calculate AI Target">🤖</button>
+                                    <input type="number" value={row.targetStock} onChange={e => updateRow(row.breadVariety, 'targetStock', e.target.value)} className={`w-16 sm:w-20 p-2 border rounded-xl font-black text-blue-600 text-center focus:outline-none focus:border-blue-600 transition-all text-sm sm:text-base ${isDark ? 'bg-slate-950 border-slate-600' : 'bg-white border-gray-300 shadow-inner'}`}/>
+                                    <button type="button" onClick={() => applyAiPrediction(row.breadVariety, row.pricePerBread, row.currentLeft)} className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-700 border border-blue-300 rounded-xl shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0" title="Calculate AI Target">🤖</button>
                                   </div>
                                 </td>
-                                <td className="p-4"><input type="number" value={row.currentLeft} onChange={e => updateRow(row.breadVariety, 'currentLeft', e.target.value)} className={`w-20 p-2 border rounded-xl font-bold text-center focus:outline-none focus:border-blue-600 transition-all text-base ${isDark ? 'bg-slate-950 border-slate-600' : 'bg-white border-gray-300 shadow-inner'}`}/></td>
-                                <td className="p-4"><input type="number" value={row.expired} max={row.currentLeft} onChange={e => updateRow(row.breadVariety, 'expired', e.target.value)} className="w-20 p-2 bg-red-50 border border-red-300 rounded-xl text-red-600 font-black text-center focus:outline-none focus:border-red-600 transition-all text-base shadow-inner"/></td>
+                                <td className="p-4"><input type="number" value={row.currentLeft} onChange={e => updateRow(row.breadVariety, 'currentLeft', e.target.value)} className={`w-16 sm:w-20 p-2 border rounded-xl font-bold text-center focus:outline-none focus:border-blue-600 transition-all text-sm sm:text-base ${isDark ? 'bg-slate-950 border-slate-600' : 'bg-white border-gray-300 shadow-inner'}`}/></td>
+                                <td className="p-4"><input type="number" value={row.expired} max={row.currentLeft} onChange={e => updateRow(row.breadVariety, 'expired', e.target.value)} className="w-16 sm:w-20 p-2 bg-red-50 border border-red-300 rounded-xl text-red-600 font-black text-center focus:outline-none focus:border-red-600 transition-all text-sm sm:text-base shadow-inner"/></td>
                                 <td className="p-4 text-right font-black text-blue-600">
-                                  <span className="inline-flex whitespace-nowrap items-center gap-1.5 bg-blue-50 px-4 py-1.5 rounded-lg border border-blue-200 text-sm font-black shadow-sm">
-                                    <span>{toLoad}</span><span className="text-[10px] font-bold opacity-80">{t.units}</span>
+                                  <span className="inline-flex whitespace-nowrap items-center gap-1.5 bg-blue-50 px-3 sm:px-4 py-1.5 rounded-lg border border-blue-200 text-xs sm:text-sm font-black shadow-sm">
+                                    <span>{toLoad}</span><span className="text-[9px] sm:text-[10px] font-bold opacity-80">{t.units}</span>
                                   </span>
                                 </td>
                               </tr>
@@ -1145,7 +1145,7 @@ export default function App() {
                       <div className="text-left sm:text-right"><span className={`text-xs uppercase font-black tracking-widest block mb-1 ${tSubText}`}>{t.estBill}</span><span className="text-3xl font-black text-emerald-600 font-mono">₹{liveTotals.bill}</span></div>
                     </div>
 
-                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-xl shadow-lg transition-all duration-200 flex justify-center items-center gap-3 cursor-pointer text-base uppercase tracking-wider hover:-translate-y-1">
+                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 sm:py-5 rounded-xl shadow-lg transition-all duration-200 flex justify-center items-center gap-3 cursor-pointer text-sm sm:text-base uppercase tracking-wider hover:-translate-y-1 min-h-[56px]">
                       <CheckCircle2 size={24}/> {t.genInvoice}
                     </button>
                   </form>
@@ -1155,11 +1155,11 @@ export default function App() {
 
             {/* TAB 2: GRAPHS */}
             {appTab === 'GRAPHS' && (
-              <div className={`border rounded-[2rem] p-6 sm:p-10 h-[650px] flex flex-col transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`border rounded-[2rem] p-4 sm:p-10 min-h-[500px] h-[70vh] md:h-[650px] flex flex-col transition-colors duration-300 shadow-lg ${tCard}`}>
                 <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-4">
                     <div className="bg-emerald-100 border border-emerald-200 p-4 rounded-2xl text-emerald-700"><BarChart3 size={28}/></div>
-                    <div><h2 className="text-2xl font-black">{t.shopPerformance}</h2><p className={`text-sm font-bold mt-1 ${tSubText}`}>{t.shopPerformanceSub}</p></div>
+                    <div><h2 className="text-xl sm:text-2xl font-black">{t.shopPerformance}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.shopPerformanceSub}</p></div>
                   </div>
                 </div>
                 <div className="flex-1 w-full h-full min-h-[300px]">
@@ -1167,16 +1167,16 @@ export default function App() {
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={storeOwnerChartData} margin={{ top: 20, right: 20, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "#334155" : "#e5e7eb"}/>
-                        <XAxis dataKey="name" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 12, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
-                        <YAxis stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 14, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
-                        <Tooltip contentStyle={{backgroundColor: isDark ? '#1e293b' : '#ffffff', borderRadius: '16px', border: isDark ? '1px solid #475569' : '1px solid #d1d5db', color: isDark ? '#f8fafc' : '#111827', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold'}} cursor={{fill: isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(243, 244, 246, 0.8)'}}/>
-                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 'bold'}} iconType="circle"/>
+                        <XAxis dataKey="name" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 10, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
+                        <YAxis stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 12, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
+                        <Tooltip contentStyle={{backgroundColor: isDark ? '#1e293b' : '#ffffff', borderRadius: '16px', border: isDark ? '1px solid #475569' : '1px solid #d1d5db', color: isDark ? '#f8fafc' : '#111827', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold', fontSize: '12px'}} cursor={{fill: isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(243, 244, 246, 0.8)'}}/>
+                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 'bold', fontSize: '12px'}} iconType="circle"/>
                         <Bar dataKey="sold" fill="#2563eb" name="Items Sold" radius={[8, 8, 0, 0]} maxBarSize={50}/>
                         <Bar dataKey="expired" fill="#e11d48" name="Items Expired" radius={[8, 8, 0, 0]} maxBarSize={50}/>
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className={`w-full h-full flex flex-col items-center justify-center font-black gap-3 ${tSubText}`}><Zap size={48} className="text-gray-300"/><p className="text-lg">{t.noSales}</p></div>
+                    <div className={`w-full h-full flex flex-col items-center justify-center text-center font-black gap-3 ${tSubText}`}><Zap size={48} className="text-gray-300"/><p className="text-base sm:text-lg">{t.noSales}</p></div>
                   )}
                 </div>
               </div>
@@ -1184,27 +1184,27 @@ export default function App() {
 
             {/* TAB 3: HISTORY */}
             {appTab === 'HISTORY' && (
-              <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
-                <div className={`flex items-center justify-between mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+                <div className={`flex items-center justify-between flex-wrap gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-4">
                     <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Clock size={28}/></div>
-                    <div><h2 className="text-2xl font-black">{t.historyTitle}</h2><p className={`text-sm font-bold mt-1 ${tSubText}`}>{t.historySub}</p></div>
+                    <div><h2 className="text-xl sm:text-2xl font-black">{t.historyTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.historySub}</p></div>
                   </div>
                 </div>
                 {storeOwnerOrders.length > 0 ? (
                   <div className="overflow-x-auto border rounded-2xl border-gray-200 dark:border-slate-700 shadow-sm">
-                    <table className="w-full text-base text-left">
-                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-5">Order Ref</th><th className="p-5">Date & Time</th><th className="p-5">Cargo Loaves</th><th className="p-5 text-center">Payment Status</th><th className="p-5 text-right">Action</th></tr></thead>
+                    <table className="w-full text-sm sm:text-base text-left min-w-[600px]">
+                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">Order Ref</th><th className="p-4 sm:p-5">Date & Time</th><th className="p-4 sm:p-5">Cargo Loaves</th><th className="p-4 sm:p-5 text-center">Payment Status</th><th className="p-4 sm:p-5 text-right">Action</th></tr></thead>
                       <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
                         {storeOwnerOrders.map((ord, index) => {
                            const isEven = index % 2 === 0;
                            return (
                             <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                              <td className="p-5 font-mono font-black text-blue-600">#{ord._id.slice(-8).toUpperCase()}</td>
-                              <td className="p-5 font-black">{new Date(ord.date).toLocaleString()}</td>
-                              <td className="p-5"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-lg text-sm font-black text-blue-700 shadow-sm">{ord.totalSuppliedBreads} Loaves</span></td>
-                              <td className="p-5 text-center"><span className={`inline-flex whitespace-nowrap px-3 py-1 rounded-full text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
-                              <td className="p-5 text-right"><button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-4 py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-sm items-center gap-2 ml-auto hover:scale-105 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[44px]"><Eye size={16}/> {t.viewBill}</button></td>
+                              <td className="p-4 sm:p-5 font-mono font-black text-blue-600 truncate">#{ord._id.slice(-8).toUpperCase()}</td>
+                              <td className="p-4 sm:p-5 font-black">{new Date(ord.date).toLocaleString()}</td>
+                              <td className="p-4 sm:p-5"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-black text-blue-700 shadow-sm">{ord.totalSuppliedBreads} Loaves</span></td>
+                              <td className="p-4 sm:p-5 text-center"><span className={`inline-flex whitespace-nowrap px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
+                              <td className="p-4 sm:p-5 text-right"><button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-xs sm:text-sm items-center gap-1.5 sm:gap-2 ml-auto hover:scale-105 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]"><Eye size={16}/> {t.viewBill}</button></td>
                             </tr>
                            )
                         })}
@@ -1212,41 +1212,41 @@ export default function App() {
                     </table>
                   </div>
                 ) : (
-                  <div className="py-12 text-center"><p className={`font-black text-lg ${tSubText}`}>{t.noHistory}</p></div>
+                  <div className="py-12 text-center"><p className={`font-black text-base sm:text-lg ${tSubText}`}>{t.noHistory}</p></div>
                 )}
               </div>
             )}
 
             {/* TAB 4: PAYMENTS */}
             {appTab === 'PAYMENTS' && (
-              <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
                 <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-4">
                     <div className="bg-rose-100 border border-rose-200 p-4 rounded-2xl text-rose-700"><CreditCard size={28}/></div>
-                    <div><h2 className="text-2xl font-black">{t.paymentsTitle}</h2><p className={`text-sm font-bold mt-1 ${tSubText}`}>{t.paymentsSub}</p></div>
+                    <div><h2 className="text-xl sm:text-2xl font-black">{t.paymentsTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.paymentsSub}</p></div>
                   </div>
-                  <span className="px-4 py-2 rounded-full bg-rose-100 border border-rose-300 text-rose-700 text-sm font-black shadow-sm">
+                  <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-rose-100 border border-rose-300 text-rose-700 text-xs sm:text-sm font-black shadow-sm self-start sm:self-auto">
                     {storeOwnerUnpaidOrders.length} Pending Bills
                   </span>
                 </div>
                 {storeOwnerOrders.length > 0 ? (
                   <div className="overflow-x-auto border rounded-2xl border-gray-200 dark:border-slate-700 shadow-sm">
-                    <table className="w-full text-base text-left">
-                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-5">Invoice Ref</th><th className="p-5">Date</th><th className="p-5 text-right">Amount</th><th className="p-5 text-center">Status</th><th className="p-5 text-right">Action</th></tr></thead>
+                    <table className="w-full text-sm sm:text-base text-left min-w-[700px]">
+                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">Invoice Ref</th><th className="p-4 sm:p-5">Date</th><th className="p-4 sm:p-5 text-right">Amount</th><th className="p-4 sm:p-5 text-center">Status</th><th className="p-4 sm:p-5 text-right">Action</th></tr></thead>
                       <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
                         {storeOwnerOrders.map((ord, index) => {
                           const isEven = index % 2 === 0;
                           return (
                             <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                              <td className="p-5 font-mono font-black text-blue-600">#{ord._id.slice(-8).toUpperCase()}</td>
-                              <td className="p-5 font-black">{new Date(ord.date).toLocaleDateString()}</td>
-                              <td className="p-5 text-right font-black font-mono text-emerald-600 text-lg">₹{ord.totalBillAmount}.00</td>
-                              <td className="p-5 text-center"><span className={`inline-flex whitespace-nowrap px-3 py-1 rounded-full text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-rose-50 text-rose-700 border-rose-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
-                              <td className="p-5 text-right">
+                              <td className="p-4 sm:p-5 font-mono font-black text-blue-600 truncate">#{ord._id.slice(-8).toUpperCase()}</td>
+                              <td className="p-4 sm:p-5 font-black">{new Date(ord.date).toLocaleDateString()}</td>
+                              <td className="p-4 sm:p-5 text-right font-black font-mono text-emerald-600 text-base sm:text-lg">₹{ord.totalBillAmount}.00</td>
+                              <td className="p-4 sm:p-5 text-center"><span className={`inline-flex whitespace-nowrap px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-rose-50 text-rose-700 border-rose-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
+                              <td className="p-4 sm:p-5 text-right">
                                 {ord.paymentStatus === 'PAID' ? (
-                                  <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-5 py-2.5 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-black rounded-xl text-sm items-center gap-2 ml-auto transition-all cursor-pointer shadow-sm min-h-[44px]"><Receipt size={16}/> View Receipt</button>
+                                  <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-5 py-2 sm:py-2.5 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-black rounded-xl text-xs sm:text-sm items-center gap-2 ml-auto transition-all cursor-pointer shadow-sm min-h-[40px] sm:min-h-[44px]"><Receipt size={16}/> View Receipt</button>
                                 ) : (
-                                  <button onClick={() => openCheckoutPage(ord)} className="inline-flex whitespace-nowrap px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-sm items-center gap-2 ml-auto hover:-translate-y-1 transition-all shadow-md cursor-pointer min-h-[44px]"><CreditCard size={16}/> {t.payOnline}</button>
+                                  <button onClick={() => openCheckoutPage(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-5 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs sm:text-sm items-center gap-2 ml-auto hover:-translate-y-1 transition-all shadow-md cursor-pointer min-h-[40px] sm:min-h-[44px]"><CreditCard size={16}/> {t.payOnline}</button>
                                 )}
                               </td>
                             </tr>
@@ -1256,7 +1256,7 @@ export default function App() {
                     </table>
                   </div>
                 ) : (
-                  <div className="py-12 text-center flex flex-col items-center justify-center gap-3"><div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center border border-emerald-200 mb-2"><CheckCircle2 size={32}/></div><p className="font-black text-lg text-emerald-600">{t.noPayments}</p></div>
+                  <div className="py-12 text-center flex flex-col items-center justify-center gap-3"><div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center border border-emerald-200 mb-2"><CheckCircle2 size={32}/></div><p className="font-black text-base sm:text-lg text-emerald-600">{t.noPayments}</p></div>
                 )}
               </div>
             )}
@@ -1270,30 +1270,30 @@ export default function App() {
             
             {/* DISTRIBUTOR TAB 0: HOME MENU */}
             {appTab === 'MENU' && (
-              <div className={`border rounded-[2.5rem] p-8 sm:p-14 transition-colors duration-300 print:hidden shadow-lg ${tCard}`}>
+              <div className={`border rounded-[2.5rem] p-6 sm:p-14 transition-colors duration-300 print:hidden shadow-lg ${tCard}`}>
                 <div className="text-center mb-12">
                   <div className="inline-flex p-5 bg-blue-100 border border-blue-200 text-blue-700 rounded-3xl mb-6 shadow-sm"><Store size={48} /></div>
-                  <h2 className={`text-4xl sm:text-5xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>{t.menuTitle}</h2>
+                  <h2 className={`text-3xl sm:text-5xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>{t.menuTitle}</h2>
                   <p className={`text-base font-bold mt-4 ${tSubText}`}>{t.menuSub}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                  <button onClick={() => setAppTab('ANALYTICS')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-emerald-400' : 'bg-white border-gray-300 hover:border-emerald-500'}`}>
-                    <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><BarChart3 size={32}/></div>
-                    <h3 className="text-2xl font-black mb-3">{t.tabDistAnalytics}</h3>
-                    <p className={`text-sm font-bold leading-relaxed ${tSubText}`}>{t.menuDistAnalyticsDesc}</p>
+                  <button onClick={() => setAppTab('ANALYTICS')} className={`p-6 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-emerald-400' : 'bg-white border-gray-300 hover:border-emerald-500'}`}>
+                    <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 p-4 sm:p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><BarChart3 size={32}/></div>
+                    <h3 className="text-xl sm:text-2xl font-black mb-3">{t.tabDistAnalytics}</h3>
+                    <p className={`text-xs sm:text-sm font-bold leading-relaxed ${tSubText}`}>{t.menuDistAnalyticsDesc}</p>
                   </button>
 
-                  <button onClick={() => setAppTab('HISTORY')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-400' : 'bg-white border-gray-300 hover:border-blue-500'}`}>
-                    <div className="bg-blue-100 border border-blue-200 text-blue-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Clock size={32}/></div>
-                    <h3 className="text-2xl font-black mb-3">{t.tabDistHistory}</h3>
-                    <p className={`text-sm font-bold leading-relaxed ${tSubText}`}>{t.menuDistHistoryDesc}</p>
+                  <button onClick={() => setAppTab('HISTORY')} className={`p-6 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-400' : 'bg-white border-gray-300 hover:border-blue-500'}`}>
+                    <div className="bg-blue-100 border border-blue-200 text-blue-700 p-4 sm:p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Clock size={32}/></div>
+                    <h3 className="text-xl sm:text-2xl font-black mb-3">{t.tabDistHistory}</h3>
+                    <p className={`text-xs sm:text-sm font-bold leading-relaxed ${tSubText}`}>{t.menuDistHistoryDesc}</p>
                   </button>
 
-                  <button onClick={() => setAppTab('REPORT')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-amber-400' : 'bg-white border-gray-300 hover:border-amber-500'}`}>
-                    <div className="bg-amber-100 border border-amber-200 text-amber-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><FileSpreadsheet size={32}/></div>
-                    <h3 className="text-2xl font-black mb-3">{t.tabDistReport}</h3>
-                    <p className={`text-sm font-bold leading-relaxed ${tSubText}`}>{t.menuDistReportDesc}</p>
+                  <button onClick={() => setAppTab('REPORT')} className={`p-6 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-amber-400' : 'bg-white border-gray-300 hover:border-amber-500'}`}>
+                    <div className="bg-amber-100 border border-amber-200 text-amber-700 p-4 sm:p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><FileSpreadsheet size={32}/></div>
+                    <h3 className="text-xl sm:text-2xl font-black mb-3">{t.tabDistReport}</h3>
+                    <p className={`text-xs sm:text-sm font-bold leading-relaxed ${tSubText}`}>{t.menuDistReportDesc}</p>
                   </button>
                 </div>
               </div>
@@ -1301,16 +1301,16 @@ export default function App() {
 
             {/* DISTRIBUTOR TAB 1: ANALYTICS (Filtered by Store) */}
             {appTab === 'ANALYTICS' && (
-              <div className={`border rounded-[2rem] p-6 sm:p-10 h-[600px] flex flex-col transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`border rounded-[2rem] p-4 sm:p-10 min-h-[500px] h-[70vh] md:h-[600px] flex flex-col transition-colors duration-300 shadow-lg ${tCard}`}>
                 <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-4">
                     <div className="bg-emerald-100 border border-emerald-200 p-4 rounded-2xl text-emerald-700"><BarChart3 size={28}/></div>
-                    <div><h2 className="text-2xl font-black">{t.salesAnalytics}</h2><p className={`text-sm font-bold mt-1 ${tSubText}`}>{t.agency}: {user?.agencyName}</p></div>
+                    <div><h2 className="text-xl sm:text-2xl font-black">{t.salesAnalytics}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.agency}: {user?.agencyName}</p></div>
                   </div>
-                  <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
-                    <Filter size={18} className="text-blue-600 ml-2"/>
-                    <span className={`text-xs font-black uppercase tracking-wider ${tSubText}`}>{t.storeFilter}</span>
-                    <select value={selectedStoreFilter} onChange={e => setSelectedStoreFilter(e.target.value)} className={`border rounded-lg px-4 py-2 text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
+                  <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm w-full sm:w-auto ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+                    <Filter size={18} className="text-blue-600 ml-2 shrink-0"/>
+                    <span className={`text-[10px] sm:text-xs font-black uppercase tracking-wider hidden sm:inline ${tSubText}`}>{t.storeFilter}</span>
+                    <select value={selectedStoreFilter} onChange={e => setSelectedStoreFilter(e.target.value)} className={`w-full sm:w-auto border rounded-lg px-2 sm:px-4 py-2 text-xs sm:text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
                       <option value="ALL">{t.allStores}</option>
                       {uniqueStores.filter(s => s !== 'ALL').map(store => (<option key={store} value={store}>🏪 {store}</option>))}
                     </select>
@@ -1322,16 +1322,16 @@ export default function App() {
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={activeChartDataset} margin={{ top: 20, right: 20, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "#334155" : "#e5e7eb"}/>
-                        <XAxis dataKey="name" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 12, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
-                        <YAxis stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 14, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
-                        <Tooltip contentStyle={{backgroundColor: isDark ? '#1e293b' : '#ffffff', borderRadius: '16px', border: isDark ? '1px solid #475569' : '1px solid #d1d5db', color: isDark ? '#f8fafc' : '#111827', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold'}} cursor={{fill: isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(243, 244, 246, 0.8)'}}/>
-                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 'bold'}} iconType="circle"/>
+                        <XAxis dataKey="name" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 10, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
+                        <YAxis stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 12, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
+                        <Tooltip contentStyle={{backgroundColor: isDark ? '#1e293b' : '#ffffff', borderRadius: '16px', border: isDark ? '1px solid #475569' : '1px solid #d1d5db', color: isDark ? '#f8fafc' : '#111827', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold', fontSize: '12px'}} cursor={{fill: isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(243, 244, 246, 0.8)'}}/>
+                        <Legend wrapperStyle={{paddingTop: '20px', fontWeight: 'bold', fontSize: '12px'}} iconType="circle"/>
                         <Bar dataKey="sold" fill="#2563eb" name="Breads Sold (Billed)" radius={[8, 8, 0, 0]} maxBarSize={50}/>
                         <Bar dataKey="expired" fill="#e11d48" name="Expired Returns" radius={[8, 8, 0, 0]} maxBarSize={50}/>
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className={`w-full h-full flex flex-col items-center justify-center font-black gap-3 ${tSubText}`}><Zap size={48} className="text-gray-300"/><p className="text-lg">{t.noSales}</p></div>
+                    <div className={`w-full h-full flex flex-col items-center justify-center text-center font-black gap-3 ${tSubText}`}><Zap size={48} className="text-gray-300"/><p className="text-base sm:text-lg">{t.noSales}</p></div>
                   )}
                 </div>
               </div>
@@ -1339,16 +1339,16 @@ export default function App() {
 
             {/* DISTRIBUTOR TAB 2: HISTORY (With Date Filters) */}
             {appTab === 'HISTORY' && (
-              <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
                 <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-4">
                     <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Clock size={28}/></div>
-                    <div><h2 className="text-2xl font-black">{t.historyTitle}</h2><p className={`text-sm font-bold mt-1 ${tSubText}`}>{t.historySub}</p></div>
+                    <div><h2 className="text-xl sm:text-2xl font-black">{t.historyTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.historySub}</p></div>
                   </div>
-                  <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
-                    <Calendar size={18} className="text-blue-600 ml-2"/>
-                    <span className={`text-xs font-black uppercase tracking-wider ${tSubText}`}>{t.timeFilter}</span>
-                    <select value={distroHistoryFilter} onChange={e => setDistroHistoryFilter(e.target.value)} className={`border rounded-lg px-4 py-2 text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
+                  <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm w-full sm:w-auto ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+                    <Calendar size={18} className="text-blue-600 ml-2 shrink-0"/>
+                    <span className={`text-[10px] sm:text-xs font-black uppercase tracking-wider hidden sm:inline ${tSubText}`}>{t.timeFilter}</span>
+                    <select value={distroHistoryFilter} onChange={e => setDistroHistoryFilter(e.target.value)} className={`w-full sm:w-auto border rounded-lg px-2 sm:px-4 py-2 text-xs sm:text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
                       <option value="ALL">{t.allTime}</option>
                       <option value="DAILY">{t.daily}</option>
                       <option value="MONTHLY">{t.monthly}</option>
@@ -1358,29 +1358,29 @@ export default function App() {
 
                 {filteredDistributorHistory.length > 0 ? (
                   <div className={`overflow-x-auto border rounded-2xl shadow-sm ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                    <table className="w-full text-base text-left">
-                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-5">{t.storeDetails}</th><th className="p-5">{t.pkgBreakdown}</th><th className="p-5">{t.totalCargoLoad}</th><th className="p-5 text-right">{t.masterTotal}</th><th className="p-5 text-center">{t.manage}</th></tr></thead>
+                    <table className="w-full text-sm sm:text-base text-left min-w-[800px]">
+                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">{t.storeDetails}</th><th className="p-4 sm:p-5">{t.pkgBreakdown}</th><th className="p-4 sm:p-5">{t.totalCargoLoad}</th><th className="p-4 sm:p-5 text-right">{t.masterTotal}</th><th className="p-4 sm:p-5 text-center">{t.manage}</th></tr></thead>
                       <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
                         {filteredDistributorHistory.map((ord, index) => {
                           const isEven = index % 2 === 0;
                           return (
                           <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                            <td className="p-5">
-                              <div className="flex items-center gap-2">
-                                <span className="font-black flex items-center gap-2 text-lg"><Store size={18} className="text-blue-600"/>{ord.shopName}</span>
-                                <span className={`inline-flex whitespace-nowrap px-2.5 py-0.5 rounded text-[10px] font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>
+                            <td className="p-4 sm:p-5">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-black flex items-center gap-2 text-base sm:text-lg"><Store size={18} className="text-blue-600 shrink-0"/>{ord.shopName}</span>
+                                <span className={`inline-flex whitespace-nowrap px-2 sm:px-2.5 py-0.5 rounded text-[9px] sm:text-[10px] font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>
                                   {ord.paymentStatus || 'UNPAID'}
                                 </span>
                               </div>
-                              <span className={`text-xs font-black block mt-2 ${tSubText}`}>{new Date(ord.date).toLocaleString()}</span>
+                              <span className={`text-[10px] sm:text-xs font-black block mt-2 ${tSubText}`}>{new Date(ord.date).toLocaleString()}</span>
                             </td>
-                            <td className={`p-5 text-sm font-bold max-w-sm truncate ${tSubText}`}>{ord?.items?.map(i => `${i.suppliedBreads}x ${i.breadVariety}`).join(', ') || 'Legacy single item'}</td>
-                            <td className="p-5 font-black text-blue-600"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-4 py-2 rounded-xl text-sm shadow-sm">{ord.totalSuppliedBreads} {t.totalBreads}</span></td>
-                            <td className="p-5 text-right font-black font-mono text-emerald-600 text-lg">₹{ord.totalBillAmount}</td>
-                            <td className="p-5 text-center">
-                              <div className="flex items-center justify-center gap-3">
-                                <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-4 py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-sm items-center gap-2 hover:-translate-y-1 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[44px]"><Eye size={16}/> {t.viewBill}</button>
-                                <button onClick={() => setDeletingOrderWarning(ord)} className="inline-flex whitespace-nowrap p-2.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 rounded-xl hover:-translate-y-1 active:scale-90 transition-all shadow-sm cursor-pointer min-h-[44px]" title="Delete"><Trash2 size={18}/></button>
+                            <td className={`p-4 sm:p-5 text-xs sm:text-sm font-bold max-w-xs sm:max-w-sm truncate ${tSubText}`}>{ord?.items?.map(i => `${i.suppliedBreads}x ${i.breadVariety}`).join(', ') || 'Legacy single item'}</td>
+                            <td className="p-4 sm:p-5 font-black text-blue-600"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm shadow-sm">{ord.totalSuppliedBreads} {t.totalBreads}</span></td>
+                            <td className="p-4 sm:p-5 text-right font-black font-mono text-emerald-600 text-base sm:text-lg">₹{ord.totalBillAmount}</td>
+                            <td className="p-4 sm:p-5 text-center">
+                              <div className="flex items-center justify-center gap-2 sm:gap-3">
+                                <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-xs sm:text-sm items-center gap-1.5 sm:gap-2 hover:-translate-y-1 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]"><Eye size={16}/> <span className="hidden xl:inline">{t.viewBill}</span></button>
+                                <button onClick={() => setDeletingOrderWarning(ord)} className="inline-flex whitespace-nowrap p-2 sm:p-2.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 rounded-xl hover:-translate-y-1 active:scale-90 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]" title="Delete"><Trash2 size={18}/></button>
                               </div>
                             </td>
                           </tr>
@@ -1389,29 +1389,29 @@ export default function App() {
                     </table>
                   </div>
                 ) : (
-                  <div className="py-12 text-center"><p className={`font-black text-lg ${tSubText}`}>{t.noHistory}</p></div>
+                  <div className="py-12 text-center"><p className={`font-black text-base sm:text-lg ${tSubText}`}>{t.noHistory}</p></div>
                 )}
               </div>
             )}
 
             {/* DISTRIBUTOR TAB 3: MONTHLY / DAILY REPORT GENERATOR */}
             {appTab === 'REPORT' && (
-              <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
                 <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-4">
                     <div className="bg-amber-100 border border-amber-200 p-4 rounded-2xl text-amber-700"><FileSpreadsheet size={28}/></div>
-                    <div><h2 className="text-2xl font-black">{t.salesReportTitle}</h2><p className={`text-sm font-bold mt-1 ${tSubText}`}>{t.salesReportSub}</p></div>
+                    <div><h2 className="text-xl sm:text-2xl font-black">{t.salesReportTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.salesReportSub}</p></div>
                   </div>
-                  <div className="flex flex-col sm:flex-row items-center gap-3">
-                    <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
-                      <Calendar size={18} className="text-blue-600 ml-2"/>
-                      <span className={`text-xs font-black uppercase tracking-wider ${tSubText}`}>{t.timeFilter}</span>
-                      <select value={distroReportFilter} onChange={e => setDistroReportFilter(e.target.value)} className={`border rounded-lg px-4 py-2 text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
+                  <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                    <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm w-full sm:w-auto ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+                      <Calendar size={18} className="text-blue-600 ml-2 shrink-0"/>
+                      <span className={`text-[10px] sm:text-xs font-black uppercase tracking-wider hidden sm:inline ${tSubText}`}>{t.timeFilter}</span>
+                      <select value={distroReportFilter} onChange={e => setDistroReportFilter(e.target.value)} className={`w-full sm:w-auto border rounded-lg px-2 sm:px-4 py-2 text-xs sm:text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
                         <option value="DAILY">{t.daily}</option>
                         <option value="MONTHLY">{t.monthly}</option>
                       </select>
                     </div>
-                    <button onClick={handleDownloadReportCSV} disabled={distributorReportData.length === 0} className="w-full sm:w-auto px-5 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-sm flex items-center justify-center gap-2 hover:-translate-y-1 transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:hover:translate-y-0">
+                    <button onClick={handleDownloadReportCSV} disabled={distributorReportData.length === 0} className="w-full sm:w-auto px-4 sm:px-5 py-3 sm:py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 hover:-translate-y-1 transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:hover:translate-y-0 min-h-[44px]">
                       <Download size={18}/> {t.downloadReport}
                     </button>
                   </div>
@@ -1419,56 +1419,58 @@ export default function App() {
 
                 {distributorReportData.length > 0 ? (
                   <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                      <div className={`p-6 rounded-2xl border flex items-center justify-between ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-gray-50 border-gray-300'}`}>
-                        <div><span className={`text-xs uppercase font-black tracking-widest ${tSubText}`}>{t.totalCargoLoad}</span><h4 className="text-3xl font-black mt-1 text-blue-600">{distributorReportTotals.sold} <span className="text-base text-gray-500">{t.units}</span></h4></div>
-                        <Package size={40} className="text-blue-200"/>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
+                      <div className={`p-5 sm:p-6 rounded-2xl border flex items-center justify-between ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-gray-50 border-gray-300'}`}>
+                        <div><span className={`text-[10px] sm:text-xs uppercase font-black tracking-widest ${tSubText}`}>{t.totalCargoLoad}</span><h4 className="text-2xl sm:text-3xl font-black mt-1 text-blue-600">{distributorReportTotals.sold} <span className="text-sm sm:text-base text-gray-500">{t.units}</span></h4></div>
+                        <Package size={32} className="text-blue-200 sm:w-10 sm:h-10"/>
                       </div>
-                      <div className={`p-6 rounded-2xl border flex items-center justify-between ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-gray-50 border-gray-300'}`}>
-                        <div><span className={`text-xs uppercase font-black tracking-widest ${tSubText}`}>{t.revenue}</span><h4 className="text-3xl font-black mt-1 text-emerald-600 font-mono">₹{distributorReportTotals.revenue}</h4></div>
-                        <CreditCard size={40} className="text-emerald-200"/>
+                      <div className={`p-5 sm:p-6 rounded-2xl border flex items-center justify-between ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-gray-50 border-gray-300'}`}>
+                        <div><span className={`text-[10px] sm:text-xs uppercase font-black tracking-widest ${tSubText}`}>{t.revenue}</span><h4 className="text-2xl sm:text-3xl font-black mt-1 text-emerald-600 font-mono">₹{distributorReportTotals.revenue}</h4></div>
+                        <CreditCard size={32} className="text-emerald-200 sm:w-10 sm:h-10"/>
                       </div>
                     </div>
 
                     {/* NEW BRAND REVENUE CARDS */}
                     {distributorBrandReportData.length > 0 && (
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
                         {distributorBrandReportData.map(data => (
-                          <div key={data.brand} className={`p-4 rounded-2xl border flex items-center justify-between shadow-sm ${isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'}`}>
-                            <span className={`inline-flex whitespace-nowrap text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded border ${data.brand === 'Relish' ? 'bg-rose-50 text-rose-700 border-rose-200' : data.brand === 'English Oven' ? 'bg-amber-50 text-amber-700 border-amber-200' : data.brand === 'Max Heath' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-gray-50 text-gray-700 border-gray-200'}`}>{data.brand}</span>
-                            <span className="text-lg font-black font-mono">₹{data.revenue}</span>
+                          <div key={data.brand} className={`p-3 sm:p-4 rounded-2xl border flex items-center justify-between shadow-sm ${isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'}`}>
+                            <span className={`inline-flex whitespace-nowrap text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 sm:px-2.5 py-1 rounded border ${data.brand === 'Relish' ? 'bg-rose-50 text-rose-700 border-rose-200' : data.brand === 'English Oven' ? 'bg-amber-50 text-amber-700 border-amber-200' : data.brand === 'Max Heath' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-gray-50 text-gray-700 border-gray-200'}`}>{data.brand}</span>
+                            <span className="text-base sm:text-lg font-black font-mono">₹{data.revenue}</span>
                           </div>
                         ))}
                       </div>
                     )}
 
-                    <div className="h-[300px] mb-8">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={distributorReportData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "#334155" : "#e5e7eb"}/>
-                          <XAxis dataKey="name" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 10, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
-                          <YAxis yAxisId="left" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 12, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
-                          <YAxis yAxisId="right" orientation="right" stroke={isDark ? "#10b981" : "#059669"} tick={{fontSize: 12, fill: isDark ? '#10b981' : '#059669', fontWeight: 800}} axisLine={false} tickLine={false}/>
-                          <Tooltip contentStyle={{backgroundColor: isDark ? '#1e293b' : '#ffffff', borderRadius: '16px', border: isDark ? '1px solid #475569' : '1px solid #d1d5db', color: isDark ? '#f8fafc' : '#111827', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold'}}/>
-                          <Legend wrapperStyle={{paddingTop: '10px', fontWeight: 'bold'}} iconType="circle"/>
-                          <Line yAxisId="left" type="monotone" dataKey="sold" stroke="#2563eb" strokeWidth={4} dot={{r: 4, strokeWidth: 2}} name="Cargo Sold"/>
-                          <Line yAxisId="right" type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={4} dot={{r: 4, strokeWidth: 2}} name="Revenue (₹)"/>
-                        </LineChart>
-                      </ResponsiveContainer>
+                    <div className="h-[250px] sm:h-[300px] mb-8 w-full overflow-x-auto no-scrollbar">
+                      <div className="min-w-[600px] h-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={distributorReportData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "#334155" : "#e5e7eb"}/>
+                            <XAxis dataKey="name" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 9, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
+                            <YAxis yAxisId="left" stroke={isDark ? "#94a3b8" : "#4b5563"} tick={{fontSize: 10, fill: isDark ? '#cbd5e1' : '#374151', fontWeight: 800}} axisLine={false} tickLine={false}/>
+                            <YAxis yAxisId="right" orientation="right" stroke={isDark ? "#10b981" : "#059669"} tick={{fontSize: 10, fill: isDark ? '#10b981' : '#059669', fontWeight: 800}} axisLine={false} tickLine={false}/>
+                            <Tooltip contentStyle={{backgroundColor: isDark ? '#1e293b' : '#ffffff', borderRadius: '12px', border: isDark ? '1px solid #475569' : '1px solid #d1d5db', color: isDark ? '#f8fafc' : '#111827', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', fontWeight: 'bold', fontSize: '11px'}}/>
+                            <Legend wrapperStyle={{paddingTop: '10px', fontWeight: 'bold', fontSize: '11px'}} iconType="circle"/>
+                            <Line yAxisId="left" type="monotone" dataKey="sold" stroke="#2563eb" strokeWidth={3} dot={{r: 3, strokeWidth: 2}} name="Cargo Sold"/>
+                            <Line yAxisId="right" type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={3} dot={{r: 3, strokeWidth: 2}} name="Revenue (₹)"/>
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
 
                     <div className={`overflow-x-auto border rounded-2xl shadow-sm ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                      <table className="w-full text-sm text-left">
-                        <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4">{t.variety}</th><th className="p-4 text-center">Cargo Sold</th><th className="p-4 text-center">Expired Returns</th><th className="p-4 text-right">Revenue Generated</th></tr></thead>
+                      <table className="w-full text-xs sm:text-sm text-left min-w-[500px]">
+                        <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-3 sm:p-4">{t.variety}</th><th className="p-3 sm:p-4 text-center">Cargo Sold</th><th className="p-3 sm:p-4 text-center">Expired Returns</th><th className="p-3 sm:p-4 text-right">Revenue Generated</th></tr></thead>
                         <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
                           {distributorReportData.map((row, index) => {
                             const isEven = index % 2 === 0;
                             return (
                             <tr key={row.name} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                              <td className="p-4 truncate max-w-[200px] text-base">{row.name}</td>
-                              <td className="p-4 text-center text-blue-600 text-lg">{row.sold}</td>
-                              <td className="p-4 text-center text-red-600 text-lg">{row.expired}</td>
-                              <td className="p-4 text-right font-mono text-emerald-600 text-lg">₹{row.revenue}</td>
+                              <td className="p-3 sm:p-4 truncate max-w-[150px] sm:max-w-[200px] text-sm sm:text-base">{row.name}</td>
+                              <td className="p-3 sm:p-4 text-center text-blue-600 text-base sm:text-lg">{row.sold}</td>
+                              <td className="p-3 sm:p-4 text-center text-red-600 text-base sm:text-lg">{row.expired}</td>
+                              <td className="p-3 sm:p-4 text-right font-mono text-emerald-600 text-base sm:text-lg">₹{row.revenue}</td>
                             </tr>
                           )})}
                         </tbody>
@@ -1476,7 +1478,7 @@ export default function App() {
                     </div>
                   </>
                 ) : (
-                  <div className="py-12 text-center"><p className={`font-black text-lg ${tSubText}`}>{t.noSales}</p></div>
+                  <div className="py-12 text-center"><p className={`font-black text-base sm:text-lg ${tSubText}`}>{t.noSales}</p></div>
                 )}
               </div>
             )}
@@ -1485,44 +1487,44 @@ export default function App() {
 
         {/* MODAL 1: FLOATING INVOICE VIEWER */}
         {viewingModalInvoice && (
-          <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 z-50 animate-popup print:static print:bg-white print:inset-auto print:p-0 print:block">
-            <div className={`border rounded-[2.5rem] shadow-2xl max-w-2xl w-full overflow-hidden print:shadow-none print:border-none print:max-w-full print:rounded-none print:m-0 print:w-full print:block print:bg-white print:text-black transition-colors duration-300 ${tCard}`}>
-              <div className="bg-blue-600 p-8 text-white flex justify-between items-center print:bg-white print:text-black print:border-b-2 print:border-black print:p-0 print:pb-6 print:mb-6">
+          <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 z-50 animate-popup print:static print:bg-white print:inset-auto print:p-0 print:block overflow-y-auto">
+            <div className={`border rounded-[2.5rem] shadow-2xl max-w-2xl w-full my-auto overflow-hidden print:shadow-none print:border-none print:max-w-full print:rounded-none print:m-0 print:w-full print:block print:bg-white print:text-black transition-colors duration-300 ${tCard}`}>
+              <div className="bg-blue-600 p-6 sm:p-8 text-white flex justify-between items-center print:bg-white print:text-black print:border-b-2 print:border-black print:p-0 print:pb-6 print:mb-6">
                 <div>
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-2xl font-black">{t.dispatchedInvoice}</h3>
-                    <span className={`inline-flex whitespace-nowrap px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border shadow-sm print:border-black print:text-black ${viewingModalInvoice.paymentStatus === 'PAID' ? 'bg-emerald-500 text-white border-emerald-400' : 'bg-amber-500 text-white border-amber-400'}`}>
+                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                    <h3 className="text-xl sm:text-2xl font-black">{t.dispatchedInvoice}</h3>
+                    <span className={`inline-flex whitespace-nowrap px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider border shadow-sm print:border-black print:text-black ${viewingModalInvoice.paymentStatus === 'PAID' ? 'bg-emerald-500 text-white border-emerald-400' : 'bg-amber-500 text-white border-amber-400'}`}>
                       {viewingModalInvoice.paymentStatus === 'PAID' ? `✅ ${t.paidBadge}` : `⏳ ${t.unpaidBadge}`}
                     </span>
                   </div>
-                  <p className="text-blue-200 text-sm font-mono mt-1 print:text-gray-600">{t.ref} #{viewingModalInvoice._id.slice(-8).toUpperCase()}</p>
+                  <p className="text-blue-200 text-xs sm:text-sm font-mono mt-1 print:text-gray-600">{t.ref} #{viewingModalInvoice._id.slice(-8).toUpperCase()}</p>
                 </div>
-                <div className="flex gap-3 print:hidden">
-                  <button onClick={() => window.print()} className="bg-white/20 hover:bg-white/30 border border-white/30 px-5 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 hover:-translate-y-1 transition-all cursor-pointer shadow-sm"><Printer size={18}/> {t.savePdf}</button>
-                  <button onClick={() => setViewingModalInvoice(null)} className="bg-black/30 hover:bg-black/50 border border-white/10 p-2.5 rounded-xl text-sm font-black cursor-pointer transition-colors"><X size={20}/></button>
+                <div className="flex gap-2 sm:gap-3 print:hidden shrink-0">
+                  <button onClick={() => window.print()} className="bg-white/20 hover:bg-white/30 border border-white/30 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-black flex items-center gap-1 sm:gap-2 hover:-translate-y-1 transition-all cursor-pointer shadow-sm"><Printer size={18}/> <span className="hidden sm:inline">{t.savePdf}</span></button>
+                  <button onClick={() => setViewingModalInvoice(null)} className="bg-black/30 hover:bg-black/50 border border-white/10 p-2 sm:p-2.5 rounded-xl text-sm font-black cursor-pointer transition-colors"><X size={20}/></button>
                 </div>
               </div>
-              <div className="p-8 print:p-0">
-                <div className={`flex justify-between border-b-2 pb-6 mb-6 print:border-black ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+              <div className="p-5 sm:p-8 print:p-0">
+                <div className={`flex flex-col sm:flex-row justify-between border-b-2 pb-5 sm:pb-6 mb-5 sm:mb-6 gap-4 print:border-black print:flex-row ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <div>
-                    <span className={`text-xs font-black uppercase tracking-widest print:text-gray-600 ${tSubText}`}>{t.billedTo}</span>
-                    <h4 className="text-xl font-black mt-1 print:text-black">{viewingModalInvoice.shopName}</h4>
-                    {viewingModalInvoice.address && <span className={`text-sm font-bold flex items-center gap-1.5 mt-2 print:text-gray-700 ${tSubText}`}><MapPin size={16} className="text-blue-600 print:text-black"/>{viewingModalInvoice.address}</span>}
-                    {viewingModalInvoice.mobileNumber && <span className={`text-sm font-bold flex items-center gap-1.5 mt-1 print:text-gray-700 ${tSubText}`}><Phone size={16} className="text-blue-600 print:text-black"/>{viewingModalInvoice.mobileNumber}</span>}
+                    <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest print:text-gray-600 ${tSubText}`}>{t.billedTo}</span>
+                    <h4 className="text-lg sm:text-xl font-black mt-1 print:text-black">{viewingModalInvoice.shopName}</h4>
+                    {viewingModalInvoice.address && <span className={`text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-2 print:text-gray-700 ${tSubText}`}><MapPin size={16} className="text-blue-600 print:text-black shrink-0"/>{viewingModalInvoice.address}</span>}
+                    {viewingModalInvoice.mobileNumber && <span className={`text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-1 print:text-gray-700 ${tSubText}`}><Phone size={16} className="text-blue-600 print:text-black shrink-0"/>{viewingModalInvoice.mobileNumber}</span>}
                   </div>
-                  <div className="text-right"><span className={`text-xs font-black uppercase tracking-widest print:text-gray-600 ${tSubText}`}>{t.dispatchDate}</span><p className="text-sm font-black mt-1 print:text-black">{new Date(viewingModalInvoice.date).toLocaleDateString()}</p></div>
+                  <div className="text-left sm:text-right"><span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest print:text-gray-600 ${tSubText}`}>{t.dispatchDate}</span><p className="text-sm font-black mt-1 print:text-black">{new Date(viewingModalInvoice.date).toLocaleDateString()}</p></div>
                 </div>
-                <div className={`max-h-[300px] overflow-y-auto no-scrollbar border rounded-xl print:border-none print:max-h-none print:overflow-visible ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                  <table className="w-full text-sm my-0">
-                    <thead className={`border-b-2 text-left print:border-black sticky top-0 z-10 ${isDark ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-gray-100 border-gray-300 text-gray-700'} print:bg-transparent print:text-black`}><tr><th className="p-4 font-black uppercase text-xs tracking-wider">{t.item}</th><th className="p-4 font-black uppercase text-xs tracking-wider">{t.target}</th><th className="p-4 font-black uppercase text-xs tracking-wider">{t.leftExp}</th><th className="p-4 font-black uppercase text-xs tracking-wider">{t.loaded}</th><th className="p-4 text-right font-black uppercase text-xs tracking-wider">{t.total}</th></tr></thead>
+                <div className={`max-h-[250px] sm:max-h-[300px] overflow-y-auto overflow-x-auto no-scrollbar border rounded-xl print:border-none print:max-h-none print:overflow-visible ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                  <table className="w-full text-xs sm:text-sm my-0 min-w-[500px]">
+                    <thead className={`border-b-2 text-left print:border-black sticky top-0 z-10 ${isDark ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-gray-100 border-gray-300 text-gray-700'} print:bg-transparent print:text-black`}><tr><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.item}</th><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.target}</th><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.leftExp}</th><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.loaded}</th><th className="p-3 sm:p-4 text-right font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.total}</th></tr></thead>
                     <tbody className={`divide-y font-bold print:divide-gray-300 ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
-                      {viewingModalInvoice.items?.map(i => (<tr key={i.breadVariety} className="transition-colors"><td className="p-4 font-black print:text-black max-w-[150px] truncate" title={i.breadVariety}>{i.breadVariety}</td><td className="p-4">{i.targetStock}</td><td className="p-4">{i.currentLeft} <span className="text-red-600 font-black print:text-red-700">({i.expired})</span></td><td className="p-4 font-black text-blue-600 print:text-black text-lg">{i.suppliedBreads}</td><td className="p-4 text-right font-mono font-black print:text-black text-base">₹{i.itemTotal}</td></tr>))}
+                      {viewingModalInvoice.items?.map(i => (<tr key={i.breadVariety} className="transition-colors"><td className="p-3 sm:p-4 font-black print:text-black max-w-[150px] truncate" title={i.breadVariety}>{i.breadVariety}</td><td className="p-3 sm:p-4">{i.targetStock}</td><td className="p-3 sm:p-4">{i.currentLeft} <span className="text-red-600 font-black print:text-red-700">({i.expired})</span></td><td className="p-3 sm:p-4 font-black text-blue-600 print:text-black text-base sm:text-lg">{i.suppliedBreads}</td><td className="p-3 sm:p-4 text-right font-mono font-black print:text-black text-sm sm:text-base">₹{i.itemTotal}</td></tr>))}
                     </tbody>
                   </table>
                 </div>
-                <div className={`rounded-2xl p-6 mt-6 flex justify-between items-center border shadow-sm print:bg-transparent print:border-none print:p-0 print:border-t-2 print:border-black print:pt-6 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
-                  <div><span className={`text-xs uppercase font-black tracking-widest block mb-1 print:text-gray-800 ${tSubText}`}>{t.totalCargoLoad}</span><span className="text-2xl font-black text-blue-600 print:text-black">{viewingModalInvoice.totalSuppliedBreads} {t.units}</span></div>
-                  <div className="text-right"><span className={`text-xs uppercase font-black tracking-widest block mb-1 print:text-gray-800 ${tSubText}`}>{t.masterTotal}</span><span className="text-3xl font-black text-emerald-600 font-mono print:text-black">₹{viewingModalInvoice.totalBillAmount}</span></div>
+                <div className={`rounded-2xl p-5 sm:p-6 mt-5 sm:mt-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4 border shadow-sm print:bg-transparent print:border-none print:p-0 print:border-t-2 print:border-black print:pt-6 print:flex-row ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+                  <div><span className={`text-[10px] sm:text-xs uppercase font-black tracking-widest block mb-1 print:text-gray-800 ${tSubText}`}>{t.totalCargoLoad}</span><span className="text-xl sm:text-2xl font-black text-blue-600 print:text-black">{viewingModalInvoice.totalSuppliedBreads} {t.units}</span></div>
+                  <div className="text-left sm:text-right"><span className={`text-[10px] sm:text-xs uppercase font-black tracking-widest block mb-1 print:text-gray-800 ${tSubText}`}>{t.masterTotal}</span><span className="text-2xl sm:text-3xl font-black text-emerald-600 font-mono print:text-black">₹{viewingModalInvoice.totalBillAmount}</span></div>
                 </div>
               </div>
             </div>
@@ -1531,19 +1533,19 @@ export default function App() {
 
         {/* MODAL 2: DELETION SAFETY TRAP (WITH DOWNLOAD & DELETE FLOW) */}
         {deletingOrderWarning && (
-          <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4 z-50 print:hidden animate-popup">
-            <div className={`border rounded-[2.5rem] shadow-2xl max-w-md w-full p-8 text-center ${isDark ? 'bg-slate-900 border-red-500/50' : 'bg-white border-red-300'}`}>
-              <div className="w-20 h-20 bg-red-100 border border-red-200 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm"><AlertCircle size={40}/></div>
-              <h3 className="text-2xl font-black mb-2">{t.deleteTitle}</h3>
-              <p className={`text-sm font-bold mb-8 leading-relaxed ${tSubText}`}>{t.deleteWarn} <strong className={isDark ? 'text-white' : 'text-black'}>{deletingOrderWarning.shopName}</strong> (₹{deletingOrderWarning.totalBillAmount}). {t.downloadFirst}</p>
+          <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4 z-50 print:hidden animate-popup overflow-y-auto">
+            <div className={`border rounded-[2.5rem] shadow-2xl max-w-md w-full p-6 sm:p-8 text-center my-auto ${isDark ? 'bg-slate-900 border-red-500/50' : 'bg-white border-red-300'}`}>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-100 border border-red-200 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm"><AlertCircle size={32} className="sm:w-10 sm:h-10"/></div>
+              <h3 className="text-xl sm:text-2xl font-black mb-2">{t.deleteTitle}</h3>
+              <p className={`text-xs sm:text-sm font-bold mb-6 sm:mb-8 leading-relaxed ${tSubText}`}>{t.deleteWarn} <strong className={isDark ? 'text-white' : 'text-black'}>{deletingOrderWarning.shopName}</strong> (₹{deletingOrderWarning.totalBillAmount}). {t.downloadFirst}</p>
               <div className="space-y-3">
                 {user?.role === 'distributor' ? (
-                  <button onClick={() => handleDownloadAndDelete(deletingOrderWarning)} className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:-translate-y-1 text-sm cursor-pointer shadow-sm min-h-[48px]"><Download size={18}/> {t.downloadAndDelete}</button>
+                  <button onClick={() => handleDownloadAndDelete(deletingOrderWarning)} className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black py-3 sm:py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:-translate-y-1 text-xs sm:text-sm cursor-pointer shadow-sm min-h-[48px]"><Download size={18}/> {t.downloadAndDelete}</button>
                 ) : (
-                  <button onClick={() => { const o = deletingOrderWarning; setDeletingOrderWarning(null); setViewingModalInvoice(o); }} className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:-translate-y-1 text-sm cursor-pointer shadow-sm min-h-[48px]"><Download size={18}/> {t.viewSaveFirst}</button>
+                  <button onClick={() => { const o = deletingOrderWarning; setDeletingOrderWarning(null); setViewingModalInvoice(o); }} className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black py-3 sm:py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:-translate-y-1 text-xs sm:text-sm cursor-pointer shadow-sm min-h-[48px]"><Download size={18}/> {t.viewSaveFirst}</button>
                 )}
-                <button onClick={() => confirmAndDeleteOrderForever(deletingOrderWarning._id)} className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-md text-sm cursor-pointer min-h-[48px]"><Trash2 size={18}/> {t.permDelete}</button>
-                <button onClick={() => setDeletingOrderWarning(null)} className={`w-full font-black py-4 rounded-xl text-sm uppercase tracking-wider cursor-pointer transition-colors min-h-[48px] ${isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}>{t.cancel}</button>
+                <button onClick={() => confirmAndDeleteOrderForever(deletingOrderWarning._id)} className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 sm:py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-md text-xs sm:text-sm cursor-pointer min-h-[48px]"><Trash2 size={18}/> {t.permDelete}</button>
+                <button onClick={() => setDeletingOrderWarning(null)} className={`w-full font-black py-3 sm:py-4 rounded-xl text-xs sm:text-sm uppercase tracking-wider cursor-pointer transition-colors min-h-[48px] ${isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}>{t.cancel}</button>
               </div>
             </div>
           </div>
