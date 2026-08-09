@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axios from 'axios';
 import { QRCodeSVG } from 'qrcode.react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid, LineChart, Line } from 'recharts';
-import { Package, FileText, BarChart3, LogOut, Layers, CheckCircle2, Printer, Store, Filter, Eye, Trash2, Download, AlertCircle, Phone, MapPin, Sparkles, Zap, ShieldCheck, ArrowRight, Truck, Sun, Moon, Clock, Languages, Bot, X, CreditCard, CheckCircle, QrCode, Copy, Check, RefreshCw, Smartphone, ArrowLeft, AlertTriangle, Receipt, ShoppingBag, Lock, Timer, RefreshCcw, Radio, Home, Calendar, FileSpreadsheet, Users, User as UserIcon, Globe, Building2, Minus, Plus, Settings } from 'lucide-react';
+import { Package, FileText, BarChart3, LogOut, Layers, CheckCircle2, Printer, Store, Filter, Eye, Trash2, Download, AlertCircle, Phone, MapPin, Sparkles, Zap, ShieldCheck, ArrowRight, Truck, Sun, Moon, Clock, Languages, Bot, X, CreditCard, CheckCircle, QrCode, Copy, Check, RefreshCw, Smartphone, ArrowLeft, AlertTriangle, Receipt, ShoppingBag, Lock, Timer, RefreshCcw, Radio, Home, Calendar, FileSpreadsheet, Users, User as UserIcon, Globe, Building2, Minus, Plus, Settings, Banknote } from 'lucide-react';
 
 // ⚡ DYNAMIC API BASE URL FOR VITE DEPLOYMENT
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5005';
@@ -117,7 +117,7 @@ const TRANSLATIONS = {
     payOnline: "Proceed to Checkout", proceedToPay: "Proceed to Secure Payment", backToInvoice: "Back to Invoice Review",
     paidBadge: "PAID", unpaidBadge: "UNPAID", verifySettle: "I Have Paid • Verify & Settle Invoice", scanText: "Scan with GPay, PhonePe, Paytm or BHIM", switchAccText: "Switch Bank Server if Account 1 is Down:",
     checkoutTitle: "StockDock Secure Checkout Portal", returnDash: "Return to Dashboard",
-    sessionExpires: "QR Code Expires In:", qrExpired: "QR Session Expired", regenQr: "Regenerate QR Code", paymentDoneTitle: "Payment Verified & Settled!", paymentDoneSub: "Your transaction was securely settled via HDFC Bank Multi-Server Routing.", amountPaid: "Amount Paid:", paidTo: "Settled Into Account:", txnRef: "Transaction ID:", printReceipt: "Print Official Receipt",
+    sessionExpires: "QR Code Expires In:", qrExpired: "QR Session Expired", regenQr: "Regenerate QR Code", paymentDoneTitle: "Payment Verified & Settled!", paymentDoneSub: "Your transaction was securely settled.", amountPaid: "Amount Paid:", paidTo: "Settled Into Account:", txnRef: "Transaction ID:", printReceipt: "Print Official Receipt",
     tabHome: "Home Dashboard", tabOrder: "Order Catalog", tabGraphs: "Performance Graphs", tabHistory: "Order History", tabPayments: "Payment History", tabNetwork: "Distributor Network",
     historyTitle: "Order Delivery History", historySub: "Track past cargo deliveries in your network", paymentsTitle: "Payment & Settlements", paymentsSub: "Manage unpaid invoices and view past payment receipts", noHistory: "No orders found in your history.", noPayments: "No pending or past payments found.",
     shopPerformance: "My Shop Performance", shopPerformanceSub: "Visualize which products are selling vs expiring", networkSub: "View and contact verified supply chain distributors", networkTitle: "Verified Supply Network",
@@ -127,7 +127,8 @@ const TRANSLATIONS = {
     tabDistAnalytics: "Network Analytics", tabDistHistory: "Network History", tabDistReport: "Sales Reports",
     menuDistAnalyticsDesc: "Visualize overall store sales and expiry metrics.", menuDistHistoryDesc: "View and manage all dispatched cargo orders.", menuDistReportDesc: "Generate and export daily or monthly financial reports.",
     salesReportTitle: "Financial Sales Report", salesReportSub: "Aggregated revenue and cargo data for your network", downloadReport: "Download CSV Report", revenue: "Total Revenue", allTime: "All Time", daily: "Today", monthly: "This Month",
-    profile: "My Profile", updateProfile: "Update Profile", saveChanges: "Save Changes", profileUpdated: "Profile Updated Successfully!", orderBread: "Order Bread", addToCart: "Add to Cart", cart: "Your Cart", checkout: "Checkout", quantity: "Quantity", selectQty: "Select Quantity", itemsInCart: "Items in Cart", cartTotal: "Cart Total", emptyCart: "Cart is empty"
+    profile: "My Profile", updateProfile: "Update Profile", saveChanges: "Save Changes", profileUpdated: "Profile Updated Successfully!", orderBread: "Order Bread", addToCart: "Add to Cart", cart: "Your Cart", checkout: "Checkout", quantity: "Quantity", selectQty: "Select Quantity", itemsInCart: "Items in Cart", cartTotal: "Cart Total", emptyCart: "Cart is empty",
+    payModeQR: "Scan QR", payModeApp: "Pay by App", payModeCash: "Cash", tapToPay: "Open UPI App", cashInst: "Please prepare the exact cash amount for handover."
   },
   hi: {
     welcome: "StockDock में आपका स्वागत है", subWelcome: "एंटरप्राइज़ पीओएस और सप्लाई चेन क्लाउड",
@@ -168,7 +169,8 @@ const TRANSLATIONS = {
     tabDistAnalytics: "नेटवर्क एनालिटिक्स", tabDistHistory: "नेटवर्क इतिहास", tabDistReport: "बिक्री रिपोर्ट",
     menuDistAnalyticsDesc: "समग्र स्टोर बिक्री और एक्सपायरी मेट्रिक्स की कल्पना करें।", menuDistHistoryDesc: "सभी भेजे गए कार्गो ऑर्डर देखें और प्रबंधित करें।", menuDistReportDesc: "दैनिक या मासिक वित्तीय रिपोर्ट जेनरेट और निर्यात करें।",
     salesReportTitle: "वित्तीय बिक्री रिपोर्ट", salesReportSub: "आपके नेटवर्क के लिए कुल राजस्व और कार्गो डेटा", downloadReport: "CSV रिपोर्ट डाउनलोड करें", revenue: "कुल राजस्व", allTime: "पूरा समय", daily: "आज", monthly: "इस महीने",
-    profile: "मेरी प्रोफ़ाइल", updateProfile: "प्रोफ़ाइल अपडेट करें", saveChanges: "परिवर्तन सहेजें", profileUpdated: "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!", orderBread: "ब्रेड ऑर्डर करें", addToCart: "कार्ट में डालें", cart: "आपका कार्ट", checkout: "चेकआउट", quantity: "मात्रा", selectQty: "मात्रा चुनें", itemsInCart: "कार्ट में आइटम", cartTotal: "कार्ट कुल", emptyCart: "कार्ट खाली है"
+    profile: "मेरी प्रोफ़ाइल", updateProfile: "प्रोफ़ाइल अपडेट करें", saveChanges: "परिवर्तन सहेजें", profileUpdated: "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!", orderBread: "ब्रेड ऑर्डर करें", addToCart: "कार्ट में डालें", cart: "आपका कार्ट", checkout: "चेकआउट", quantity: "मात्रा", selectQty: "मात्रा चुनें", itemsInCart: "कार्ट में आइटम", cartTotal: "कार्ट कुल", emptyCart: "कार्ट खाली है",
+    payModeQR: "QR स्कैन", payModeApp: "ऐप से भुगतान", payModeCash: "नकद", tapToPay: "UPI ऐप खोलें", cashInst: "कृपया सटीक नकद राशि तैयार रखें।"
   },
   ta: {
     welcome: "StockDock-ல் உங்களை வரவேற்கிறோம்", subWelcome: "என்டர்பிரைஸ் POS & சப்ளை செயின் கிளவுட்",
@@ -209,7 +211,8 @@ const TRANSLATIONS = {
     tabDistAnalytics: "நெட்வொர்க் பகுப்பாய்வு", tabDistHistory: "நெட்வொர்க் வரலாறு", tabDistReport: "விற்பனை அறிக்கைகள்",
     menuDistAnalyticsDesc: "ஒட்டுமொத்த விற்பனை மற்றும் காலாவதி அளவீடுகளைக் காண்க.", menuDistHistoryDesc: "அனுப்பப்பட்ட அனைத்து ஆர்டர்களையும் நிர்வகிக்கவும்.", menuDistReportDesc: "தினசரி அல்லது மாதாந்திர நிதி அறிக்கைகளை உருவாக்கவும்.",
     salesReportTitle: "நிதி விற்பனை அறிக்கை", salesReportSub: "உங்கள் நெட்வொர்க்கிற்கான மொத்த வருவாய் மற்றும் சரக்கு தரவு", downloadReport: "CSV அறிக்கையைப் பதிவிறக்கு", revenue: "மொத்த வருவாய்", allTime: "எல்லா நேரமும்", daily: "இன்று", monthly: "இந்த மாதம்",
-    profile: "என் சுயவிவரம்", updateProfile: "சுயவிவரத்தைப் புதுப்பிக்கவும்", saveChanges: "மாற்றங்களைச் சேமி", profileUpdated: "சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!", orderBread: "பிரெட் ஆர்டர் செய்", addToCart: "கூடையில் சேர்", cart: "உங்கள் கூடை", checkout: "செக்அவுட்", quantity: "அளவு", selectQty: "அளவைத் தேர்ந்தெடுக்கவும்", itemsInCart: "கூடையில் உள்ள பொருட்கள்", cartTotal: "மொத்த தொகை", emptyCart: "கூடை காலியாக உள்ளது"
+    profile: "என் சுயவிவரம்", updateProfile: "சுயவிவரத்தைப் புதுப்பிக்கவும்", saveChanges: "மாற்றங்களைச் சேமி", profileUpdated: "சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!", orderBread: "பிரெட் ஆர்டர் செய்", addToCart: "கூடையில் சேர்", cart: "உங்கள் கூடை", checkout: "செக்அவுட்", quantity: "அளவு", selectQty: "அளவைத் தேர்ந்தெடுக்கவும்", itemsInCart: "கூடையில் உள்ள பொருட்கள்", cartTotal: "மொத்த தொகை", emptyCart: "கூடை காலியாக உள்ளது",
+    payModeQR: "QR ஸ்கேன்", payModeApp: "ஆப் மூலம் செலுத்து", payModeCash: "ரொக்கம்", tapToPay: "UPI ஆப்பைத் திறக்கவும்", cashInst: "சரியான ரொக்கத் தொகையை தயார் செய்யவும்."
   }
 };
 
@@ -242,6 +245,7 @@ export default function App() {
   const [selectedAccIdx, setSelectedAccIdx] = useState(0);
   const [copiedUpi, setCopiedUpi] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState('REVIEW');
+  const [checkoutPayMode, setCheckoutPayMode] = useState('QR'); // 'QR', 'APP', 'CASH'
   const [timeLeft, setTimeLeft] = useState(600); 
 
   const [isPrinting, setIsPrinting] = useState(false);
@@ -420,6 +424,7 @@ export default function App() {
   const openCheckoutPage = (orderObj) => {
     setActiveCheckoutOrder(orderObj);
     setCheckoutStep('REVIEW'); 
+    setCheckoutPayMode('QR');
     setCurrentView('CHECKOUT');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -428,16 +433,21 @@ export default function App() {
     e.preventDefault();
     const activeAcc = MERCHANT_ACCOUNTS[selectedAccIdx];
     setCheckoutStep('SUCCESS');
+
+    let methodText = `Paid via ${activeAcc.name} QR`;
+    if (checkoutPayMode === 'APP') methodText = `Paid via ${activeAcc.name} App Link`;
+    if (checkoutPayMode === 'CASH') methodText = `Paid via Physical Cash`;
+
     try {
-      const res = await axios.put(`${API_BASE_URL}/api/orders/${activeCheckoutOrder._id}/pay`, {
-        paymentMethod: `Paid via ${activeAcc.name} QR (${activeAcc.tag})`
+      await axios.put(`${API_BASE_URL}/api/orders/${activeCheckoutOrder._id}/pay`, {
+        paymentMethod: methodText
       });
       fetchReports();
     } catch (err) {
       console.warn("Backend payment route error. Using Viva-Safe Mock Update to preserve UI state.");
       setRecentOrders(prev => prev.map(o => 
         o._id === activeCheckoutOrder._id 
-          ? { ...o, paymentStatus: 'PAID', paymentMethod: `Paid via ${activeAcc.name} QR` } 
+          ? { ...o, paymentStatus: 'PAID', paymentMethod: methodText } 
           : o
       ));
     }
@@ -870,37 +880,19 @@ export default function App() {
                    <ArrowLeft size={18}/> {t.backToInvoice}
               </button>
 
-              {/* 3-Account Bank Switcher */}
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`text-xs font-black uppercase tracking-widest flex items-center gap-2 ${tSubText}`}>
-                    <RefreshCw size={14} className="text-blue-600"/> {t.switchAccText}
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {MERCHANT_ACCOUNTS.map((acc, idx) => (
-                    <button
-                      key={acc.id}
-                      type="button"
-                      onClick={() => setSelectedAccIdx(idx)}
-                      className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-[64px] ${selectedAccIdx === idx ? `bg-blue-600 text-white font-black shadow-md border-transparent` : `${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'}`}`}
-                    >
-                      <div className="flex items-center justify-between w-full">
-                        <span className="text-sm font-black flex items-center gap-2">{acc.icon} {acc.name}</span>
-                        {selectedAccIdx === idx && <Check size={16} className="shrink-0"/>}
-                      </div>
-                      <span className={`text-[10px] font-bold uppercase tracking-wider mt-1 block truncate ${selectedAccIdx === idx ? 'text-blue-100' : tSubText}`}>{acc.tag}</span>
-                    </button>
-                  ))}
-                </div>
+              {/* PAYMENT MODE TOGGLE */}
+              <div className={`flex p-1.5 rounded-xl mb-6 border flex-wrap gap-1 ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-100 border-gray-300'}`}>
+                <button onClick={() => setCheckoutPayMode('QR')} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${checkoutPayMode === 'QR' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}><QrCode size={16}/> {t.payModeQR}</button>
+                <button onClick={() => setCheckoutPayMode('APP')} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${checkoutPayMode === 'APP' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}><Smartphone size={16}/> {t.payModeApp}</button>
+                <button onClick={() => setCheckoutPayMode('CASH')} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${checkoutPayMode === 'CASH' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}><Banknote size={16}/> {t.payModeCash}</button>
               </div>
 
-              {/* --- 10-MINUTE COUNTDOWN TIMER & QR CONTAINER --- */}
+              {/* --- DYNAMIC PAYMENT CONTENT --- */}
               {checkoutStep === 'EXPIRED' ? (
                 <div className="flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-red-50 border border-red-200 my-6 py-12 animate-popup">
                   <AlertTriangle size={56} className="text-red-600 mb-4"/>
                   <h4 className="text-xl font-black text-red-700 mb-2">{t.qrExpired}</h4>
-                  <p className="text-sm font-bold text-red-600/80 max-w-sm mb-8">For your financial security, QR session tokens expire after 10 minutes. Please regenerate a new token.</p>
+                  <p className="text-sm font-bold text-red-600/80 max-w-sm mb-8">For your financial security, session tokens expire after 10 minutes. Please regenerate a new token.</p>
                   <button
                     type="button"
                     onClick={() => { setTimeLeft(600); setCheckoutStep('PAY'); }}
@@ -910,32 +902,84 @@ export default function App() {
                   </button>
                 </div>
               ) : (
-                <div className={`flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl my-6 border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+                <div className={`flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl my-6 border min-h-[350px] ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
                   
-                  <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono font-black mb-6 border ${timeLeft < 180 ? 'bg-red-100 text-red-700 border-red-300 animate-pulse' : 'bg-blue-100 text-blue-700 border-blue-300'}`}>
-                    <Timer size={16} className="shrink-0"/>
-                    <span>{t.sessionExpires} {formatTimerDisplay(timeLeft)}</span>
-                  </div>
+                  {checkoutPayMode === 'QR' && (
+                    <div className="flex flex-col items-center animate-popup w-full">
+                      <div className="mb-4 w-full">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 ${tSubText}`}>
+                            <RefreshCw size={12} className="text-blue-600"/> {t.switchAccText}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                          {MERCHANT_ACCOUNTS.map((acc, idx) => (
+                            <button
+                              key={acc.id}
+                              type="button"
+                              onClick={() => setSelectedAccIdx(idx)}
+                              className={`p-2 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${selectedAccIdx === idx ? `bg-blue-600 text-white font-black shadow-md border-transparent` : `${isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-300 hover:bg-gray-100'}`}`}
+                            >
+                              <div className="flex items-center justify-between w-full">
+                                <span className="text-xs font-black flex items-center gap-1">{acc.icon} {acc.name}</span>
+                                {selectedAccIdx === idx && <Check size={12} className="shrink-0"/>}
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
 
-                  <div className="p-4 bg-white rounded-2xl shadow-md border border-gray-200 mb-6 shrink-0 relative flex flex-col items-center">
-                    <QRCodeSVG 
-                      value={`upi://pay?pa=${activeMerchant.upiId}&pn=StockDock%20Supply&am=${activeCheckoutOrder.totalBillAmount}&cu=INR`}
-                      size={180}
-                      level="H"
-                      includeMargin={true}
-                    />
-                    <span className="absolute -top-3 -right-3 px-3 py-1 rounded-full bg-blue-600 text-white font-black text-xs uppercase shadow-md">{activeMerchant.name}</span>
-                  </div>
-                  <span className="text-4xl font-black text-emerald-600 font-mono">₹{activeCheckoutOrder.totalBillAmount}.00</span>
-                  <p className={`text-sm font-black mt-2 ${tSubText}`}>{t.scanText}</p>
-                  <p className="text-xs font-bold text-blue-600 mt-2">Active Server: {activeMerchant.bank}</p>
-                  
-                  <div className={`flex items-center gap-3 mt-6 p-3 rounded-xl w-full justify-between text-sm font-mono font-black border ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-300 shadow-sm'}`}>
-                    <span className="truncate pl-2 text-blue-600">{activeMerchant.upiId}</span>
-                    <button type="button" onClick={copyUpiId} className="inline-flex whitespace-nowrap px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg items-center gap-2 text-xs font-sans font-black transition-all cursor-pointer min-h-[40px]">
-                      {copiedUpi ? <Check size={16}/> : <Copy size={16}/>} {copiedUpi ? "Copied" : "Copy ID"}
-                    </button>
-                  </div>
+                      <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono font-black mb-4 border ${timeLeft < 180 ? 'bg-red-100 text-red-700 border-red-300 animate-pulse' : 'bg-blue-100 text-blue-700 border-blue-300'}`}>
+                        <Timer size={16} className="shrink-0"/>
+                        <span>{t.sessionExpires} {formatTimerDisplay(timeLeft)}</span>
+                      </div>
+
+                      <div className="p-3 bg-white rounded-2xl shadow-md border border-gray-200 mb-4 shrink-0 relative flex flex-col items-center">
+                        <QRCodeSVG 
+                          value={`upi://pay?pa=${activeMerchant.upiId}&pn=StockDock%20Supply&am=${activeCheckoutOrder.totalBillAmount}&cu=INR`}
+                          size={150} level="H" includeMargin={true}
+                        />
+                      </div>
+                      <span className="text-3xl font-black text-emerald-600 font-mono">₹{activeCheckoutOrder.totalBillAmount}.00</span>
+                      <p className={`text-xs font-black mt-2 ${tSubText}`}>{t.scanText}</p>
+                      
+                      <div className={`flex items-center gap-3 mt-4 p-2.5 rounded-xl w-full justify-between text-xs font-mono font-black border ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-300 shadow-sm'}`}>
+                        <span className="truncate pl-2 text-blue-600">{activeMerchant.upiId}</span>
+                        <button type="button" onClick={copyUpiId} className="inline-flex whitespace-nowrap px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg items-center gap-1.5 transition-all cursor-pointer min-h-[32px]">
+                          {copiedUpi ? <Check size={14}/> : <Copy size={14}/>} {copiedUpi ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {checkoutPayMode === 'APP' && (
+                    <div className="flex flex-col items-center justify-center animate-popup w-full h-full text-center">
+                      <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-6 shadow-inner border border-blue-200">
+                        <Smartphone size={40} />
+                      </div>
+                      <span className="text-4xl font-black text-emerald-600 font-mono mb-6 block">₹{activeCheckoutOrder.totalBillAmount}.00</span>
+                      <a 
+                        href={`upi://pay?pa=${activeMerchant.upiId}&pn=StockDock%20Supply&am=${activeCheckoutOrder.totalBillAmount}&cu=INR`}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg flex justify-center items-center gap-3 transition-all cursor-pointer min-h-[56px] text-lg"
+                      >
+                        <Smartphone size={24}/> {t.tapToPay}
+                      </a>
+                      <p className={`text-sm font-bold mt-6 px-4 ${tSubText}`}>After paying in your app, return to this screen and click the Verify button below.</p>
+                    </div>
+                  )}
+
+                  {checkoutPayMode === 'CASH' && (
+                    <div className="flex flex-col items-center justify-center animate-popup w-full h-full text-center">
+                      <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6 shadow-inner border border-emerald-200">
+                        <Banknote size={40} />
+                      </div>
+                      <span className="text-4xl font-black text-emerald-600 font-mono mb-4 block">₹{activeCheckoutOrder.totalBillAmount}.00</span>
+                      <div className={`p-4 rounded-xl border max-w-sm ${isDark ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-white border-gray-200 text-gray-700'}`}>
+                        <p className="text-sm font-black leading-relaxed">{t.cashInst}</p>
+                      </div>
+                    </div>
+                  )}
+
                 </div>
               )}
 
@@ -976,13 +1020,17 @@ export default function App() {
                   <span className="font-black text-base">{activeCheckoutOrder.shopName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className={tSubText}>{t.paidTo}</span>
-                  <span className="font-black text-blue-600 flex items-center gap-2 flex-wrap text-right justify-end">{activeMerchant.icon} {activeMerchant.name} ({activeMerchant.upiId})</span>
+                  <span className={tSubText}>Payment Method:</span>
+                  <span className="font-black text-blue-600 flex items-center gap-2 flex-wrap text-right justify-end">
+                    {checkoutPayMode === 'CASH' ? 'Cash Handover' : activeMerchant.name}
+                  </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className={tSubText}>Bank Server:</span>
-                  <span className="font-black text-right">{activeMerchant.bank}</span>
-                </div>
+                {checkoutPayMode !== 'CASH' && (
+                  <div className="flex justify-between">
+                    <span className={tSubText}>Bank Server:</span>
+                    <span className="font-black text-right">{activeMerchant.bank}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className={tSubText}>{t.txnRef}</span>
                   <span className="font-mono font-black text-gray-500 text-right break-all">TXN_IND_{activeCheckoutOrder._id.slice(-8).toUpperCase()}</span>
@@ -1433,6 +1481,63 @@ export default function App() {
                     <div className={`w-full h-full flex flex-col items-center justify-center text-center font-black gap-3 ${tSubText}`}><Zap size={48} className="text-gray-300"/><p className="text-base sm:text-lg">{t.noSales}</p></div>
                   )}
                 </div>
+              </div>
+            )}
+
+            {/* DISTRIBUTOR TAB 2: HISTORY (With Date Filters) */}
+            {appTab === 'HISTORY' && (
+              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+                <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-4">
+                    <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Clock size={28}/></div>
+                    <div><h2 className="text-xl sm:text-2xl font-black">{t.historyTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.historySub}</p></div>
+                  </div>
+                  <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm w-full sm:w-auto ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
+                    <Calendar size={18} className="text-blue-600 ml-2 shrink-0"/>
+                    <span className={`text-[10px] sm:text-xs font-black uppercase tracking-wider hidden sm:inline ${tSubText}`}>{t.timeFilter}</span>
+                    <select value={distroHistoryFilter} onChange={e => setDistroHistoryFilter(e.target.value)} className={`w-full sm:w-auto border rounded-lg px-2 sm:px-4 py-2 text-xs sm:text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
+                      <option value="ALL">{t.allTime}</option>
+                      <option value="DAILY">{t.daily}</option>
+                      <option value="MONTHLY">{t.monthly}</option>
+                    </select>
+                  </div>
+                </div>
+
+                {filteredDistributorHistory.length > 0 ? (
+                  <div className={`overflow-x-auto border rounded-2xl shadow-sm ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                    <table className="w-full text-sm sm:text-base text-left min-w-[800px]">
+                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">{t.storeDetails}</th><th className="p-4 sm:p-5">{t.pkgBreakdown}</th><th className="p-4 sm:p-5">{t.totalCargoLoad}</th><th className="p-4 sm:p-5 text-right">{t.masterTotal}</th><th className="p-4 sm:p-5 text-center">{t.manage}</th></tr></thead>
+                      <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
+                        {filteredDistributorHistory.map((ord, index) => {
+                          const isEven = index % 2 === 0;
+                          return (
+                          <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
+                            <td className="p-4 sm:p-5">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-black flex items-center gap-2 text-base sm:text-lg"><Store size={18} className="text-blue-600 shrink-0"/>{ord.shopName}</span>
+                                <span className={`inline-flex whitespace-nowrap px-2 sm:px-2.5 py-0.5 rounded text-[9px] sm:text-[10px] font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>
+                                  {ord.paymentStatus || 'UNPAID'}
+                                </span>
+                              </div>
+                              <span className={`text-[10px] sm:text-xs font-black block mt-2 ${tSubText}`}>{new Date(ord.date).toLocaleString()}</span>
+                            </td>
+                            <td className={`p-4 sm:p-5 text-xs sm:text-sm font-bold max-w-xs sm:max-w-sm truncate ${tSubText}`}>{ord?.items?.map(i => `${i.suppliedBreads}x ${i.breadVariety}`).join(', ') || 'Legacy single item'}</td>
+                            <td className="p-4 sm:p-5 font-black text-blue-600"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm shadow-sm">{ord.totalSuppliedBreads} {t.totalBreads}</span></td>
+                            <td className="p-4 sm:p-5 text-right font-black font-mono text-emerald-600 text-base sm:text-lg">₹{ord.totalBillAmount}</td>
+                            <td className="p-4 sm:p-5 text-center">
+                              <div className="flex items-center justify-center gap-2 sm:gap-3">
+                                <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-xs sm:text-sm items-center gap-1.5 sm:gap-2 hover:-translate-y-1 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]"><Eye size={16}/> <span className="hidden xl:inline">{t.viewBill}</span></button>
+                                <button onClick={() => setDeletingOrderWarning(ord)} className="inline-flex whitespace-nowrap p-2 sm:p-2.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 rounded-xl hover:-translate-y-1 active:scale-90 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]" title="Delete"><Trash2 size={18}/></button>
+                              </div>
+                            </td>
+                          </tr>
+                        )})}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="py-12 text-center"><p className={`font-black text-base sm:text-lg ${tSubText}`}>{t.noHistory}</p></div>
+                )}
               </div>
             )}
 
