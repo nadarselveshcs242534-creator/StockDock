@@ -16,7 +16,7 @@ mongoose.connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected securely"))
   .catch((err) => console.error("❌ MongoDB Connection FAILED!", err.message));
 
-// --- USER SCHEMA (Updated with Customer Role & Website Link) ---
+// --- USER SCHEMA ---
 const userSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   username: { type: String, required: true, unique: true },
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   shopName: { type: String, default: 'N/A' },
   agencyName: { type: String, default: 'N/A' },
   shopTimings: { type: String, default: 'N/A' },
-  websiteLink: { type: String, default: '' } // Optional field for Distributors
+  websiteLink: { type: String, default: '' } 
 });
 const User = mongoose.model('User', userSchema);
 
@@ -72,15 +72,36 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// --- DISTRIBUTOR DIRECTORY ROUTE ---
+// --- PROFILE UPDATE ROUTE ---
+app.put('/api/users/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    const updates = req.body;
+    
+    // Prevent password and username updates via this basic route
+    delete updates.password;
+    delete updates.username;
+
+    const updatedUser = await User.findOneAndUpdate({ username }, { $set: updates }, { new: true });
+    if (!updatedUser) return res.status(404).json({ error: "User not found" });
+    
+    res.json({ id: updatedUser._id, role: updatedUser.role, fullName: updatedUser.fullName, username: updatedUser.username, shopName: updatedUser.shopName, agencyName: updatedUser.agencyName, address: updatedUser.address, mobileNumber: updatedUser.mobileNumber, shopTimings: updatedUser.shopTimings, websiteLink: updatedUser.websiteLink });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// --- DISTRIBUTOR DIRECTORY ---
 app.get('/api/distributors', async (req, res) => {
   try {
-    const distributors = await User.find({ role: 'distributor' }).select('fullName agencyName mobileNumber websiteLink');
+    const distributors = await User.find({ role: 'distributor' }).select('fullName agencyName mobileNumber websiteLink address');
     res.json(distributors);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // --- ORDER ROUTES ---
+
+// 1. Store Owner Order (Calculates Expiry & Returns)
 app.post('/api/orders', async (req, res) => {
   const { storeOwnerId, shopName, address, mobileNumber, items } = req.body;
   let totalBillAmount = 0, totalSuppliedBreads = 0;
@@ -99,6 +120,33 @@ app.post('/api/orders', async (req, res) => {
   res.status(201).json({ message: "Success", order: newOrder });
 });
 
+// 2. Customer Order (Direct Quantity, No Expiry)
+app.post('/api/orders/customer', async (req, res) => {
+  try {
+    const { storeOwnerId, shopName, address, mobileNumber, items } = req.body;
+    let totalBillAmount = 0, totalSuppliedBreads = 0;
+    
+    const processed = items.map(item => {
+      totalBillAmount += item.itemTotal;
+      totalSuppliedBreads += item.quantity;
+      return {
+        breadVariety: item.breadVariety,
+        pricePerBread: item.pricePerBread,
+        suppliedBreads: item.quantity,
+        billableBreads: item.quantity,
+        itemTotal: item.itemTotal,
+        targetStock: item.quantity, // Placeholder to satisfy schema
+        currentLeft: 0,
+        expired: 0
+      };
+    });
+
+    const newOrder = new Order({ storeOwnerId, shopName, address, mobileNumber, items: processed, totalBillAmount, totalSuppliedBreads });
+    await newOrder.save();
+    res.status(201).json({ message: "Success", order: newOrder });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 app.get('/api/reports', async (req, res) => {
   const orders = await Order.find().sort({ date: -1 });
   const reportMap = {};
@@ -110,7 +158,7 @@ app.get('/api/reports', async (req, res) => {
 });
 
 // ==========================================
-// 💳 MARK INVOICE AS PAID ROUTE 
+// 💳 MARK INVOICE AS PAID
 // ==========================================
 app.put('/api/orders/:id/pay', async (req, res) => {
   try {
@@ -119,26 +167,14 @@ app.put('/api/orders/:id/pay', async (req, res) => {
 
     const updatedOrder = await Order.findByIdAndUpdate(
       id,
-      { 
-        paymentStatus: 'PAID',
-        paymentMethod: paymentMethod || 'Direct UPI QR Scan'
-      },
+      { paymentStatus: 'PAID', paymentMethod: paymentMethod || 'Direct UPI QR Scan' },
       { new: true }
     );
 
-    if (!updatedOrder) {
-      return res.status(404).json({ error: 'Invoice not found in database.' });
-    }
-
-    res.status(200).json({ 
-      message: 'Payment verified and settled successfully.', 
-      order: updatedOrder 
-    });
+    if (!updatedOrder) return res.status(404).json({ error: 'Invoice not found in database.' });
+    res.status(200).json({ message: 'Payment verified and settled successfully.', order: updatedOrder });
     
-  } catch (error) {
-    console.error("Payment Verification Error:", error);
-    res.status(500).json({ error: 'Internal Server Error while processing payment.' });
-  }
+  } catch (error) { res.status(500).json({ error: 'Internal Server Error while processing payment.' }); }
 });
 
 app.delete('/api/orders/:id', async (req, res) => {
@@ -161,9 +197,8 @@ app.post('/api/ml/predict-demand', (req, res) => {
     const recommendedTarget = Math.max(1, Math.round(baseDemand + priceImpact));
 
     res.json({
-      status: "success",
-      recommended_target: recommendedTarget,
-      metadata: { day_of_week: dow, is_weekend: isWeekend, model_used: "Node.js Algorithmic Regressor (Native JS)", confidence_score: "91.4%" }
+      status: "success", recommended_target: recommendedTarget,
+      metadata: { day_of_week: dow, is_weekend: isWeekend, model_used: "Node.js Algorithmic Regressor", confidence_score: "91.4%" }
     });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
