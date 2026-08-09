@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axios from 'axios';
 import { QRCodeSVG } from 'qrcode.react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid, LineChart, Line } from 'recharts';
-import { Package, FileText, BarChart3, LogOut, Layers, CheckCircle2, Printer, Store, Filter, Eye, Trash2, Download, AlertCircle, Phone, MapPin, Sparkles, Zap, ShieldCheck, ArrowRight, Truck, Sun, Moon, Clock, Languages, Bot, X, CreditCard, CheckCircle, QrCode, Copy, Check, RefreshCw, Smartphone, ArrowLeft, AlertTriangle, Receipt, ShoppingBag, Lock, Timer, RefreshCcw, Radio, Home, Calendar, FileSpreadsheet } from 'lucide-react';
+import { Package, FileText, BarChart3, LogOut, Layers, CheckCircle2, Printer, Store, Filter, Eye, Trash2, Download, AlertCircle, Phone, MapPin, Sparkles, Zap, ShieldCheck, ArrowRight, Truck, Sun, Moon, Clock, Languages, Bot, X, CreditCard, CheckCircle, QrCode, Copy, Check, RefreshCw, Smartphone, ArrowLeft, AlertTriangle, Receipt, ShoppingBag, Lock, Timer, RefreshCcw, Radio, Home, Calendar, FileSpreadsheet, Users, User as UserIcon, Globe, Building2 } from 'lucide-react';
 
 // ⚡ DYNAMIC API BASE URL FOR VITE DEPLOYMENT
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5005';
@@ -92,11 +92,11 @@ const triggerCSVDownload = (csvContent, fileName) => {
 const TRANSLATIONS = {
   en: {
     welcome: "Welcome to StockDock", subWelcome: "Enterprise POS & Supply Chain Cloud",
-    storeOwner: "Store Owner", distributor: "Distributor", fullName: "Full Name",
+    storeOwner: "Store Owner", distributor: "Distributor", customer: "Customer", fullName: "Full Name",
     shopName: "Official Shop Name", shopAddress: "Shop Address (Area, City)",
     openTime: "Open Time", closeTime: "Close Time", agencyName: "Agency / Distribution Name",
     warehouseAddress: "Warehouse Address", mobileNumber: "Mobile Contact Number (10 Digits)",
-    username: "Username", password: "Password", loginBtn: "Access Portal",
+    username: "Username", password: "Password", website: "Website Link (Optional)", loginBtn: "Access Portal",
     registerBtn: "Register Enterprise Account", newUser: "New to StockDock? ",
     alreadyReg: "Already registered? ", createAcc: "Create Account", loginHere: "Login Here",
     live: "Live", signOut: "Sign Out", dailyMatrix: "Daily Stock Matrix", autoCalc: "Auto-Calculating",
@@ -120,11 +120,11 @@ const TRANSLATIONS = {
     paidBadge: "PAID", unpaidBadge: "UNPAID", verifySettle: "I Have Paid • Verify & Settle Invoice", scanText: "Scan with GPay, PhonePe, Paytm or BHIM", switchAccText: "Switch Bank Server if Account 1 is Down:",
     checkoutTitle: "StockDock Secure Checkout Portal", returnDash: "Return to Dashboard",
     sessionExpires: "QR Code Expires In:", qrExpired: "QR Session Expired", regenQr: "Regenerate QR Code", paymentDoneTitle: "Payment Verified & Settled!", paymentDoneSub: "Your transaction was securely settled via HDFC Bank Multi-Server Routing.", amountPaid: "Amount Paid:", paidTo: "Settled Into Account:", txnRef: "Transaction ID:", printReceipt: "Print Official Receipt",
-    tabHome: "Home Dashboard", tabOrder: "Order Catalog", tabGraphs: "Performance Graphs", tabHistory: "Order History", tabPayments: "Payment History",
+    tabHome: "Home Dashboard", tabOrder: "Order Catalog", tabGraphs: "Performance Graphs", tabHistory: "Order History", tabPayments: "Payment History", tabNetwork: "Distributor Network",
     historyTitle: "Order Delivery History", historySub: "Track past cargo deliveries in your network", paymentsTitle: "Payment & Settlements", paymentsSub: "Manage unpaid invoices and view past payment receipts", noHistory: "No orders found in your history.", noPayments: "No pending or past payments found.",
-    shopPerformance: "My Shop Performance", shopPerformanceSub: "Visualize which products are selling vs expiring",
-    menuTitle: "Management Center", menuSub: "Select a portal below to manage your daily operations",
-    menuOrderDesc: "Browse multi-brand catalogs and generate new stock invoices.", menuGraphsDesc: "View sales vs. expiry analytics.",
+    shopPerformance: "My Shop Performance", shopPerformanceSub: "Visualize which products are selling vs expiring", networkSub: "View and contact verified supply chain distributors", networkTitle: "Verified Supply Network",
+    menuTitle: "Management Center", menuSub: "Select a portal below to manage your daily operations", customerDashSub: "Browse our bread catalog and verified distributors", customerDashTitle: "Customer Portal",
+    menuOrderDesc: "Browse multi-brand catalogs and generate new stock invoices.", menuGraphsDesc: "View sales vs. expiry analytics.", menuNetworkDesc: "View and contact supply chain distributors.",
     menuHistoryDesc: "Review all past inventory deliveries and cargo loading.", menuPaymentsDesc: "Settle unpaid bills and view past verified receipts.",
     tabDistAnalytics: "Network Analytics", tabDistHistory: "Network History", tabDistReport: "Sales Reports",
     menuDistAnalyticsDesc: "Visualize overall store sales and expiry metrics.", menuDistHistoryDesc: "View and manage all dispatched cargo orders.", menuDistReportDesc: "Generate and export daily or monthly financial reports.",
@@ -132,11 +132,11 @@ const TRANSLATIONS = {
   },
   hi: {
     welcome: "StockDock में आपका स्वागत है", subWelcome: "एंटरप्राइज़ पीओएस और सप्लाई चेन क्लाउड",
-    storeOwner: "स्टोर मालिक", distributor: "वितरक (Distributor)", fullName: "पूरा नाम",
+    storeOwner: "स्टोर मालिक", distributor: "वितरक (Distributor)", customer: "ग्राहक (Customer)", fullName: "पूरा नाम",
     shopName: "दुकान का आधिकारिक नाम", shopAddress: "दुकान का पता (क्षेत्र, शहर)",
     openTime: "खुलने का समय", closeTime: "बंद होने का समय", agencyName: "एजेंसी / वितरण का नाम",
     warehouseAddress: "गोदाम का पता", mobileNumber: "मोबाइल नंबर (10 अंक)",
-    username: "यूज़रनेम", password: "पासवर्ड", loginBtn: "पोर्टल खोलें",
+    username: "यूज़रनेम", password: "पासवर्ड", website: "वेबसाइट लिंक (वैकल्पिक)", loginBtn: "पोर्टल खोलें",
     registerBtn: "एंटरप्राइज़ खाता पंजीकृत करें", newUser: "StockDock पर नए हैं? ",
     alreadyReg: "पहले से पंजीकृत हैं? ", createAcc: "खाता बनाएं", loginHere: "यहाँ लॉगिन करें",
     live: "लाइव", signOut: "साइन आउट", dailyMatrix: "दैनिक स्टॉक मैट्रिक्स", autoCalc: "ऑटो-कैलकुलेशन",
@@ -160,11 +160,11 @@ const TRANSLATIONS = {
     paidBadge: "भुगतान हुआ (PAID)", unpaidBadge: "बकाया (UNPAID)", verifySettle: "मैंने भुगतान कर दिया है • पुष्टि करें", scanText: "GPay, PhonePe, Paytm या BHIM से स्कैन करें", switchAccText: "यदि सर्वर 1 बंद है तो बैंक खाता बदलें:",
     checkoutTitle: "StockDock सुरक्षित चेकआउट पोर्टल", returnDash: "डैशबोर्ड पर वापस जाएं",
     sessionExpires: "QR कोड समाप्त होगा:", qrExpired: "QR सत्र समाप्त हो गया", regenQr: "QR कोड पुनः बनाएं", paymentDoneTitle: "भुगतान सफलतापूर्वक पूर्ण हुआ!", paymentDoneSub: "आपका लेन-देन HDFC बैंक सर्वर द्वारा सुरक्षित रूप से संसाधित किया गया।", amountPaid: "भुगतान की गई राशि:", paidTo: "खाते में जमा हुआ:", txnRef: "लेन-देन आईडी:", printReceipt: "आधिकारिक रसीद प्रिंट करें",
-    tabHome: "होम डैशबोर्ड", tabOrder: "ऑर्डर कैटलॉग", tabGraphs: "प्रदर्शन ग्राफ़", tabHistory: "ऑर्डर इतिहास", tabPayments: "भुगतान इतिहास",
+    tabHome: "होम डैशबोर्ड", tabOrder: "ऑर्डर कैटलॉग", tabGraphs: "प्रदर्शन ग्राफ़", tabHistory: "ऑर्डर इतिहास", tabPayments: "भुगतान इतिहास", tabNetwork: "वितरक नेटवर्क",
     historyTitle: "ऑर्डर डिलीवरी इतिहास", historySub: "आपके नेटवर्क में पिछली सभी कार्गो डिलीवरी ट्रैक करें", paymentsTitle: "भुगतान और निपटान", paymentsSub: "अवैतनिक चालान प्रबंधित करें और पिछली भुगतान रसीदें देखें", noHistory: "आपके इतिहास में कोई ऑर्डर नहीं मिला।", noPayments: "कोई लंबित या पिछला भुगतान नहीं मिला।",
-    shopPerformance: "मेरी दुकान का प्रदर्शन", shopPerformanceSub: "कल्पना करें कि कौन से उत्पाद बिक रहे हैं और कौन से एक्सपायर हो रहे हैं",
-    menuTitle: "प्रबंधन केंद्र", menuSub: "अपने दैनिक कार्यों को प्रबंधित करने के लिए नीचे एक पोर्टल चुनें",
-    menuOrderDesc: "मल्टी-ब्रांड कैटलॉग ब्राउज़ करें और नए स्टॉक चालान बनाएं।", menuGraphsDesc: "बिक्री बनाम एक्सपायरी एनालिटिक्स देखें।",
+    shopPerformance: "मेरी दुकान का प्रदर्शन", shopPerformanceSub: "कल्पना करें कि कौन से उत्पाद बिक रहे हैं और कौन से एक्सपायर हो रहे हैं", networkSub: "सत्यापित आपूर्ति श्रृंखला वितरकों को देखें", networkTitle: "सत्यापित आपूर्ति नेटवर्क",
+    menuTitle: "प्रबंधन केंद्र", menuSub: "अपने दैनिक कार्यों को प्रबंधित करने के लिए नीचे एक पोर्टल चुनें", customerDashTitle: "ग्राहक पोर्टल", customerDashSub: "हमारे ब्रेड कैटलॉग और सत्यापित वितरकों को ब्राउज़ करें",
+    menuOrderDesc: "मल्टी-ब्रांड कैटलॉग ब्राउज़ करें और नए स्टॉक चालान बनाएं।", menuGraphsDesc: "बिक्री बनाम एक्सपायरी एनालिटिक्स देखें।", menuNetworkDesc: "आपूर्ति श्रृंखला वितरकों को देखें और संपर्क करें।",
     menuHistoryDesc: "सभी पिछले इन्वेंट्री डिलीवरी की समीक्षा करें।", menuPaymentsDesc: "अवैतनिक बिलों का निपटान करें और पिछली रसीदें देखें।",
     tabDistAnalytics: "नेटवर्क एनालिटिक्स", tabDistHistory: "नेटवर्क इतिहास", tabDistReport: "बिक्री रिपोर्ट",
     menuDistAnalyticsDesc: "समग्र स्टोर बिक्री और एक्सपायरी मेट्रिक्स की कल्पना करें।", menuDistHistoryDesc: "सभी भेजे गए कार्गो ऑर्डर देखें और प्रबंधित करें।", menuDistReportDesc: "दैनिक या मासिक वित्तीय रिपोर्ट जेनरेट और निर्यात करें।",
@@ -172,11 +172,11 @@ const TRANSLATIONS = {
   },
   ta: {
     welcome: "StockDock-ல் உங்களை வரவேற்கிறோம்", subWelcome: "என்டர்பிரைஸ் POS & சப்ளை செயின் கிளவுட்",
-    storeOwner: "கடை உரிமையாளர்", distributor: "விநியோகஸ்தர்", fullName: "முழு பெயர்",
+    storeOwner: "கடை உரிமையாளர்", distributor: "விநியோகஸ்தர்", customer: "வாடிக்கையாளர்", fullName: "முழு பெயர்",
     shopName: "அதிகாரப்பூர்வ கடை பெயர்", shopAddress: "கடை முகவரி (பகுதி, நகரம்)",
     openTime: "திறக்கும் நேரம்", closeTime: "மூடும் நேரம்", agencyName: "ஏஜென்சி / விநியோக பெயர்",
     warehouseAddress: "கிடங்கு முகவரி", mobileNumber: "மொபைல் எண் (10 இலக்கங்கள்)",
-    username: "பயனர் பெயர்", password: "கடவுச்சொல்", loginBtn: "போர்ட்டலைத் திறக்கவும்",
+    username: "பயனர் பெயர்", password: "கடவுச்சொல்", website: "இணையதள இணைப்பு (விருப்பப்படி)", loginBtn: "போர்ட்டலைத் திறக்கவும்",
     registerBtn: "எண்டர்பிரைஸ் கணக்கைப் பதிவு செய்க", newUser: "StockDock-க்கு புதியவரா? ",
     alreadyReg: "ஏற்கனவே பதிவு செய்துள்ளீர்களா? ", createAcc: "கணக்கை உருவாக்கவும்", loginHere: "இங்கே உள்நுழையவும்",
     live: "லைவ்", signOut: "வெளியேறு", dailyMatrix: "தினசரி ஸ்டாக் மேட்ரிக்ஸ்", autoCalc: "ஆட்டோ-கணக்கீடு",
@@ -200,11 +200,11 @@ const TRANSLATIONS = {
     paidBadge: "செலுத்தப்பட்டது (PAID)", unpaidBadge: "நிலுவை (UNPAID)", verifySettle: "நான் பணம் செலுத்திவிட்டேன் • உறுதி செய்", scanText: "GPay, PhonePe, Paytm அல்லது BHIM மூலம் ஸ்கேன் செய்க", switchAccText: "வங்கி சர்வர் 1 வேலை செய்யவில்லை எனில் கணக்கை மாற்றவும்:",
     checkoutTitle: "StockDock பாதுகாப்பான செக்அவுட் போர்டல்", returnDash: "டேஷ்போர்டுக்கு திரும்பு",
     sessionExpires: "QR காலாவதி நேரம்:", qrExpired: "QR அமர்வு காலாவதியானது", regenQr: "புதிய QR குறியீட்டை உருவாக்கு", paymentDoneTitle: "பணப்பரிவர்த்தனை வெற்றிகரமாக முடிந்தது!", paymentDoneSub: "உங்கள் பரிவர்த்தனை HDFC வங்கி சர்வர் மூலம் பாதுகாப்பாக முடிக்கப்பட்டது.", amountPaid: "செலுத்திய தொகை:", paidTo: "கணக்கில் வரவு வைக்கப்பட்டது:", txnRef: "பரிவர்த்தனை ஐடி:", printReceipt: "அதிகாரப்பூர்வ ரசீதை அச்சிடு",
-    tabHome: "முகப்பு டேஷ்போர்டு", tabOrder: "ஆர்டர் பட்டியல்", tabGraphs: "செயல்திறன் வரைபடங்கள்", tabHistory: "ஆர்டர் வரலாறு", tabPayments: "கட்டண வரலாறு",
+    tabHome: "முகப்பு டேஷ்போர்டு", tabOrder: "ஆர்டர் பட்டியல்", tabGraphs: "செயல்திறன் வரைபடங்கள்", tabHistory: "ஆர்டர் வரலாறு", tabPayments: "கட்டண வரலாறு", tabNetwork: "விநியோகஸ்தர் நெட்வொர்க்",
     historyTitle: "ஆர்டர் டெலிவரி வரலாறு", historySub: "உங்கள் நெட்வொர்க்கில் கடந்த சரக்கு விநியோகங்களை கண்காணிக்கவும்", paymentsTitle: "கட்டணம் மற்றும் தீர்வுகள்", paymentsSub: "செலுத்தப்படாத ரசீதுகளை நிர்வகிக்கவும், கடந்த கட்டண ரசீதுகளைப் பார்க்கவும்", noHistory: "உங்கள் வரலாற்றில் ஆர்டர்கள் எதுவும் இல்லை.", noPayments: "நிலுவையில் உள்ள அல்லது கடந்த கட்டணங்கள் எதுவும் இல்லை.",
-    shopPerformance: "என் கடையின் செயல்திறன்", shopPerformanceSub: "எந்த தயாரிப்புகள் விற்பனையாகின்றன, எவை காலாவதியாகின்றன என்பதைப் பார்க்கவும்",
-    menuTitle: "மேலாண்மை மையம்", menuSub: "உங்கள் அன்றாட செயல்பாடுகளை நிர்வகிக்க கீழே உள்ள போர்ட்டலைத் தேர்ந்தெடுக்கவும்",
-    menuOrderDesc: "பல பிராண்ட் பட்டியல்களை உலாவவும், புதிய ஸ்டாக் ரசீதுகளை உருவாக்கவும்.", menuGraphsDesc: "விற்பனை மற்றும் காலாவதி பகுப்பாய்வைக் காண்க.",
+    shopPerformance: "என் கடையின் செயல்திறன்", shopPerformanceSub: "எந்த தயாரிப்புகள் விற்பனையாகின்றன, எவை காலாவதியாகின்றன என்பதைப் பார்க்கவும்", networkSub: "சரிபார்க்கப்பட்ட விநியோகஸ்தர்களைக் காணவும் தொடர்பு கொள்ளவும்", networkTitle: "சரிபார்க்கப்பட்ட சப்ளை நெட்வொர்க்",
+    menuTitle: "மேலாண்மை மையம்", menuSub: "உங்கள் அன்றாட செயல்பாடுகளை நிர்வகிக்க கீழே உள்ள போர்ட்டலைத் தேர்ந்தெடுக்கவும்", customerDashTitle: "வாடிக்கையாளர் போர்ட்டல்", customerDashSub: "எங்கள் பிரெட் பட்டியல் மற்றும் விநியோகஸ்தர்களை உலாவுக",
+    menuOrderDesc: "பல பிராண்ட் பட்டியல்களை உலாவவும், புதிய ஸ்டாக் ரசீதுகளை உருவாக்கவும்.", menuGraphsDesc: "விற்பனை மற்றும் காலாவதி பகுப்பாய்வைக் காண்க.", menuNetworkDesc: "விநியோகஸ்தர்களைக் காணவும் தொடர்பு கொள்ளவும்.",
     menuHistoryDesc: "கடந்தகால சரக்கு விநியோகங்களை மதிப்பாய்வு செய்யவும்.", menuPaymentsDesc: "செலுத்தப்படாத பில்களைத் தீர்த்து, கடந்தகால ரசீதுகளைப் பார்க்கவும்.",
     tabDistAnalytics: "நெட்வொர்க் பகுப்பாய்வு", tabDistHistory: "நெட்வொர்க் வரலாறு", tabDistReport: "விற்பனை அறிக்கைகள்",
     menuDistAnalyticsDesc: "ஒட்டுமொத்த விற்பனை மற்றும் காலாவதி அளவீடுகளைக் காண்க.", menuDistHistoryDesc: "அனுப்பப்பட்ட அனைத்து ஆர்டர்களையும் நிர்வகிக்கவும்.", menuDistReportDesc: "தினசரி அல்லது மாதாந்திர நிதி அறிக்கைகளை உருவாக்கவும்.",
@@ -248,7 +248,7 @@ export default function App() {
   const [authForm, setAuthForm] = useState({ 
     fullName: '', username: '', password: '', role: 'store_owner', 
     mobileNumber: '', address: '', shopName: '', agencyName: '', 
-    openTime: '08:00', closeTime: '22:00' 
+    openTime: '08:00', closeTime: '22:00', websiteLink: ''
   });
 
   const [orderRows, setOrderRows] = useState(
@@ -264,6 +264,7 @@ export default function App() {
 
   const [globalChartData, setGlobalChartData] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
+  const [distributorsList, setDistributorsList] = useState([]);
   const [selectedStoreFilter, setSelectedStoreFilter] = useState('ALL');
 
   const [viewingModalInvoice, setViewingModalInvoice] = useState(null);
@@ -274,7 +275,14 @@ export default function App() {
     if (stored) setUser(JSON.parse(stored));
   }, []);
 
-  useEffect(() => { if (user) fetchReports(); }, [user]);
+  useEffect(() => { 
+    if (user) {
+      fetchReports(); 
+      if(user.role === 'store_owner' || user.role === 'customer') {
+        fetchDistributors();
+      }
+    }
+  }, [user]);
 
   useEffect(() => {
     if (aiToast) {
@@ -304,6 +312,13 @@ export default function App() {
       setGlobalChartData(res.data.reportData || []);
       setRecentOrders(res.data.orders || []);
     } catch (err) { console.error("API Error:", err); }
+  };
+
+  const fetchDistributors = async () => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/api/distributors`);
+      setDistributorsList(res.data || []);
+    } catch (err) { console.error("Distributor Fetch Error:", err); }
   };
 
   const storeOwnerOrders = useMemo(() => {
@@ -438,12 +453,19 @@ export default function App() {
     if (!isLoginView) {
       if (!authForm.fullName || authForm.fullName.trim().length < 2) return "Full Name must be at least 2 characters long.";
       if (!/^\d{10}$/.test(authForm.mobileNumber)) return "Mobile Number must contain exactly 10 numerical digits.";
-      if (!authForm.address || authForm.address.trim().length < 4) return "Please provide a complete area and city address.";
+      
+      if (authForm.role !== 'customer') {
+          if (!authForm.address || authForm.address.trim().length < 4) return "Please provide a complete area and city address.";
+      }
+      
       if (authForm.role === 'store_owner') {
         if (!authForm.shopName || authForm.shopName.trim().length < 2) return "Please enter an official Shop Name.";
         if (!authForm.openTime || !authForm.closeTime) return "Please select both Opening and Closing times.";
         if (authForm.openTime === authForm.closeTime) return "Opening and closing times cannot be identical.";
-      } else { if (!authForm.agencyName || authForm.agencyName.trim().length < 2) return "Please enter an official Agency Name."; }
+      } else if (authForm.role === 'distributor') { 
+        if (!authForm.agencyName || authForm.agencyName.trim().length < 2) return "Please enter an official Agency Name."; 
+        if (authForm.websiteLink && !/^https?:\/\//i.test(authForm.websiteLink)) return "Website Link must start with http:// or https://";
+      }
     }
     if (!authForm.username || authForm.username.trim().length < 3) return "Username must be at least 3 characters long without spaces.";
     if (!/^[a-zA-Z0-9_]+$/.test(authForm.username)) return "Username can only contain letters, numbers, and underscores.";
@@ -467,7 +489,7 @@ export default function App() {
         setUser(loggedIn); localStorage.setItem('stalkUser', JSON.stringify(loggedIn));
       } else {
         setIsLoginView(true); setAuthError('Registration successful! You may now log in.');
-        setAuthForm({ fullName: '', username: '', password: '', role: 'store_owner', mobileNumber: '', address: '', shopName: '', agencyName: '', openTime: '08:00', closeTime: '22:00' });
+        setAuthForm({ fullName: '', username: '', password: '', role: 'store_owner', mobileNumber: '', address: '', shopName: '', agencyName: '', openTime: '08:00', closeTime: '22:00', websiteLink: '' });
       }
     } catch (err) { setAuthError(err.response?.data?.message || 'Server error. Is the backend running?'); }
   };
@@ -604,7 +626,7 @@ export default function App() {
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-[128px] pointer-events-none animate-pulse"></div>
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-violet-600/20 rounded-full blur-[128px] pointer-events-none animate-pulse" style={{ animationDelay: '1s' }}></div>
 
-        <div className={`w-full max-w-[480px] p-6 sm:p-10 rounded-[2rem] border relative z-10 animate-popup my-8 transition-colors duration-300 ${tCard}`}>
+        <div className={`w-full max-w-[500px] p-6 sm:p-10 rounded-[2rem] border relative z-10 animate-popup my-8 transition-colors duration-300 ${tCard}`}>
           <div className="text-center mb-8">
             <div className="inline-flex p-4 bg-gradient-to-tr from-blue-600 to-blue-800 rounded-2xl mb-4 shadow-lg shadow-blue-500/30"><Package className="text-white" size={36} /></div>
             <h1 className="text-3xl font-black tracking-tight text-blue-600">{t.welcome}</h1>
@@ -618,15 +640,17 @@ export default function App() {
           )}
           
           <form onSubmit={handleAuthSubmit} className="space-y-4">
-            <div className={`flex p-1.5 rounded-xl mb-6 border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-100 border-gray-300'}`}>
+            <div className={`flex p-1.5 rounded-xl mb-6 border flex-wrap sm:flex-nowrap gap-1 ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-100 border-gray-300'}`}>
               <button type="button" onClick={() => setAuthForm({ ...authForm, role: 'store_owner' })} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center text-center leading-tight min-h-[48px] transition-all duration-300 cursor-pointer ${authForm.role === 'store_owner' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>{t.storeOwner}</button>
               <button type="button" onClick={() => setAuthForm({ ...authForm, role: 'distributor' })} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center text-center leading-tight min-h-[48px] transition-all duration-300 cursor-pointer ${authForm.role === 'distributor' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>{t.distributor}</button>
+              <button type="button" onClick={() => setAuthForm({ ...authForm, role: 'customer' })} className={`flex-1 py-3 px-2 text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center text-center leading-tight min-h-[48px] transition-all duration-300 cursor-pointer ${authForm.role === 'customer' ? 'bg-blue-600 text-white shadow-md' : isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>{t.customer}</button>
             </div>
 
             {!isLoginView && (
               <div className={`space-y-4 border-b pb-6 mb-4 animate-popup ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                 <input type="text" name="fullName" required value={authForm.fullName} onChange={e => setAuthForm({...authForm, fullName: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.fullName} />
-                {authForm.role === 'store_owner' ? (
+                
+                {authForm.role === 'store_owner' && (
                   <>
                     <input type="text" name="shopName" required value={authForm.shopName} onChange={e => setAuthForm({...authForm, shopName: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.shopName} />
                     <input type="text" name="address" required value={authForm.address} onChange={e => setAuthForm({...authForm, address: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.shopAddress} />
@@ -635,12 +659,16 @@ export default function App() {
                       <div><label className={`block text-xs font-bold uppercase mb-1.5 flex items-center gap-1 ${tSubText}`}><Clock size={14} className="text-blue-600"/> {t.closeTime}</label><input type="time" name="closeTime" required value={authForm.closeTime || '22:00'} onChange={e => setAuthForm({...authForm, closeTime: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-base font-bold transition-all cursor-pointer ${tInput}`} /></div>
                     </div>
                   </>
-                ) : (
+                )}
+
+                {authForm.role === 'distributor' && (
                   <>
                     <input type="text" name="agencyName" required value={authForm.agencyName} onChange={e => setAuthForm({...authForm, agencyName: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.agencyName} />
                     <input type="text" name="address" required value={authForm.address} onChange={e => setAuthForm({...authForm, address: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.warehouseAddress} />
+                    <input type="url" name="websiteLink" value={authForm.websiteLink} onChange={e => setAuthForm({...authForm, websiteLink: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.website} />
                   </>
                 )}
+
                 <input type="tel" name="mobileNumber" maxLength="10" required value={authForm.mobileNumber} onChange={e => setAuthForm({...authForm, mobileNumber: e.target.value.replace(/\D/g, '')})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.mobileNumber} />
               </div>
             )}
@@ -916,7 +944,7 @@ export default function App() {
   }
 
   // ----------------------------------------------------------------
-  // 3. MAIN DASHBOARD: STORE OWNER & DISTRIBUTOR (MENU & TABS)
+  // 3. MAIN DASHBOARD: STORE OWNER, DISTRIBUTOR & CUSTOMER (MENU & TABS)
   // ----------------------------------------------------------------
   return (
     <div className={`min-h-screen font-sans selection:bg-blue-500 selection:text-white print:bg-white print:text-black transition-colors duration-300 relative ${tBg}`}>
@@ -959,7 +987,7 @@ export default function App() {
               <h1 className="text-xl sm:text-2xl font-black tracking-tight text-blue-600">StockDock</h1>
               <span className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-blue-100 text-blue-700 border border-blue-300 flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> {t.live}</span>
             </div>
-            <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mt-1 ${tSubText}`}>{user?.role === 'store_owner' ? t.storeOwner : t.distributor}</p>
+            <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mt-1 ${tSubText}`}>{user?.role === 'store_owner' ? t.storeOwner : user?.role === 'customer' ? t.customer : t.distributor}</p>
           </div>
         </div>
         
@@ -971,7 +999,7 @@ export default function App() {
           </button>
           <div className="text-right hidden md:block border-l pl-4 border-gray-300">
             <p className="text-base font-black flex items-center justify-end gap-2">{user?.fullName || 'User'} <ShieldCheck size={18} className="text-emerald-600"/></p>
-            <p className={`text-sm font-bold mt-0.5 ${tSubText}`}>{user?.role === 'store_owner' ? user?.shopName : user?.agencyName} • {user?.mobileNumber}</p>
+            <p className={`text-sm font-bold mt-0.5 ${tSubText}`}>{user?.role === 'store_owner' ? user?.shopName : user?.role === 'customer' ? 'Network Guest' : user?.agencyName} • {user?.mobileNumber}</p>
           </div>
           <button onClick={handleLogout} className={`flex items-center gap-2 px-3 sm:px-5 py-2.5 sm:py-3 rounded-xl text-sm font-black border transition-all duration-200 cursor-pointer shadow-sm ${isDark ? 'bg-slate-800 hover:bg-red-900/50 hover:text-red-400 border-slate-600 hover:border-red-500/50 text-slate-200' : 'bg-white hover:bg-red-50 hover:text-red-700 border-gray-300 text-gray-700'}`}>
             <LogOut size={18}/> <span className="hidden sm:inline">{t.signOut}</span>
@@ -979,7 +1007,7 @@ export default function App() {
         </div>
       </nav>
 
-      {/* --- STORE OWNER & DISTRIBUTOR 4-TAB NAVIGATION BAR --- */}
+      {/* --- STORE OWNER, DISTRIBUTOR & CUSTOMER TAB NAVIGATION BAR --- */}
       <div className={`border-b print:hidden sticky top-[73px] sm:top-[89px] z-20 backdrop-blur-md transition-colors ${isDark ? 'border-slate-800 bg-slate-900/90' : 'border-gray-200 bg-white/90'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar gap-3 py-4">
           <button onClick={() => setAppTab('MENU')} className={`inline-flex whitespace-nowrap px-5 py-2.5 rounded-xl text-sm font-black items-center gap-2.5 transition-all shadow-sm cursor-pointer min-h-[44px] ${appTab === 'MENU' ? 'bg-blue-600 text-white shadow-md border-transparent' : (isDark ? 'bg-slate-800 border border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-gray-50 border border-gray-300 text-gray-700 hover:text-gray-900 hover:bg-gray-100')}`}>
@@ -992,7 +1020,8 @@ export default function App() {
                 { id: 'ORDER', icon: <ShoppingBag size={18}/>, label: t.tabOrder },
                 { id: 'GRAPHS', icon: <BarChart3 size={18}/>, label: t.tabGraphs },
                 { id: 'HISTORY', icon: <Clock size={18}/>, label: t.tabHistory },
-                { id: 'PAYMENTS', icon: <CreditCard size={18}/>, label: t.tabPayments }
+                { id: 'PAYMENTS', icon: <CreditCard size={18}/>, label: t.tabPayments },
+                { id: 'NETWORK', icon: <Users size={18}/>, label: t.tabNetwork }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -1022,13 +1051,29 @@ export default function App() {
               ))}
             </>
           )}
+
+          {user?.role === 'customer' && (
+            <>
+              {[
+                { id: 'NETWORK', icon: <Users size={18}/>, label: t.tabNetwork }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setAppTab(tab.id)}
+                  className={`inline-flex whitespace-nowrap px-5 py-2.5 rounded-xl text-sm font-black items-center gap-2.5 transition-all shadow-sm cursor-pointer min-h-[44px] ${appTab === tab.id ? 'bg-blue-600 text-white shadow-md border-transparent' : (isDark ? 'bg-slate-800 border border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-gray-50 border border-gray-300 text-gray-700 hover:text-gray-900 hover:bg-gray-100')}`}
+                >
+                  {tab.icon} {tab.label}
+                </button>
+              ))}
+            </>
+          )}
         </div>
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 print:p-0 print:m-0 print:max-w-full space-y-8">
         
         {/* ============================================================================ */}
-        {/* STORE OWNER VIEWS (MENU + 4 TABS) */}
+        {/* STORE OWNER VIEWS (MENU + TABS) */}
         {/* ============================================================================ */}
         {user?.role === 'store_owner' && (
           <div className="animate-popup">
@@ -1066,6 +1111,12 @@ export default function App() {
                     <div className="bg-rose-100 border border-rose-200 text-rose-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><CreditCard size={32}/></div>
                     <h3 className="text-2xl font-black mb-3">{t.tabPayments}</h3>
                     <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuPaymentsDesc}</p>
+                  </button>
+                  
+                  <button onClick={() => setAppTab('NETWORK')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md md:col-span-2 ${isDark ? 'bg-slate-800 border-slate-600 hover:border-indigo-400' : 'bg-white border-gray-300 hover:border-indigo-500'}`}>
+                    <div className="bg-indigo-100 border border-indigo-200 text-indigo-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Users size={32}/></div>
+                    <h3 className="text-2xl font-black mb-3">{t.tabNetwork}</h3>
+                    <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuNetworkDesc}</p>
                   </button>
                 </div>
               </div>
@@ -1261,6 +1312,115 @@ export default function App() {
               </div>
             )}
 
+          </div>
+        )}
+
+        {/* --- CUSTOMER DASHBOARD (MENU) --- */}
+        {user?.role === 'customer' && appTab === 'MENU' && (
+          <div className="animate-popup">
+            <div className={`border rounded-[2.5rem] p-6 sm:p-14 transition-colors duration-300 shadow-lg mb-8 ${tCard}`}>
+              <div className="text-center mb-12">
+                <div className="inline-flex p-5 bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-3xl mb-6 shadow-sm"><Users size={48} /></div>
+                <h2 className={`text-3xl sm:text-5xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>{t.customerDashTitle}</h2>
+                <p className={`text-base font-bold mt-4 ${tSubText}`}>{t.customerDashSub}</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <button onClick={() => setAppTab('NETWORK')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md md:col-span-2 ${isDark ? 'bg-slate-800 border-slate-600 hover:border-indigo-400' : 'bg-white border-gray-300 hover:border-indigo-500'}`}>
+                  <div className="bg-indigo-100 border border-indigo-200 text-indigo-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Building2 size={32}/></div>
+                  <h3 className="text-2xl font-black mb-3">{t.networkTitle}</h3>
+                  <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.networkSub}</p>
+                </button>
+              </div>
+            </div>
+
+            {/* Read-Only Bread Catalog for Customers */}
+            <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`flex items-center gap-4 mb-6 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Package size={28}/></div>
+                <div>
+                  <h2 className="text-xl sm:text-2xl font-black">Bread Catalog</h2>
+                  <p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>Browse available items from our network</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Object.entries(MASTER_INVENTORY).map(([name, data]) => (
+                  <div key={name} className={`p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all ${isDark ? 'bg-slate-800/50 border-slate-700 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-400'}`}>
+                    <div>
+                      <span className={`inline-flex whitespace-nowrap text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded border mb-2 ${data.brand === 'Relish' ? 'bg-rose-50 text-rose-700 border-rose-200' : data.brand === 'English Oven' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-blue-50 text-blue-700 border-blue-200'}`}>{data.brand}</span>
+                      <h4 className="font-black text-sm">{name.replace(`${data.brand} `, '')}</h4>
+                    </div>
+                    <span className="font-mono font-black text-lg text-emerald-600">₹{data.price}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* --- SHARED DISTRIBUTOR NETWORK TAB (Store Owner & Customer) --- */}
+        {(user?.role === 'store_owner' || user?.role === 'customer') && appTab === 'NETWORK' && (
+          <div className="animate-popup">
+            <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                <div className="flex items-center gap-4">
+                  <div className="bg-indigo-100 border border-indigo-200 p-4 rounded-2xl text-indigo-700"><Building2 size={28}/></div>
+                  <div><h2 className="text-xl sm:text-2xl font-black">{t.networkTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.networkSub}</p></div>
+                </div>
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-indigo-100 border border-indigo-300 text-indigo-700 text-xs sm:text-sm font-black shadow-sm self-start sm:self-auto">
+                  {distributorsList.length} Verified Partners
+                </span>
+              </div>
+
+              {distributorsList.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {distributorsList.map((distro, idx) => (
+                    <div key={idx} className={`border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group ${isDark ? 'bg-slate-800 border-slate-700 hover:border-indigo-500' : 'bg-white border-gray-200 hover:border-indigo-400'}`}>
+                      <div className="bg-gradient-to-r from-indigo-600 to-blue-600 p-6 flex flex-col items-center text-center relative overflow-hidden">
+                        <div className="absolute -top-10 -right-10 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+                        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-indigo-600 mb-3 shadow-md z-10">
+                          <UserIcon size={32} />
+                        </div>
+                        <h3 className="text-white font-black text-lg z-10">{distro.fullName}</h3>
+                        <span className="text-indigo-100 text-xs font-bold tracking-widest uppercase mt-1 z-10">Authorized Distributor</span>
+                      </div>
+                      
+                      <div className="p-6 space-y-4">
+                        <div className="flex items-start gap-3">
+                          <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-amber-400' : 'bg-amber-50 text-amber-600'}`}><Store size={18}/></div>
+                          <div>
+                            <span className={`text-[10px] font-black uppercase tracking-wider block ${tSubText}`}>{t.agencyName}</span>
+                            <span className="font-bold text-sm">{distro.agencyName}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-start gap-3">
+                          <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-emerald-400' : 'bg-emerald-50 text-emerald-600'}`}><Phone size={18}/></div>
+                          <div>
+                            <span className={`text-[10px] font-black uppercase tracking-wider block ${tSubText}`}>Contact Number</span>
+                            <span className="font-bold text-sm font-mono">{distro.mobileNumber}</span>
+                          </div>
+                        </div>
+
+                        {distro.websiteLink && distro.websiteLink !== 'N/A' && (
+                          <div className="flex items-start gap-3 pt-2">
+                            <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-blue-400' : 'bg-blue-50 text-blue-600'}`}><Globe size={18}/></div>
+                            <div className="w-full">
+                              <span className={`text-[10px] font-black uppercase tracking-wider block mb-1 ${tSubText}`}>Website Portal</span>
+                              <a href={distro.websiteLink} target="_blank" rel="noopener noreferrer" className="inline-flex whitespace-nowrap px-4 py-2 w-full justify-center bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-lg text-xs items-center gap-2 transition-all cursor-pointer">
+                                Visit Agency Site <ArrowRight size={14}/>
+                              </a>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-12 text-center flex flex-col items-center justify-center gap-3"><div className="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center border border-indigo-200 mb-2"><Users size={32}/></div><p className="font-black text-base sm:text-lg text-indigo-600">No distributors registered yet.</p></div>
+              )}
+            </div>
           </div>
         )}
 
