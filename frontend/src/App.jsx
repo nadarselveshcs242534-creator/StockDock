@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axios from 'axios';
 import { QRCodeSVG } from 'qrcode.react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid, LineChart, Line } from 'recharts';
-import { Package, FileText, BarChart3, LogOut, Layers, CheckCircle2, Printer, Store, Filter, Eye, Trash2, Download, AlertCircle, Phone, MapPin, Sparkles, Zap, ShieldCheck, ArrowRight, Truck, Sun, Moon, Clock, Languages, Bot, X, CreditCard, CheckCircle, QrCode, Copy, Check, RefreshCw, Smartphone, ArrowLeft, AlertTriangle, Receipt, ShoppingBag, Lock, Timer, RefreshCcw, Radio, Home, Calendar, FileSpreadsheet, Users, User as UserIcon, Globe, Building2 } from 'lucide-react';
+import { Package, FileText, BarChart3, LogOut, Layers, CheckCircle2, Printer, Store, Filter, Eye, Trash2, Download, AlertCircle, Phone, MapPin, Sparkles, Zap, ShieldCheck, ArrowRight, Truck, Sun, Moon, Clock, Languages, Bot, X, CreditCard, CheckCircle, QrCode, Copy, Check, RefreshCw, Smartphone, ArrowLeft, AlertTriangle, Receipt, ShoppingBag, Lock, Timer, RefreshCcw, Radio, Home, Calendar, FileSpreadsheet, Users, User as UserIcon, Globe, Building2, Minus, Plus, Settings } from 'lucide-react';
 
 // ⚡ DYNAMIC API BASE URL FOR VITE DEPLOYMENT
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5005';
@@ -62,7 +62,6 @@ const formatTime12H = (time24) => {
   return `${h.toString().padStart(2, '0')}:${minutes} ${ampm}`;
 };
 
-// Date Helpers
 const isToday = (dateString) => {
   const date = new Date(dateString);
   const today = new Date();
@@ -75,7 +74,6 @@ const isThisMonth = (dateString) => {
   return date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
 };
 
-// CSV Downloader Helper
 const triggerCSVDownload = (csvContent, fileName) => {
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
@@ -95,7 +93,7 @@ const TRANSLATIONS = {
     storeOwner: "Store Owner", distributor: "Distributor", customer: "Customer", fullName: "Full Name",
     shopName: "Official Shop Name", shopAddress: "Shop Address (Area, City)",
     openTime: "Open Time", closeTime: "Close Time", agencyName: "Agency / Distribution Name",
-    warehouseAddress: "Warehouse Address", mobileNumber: "Mobile Contact Number (10 Digits)",
+    warehouseAddress: "Warehouse Address", mobileNumber: "Mobile Contact Number",
     username: "Username", password: "Password", website: "Website Link (Optional)", loginBtn: "Access Portal",
     registerBtn: "Register Enterprise Account", newUser: "New to StockDock? ",
     alreadyReg: "Already registered? ", createAcc: "Create Account", loginHere: "Login Here",
@@ -128,14 +126,15 @@ const TRANSLATIONS = {
     menuHistoryDesc: "Review all past inventory deliveries and cargo loading.", menuPaymentsDesc: "Settle unpaid bills and view past verified receipts.",
     tabDistAnalytics: "Network Analytics", tabDistHistory: "Network History", tabDistReport: "Sales Reports",
     menuDistAnalyticsDesc: "Visualize overall store sales and expiry metrics.", menuDistHistoryDesc: "View and manage all dispatched cargo orders.", menuDistReportDesc: "Generate and export daily or monthly financial reports.",
-    salesReportTitle: "Financial Sales Report", salesReportSub: "Aggregated revenue and cargo data for your network", downloadReport: "Download CSV Report", revenue: "Total Revenue", allTime: "All Time", daily: "Today", monthly: "This Month"
+    salesReportTitle: "Financial Sales Report", salesReportSub: "Aggregated revenue and cargo data for your network", downloadReport: "Download CSV Report", revenue: "Total Revenue", allTime: "All Time", daily: "Today", monthly: "This Month",
+    profile: "My Profile", updateProfile: "Update Profile", saveChanges: "Save Changes", profileUpdated: "Profile Updated Successfully!", orderBread: "Order Bread", addToCart: "Add to Cart", cart: "Your Cart", checkout: "Checkout", quantity: "Quantity", selectQty: "Select Quantity", itemsInCart: "Items in Cart", cartTotal: "Cart Total", emptyCart: "Cart is empty"
   },
   hi: {
     welcome: "StockDock में आपका स्वागत है", subWelcome: "एंटरप्राइज़ पीओएस और सप्लाई चेन क्लाउड",
     storeOwner: "स्टोर मालिक", distributor: "वितरक (Distributor)", customer: "ग्राहक (Customer)", fullName: "पूरा नाम",
     shopName: "दुकान का आधिकारिक नाम", shopAddress: "दुकान का पता (क्षेत्र, शहर)",
     openTime: "खुलने का समय", closeTime: "बंद होने का समय", agencyName: "एजेंसी / वितरण का नाम",
-    warehouseAddress: "गोदाम का पता", mobileNumber: "मोबाइल नंबर (10 अंक)",
+    warehouseAddress: "गोदाम का पता", mobileNumber: "मोबाइल नंबर",
     username: "यूज़रनेम", password: "पासवर्ड", website: "वेबसाइट लिंक (वैकल्पिक)", loginBtn: "पोर्टल खोलें",
     registerBtn: "एंटरप्राइज़ खाता पंजीकृत करें", newUser: "StockDock पर नए हैं? ",
     alreadyReg: "पहले से पंजीकृत हैं? ", createAcc: "खाता बनाएं", loginHere: "यहाँ लॉगिन करें",
@@ -168,14 +167,15 @@ const TRANSLATIONS = {
     menuHistoryDesc: "सभी पिछले इन्वेंट्री डिलीवरी की समीक्षा करें।", menuPaymentsDesc: "अवैतनिक बिलों का निपटान करें और पिछली रसीदें देखें।",
     tabDistAnalytics: "नेटवर्क एनालिटिक्स", tabDistHistory: "नेटवर्क इतिहास", tabDistReport: "बिक्री रिपोर्ट",
     menuDistAnalyticsDesc: "समग्र स्टोर बिक्री और एक्सपायरी मेट्रिक्स की कल्पना करें।", menuDistHistoryDesc: "सभी भेजे गए कार्गो ऑर्डर देखें और प्रबंधित करें।", menuDistReportDesc: "दैनिक या मासिक वित्तीय रिपोर्ट जेनरेट और निर्यात करें।",
-    salesReportTitle: "वित्तीय बिक्री रिपोर्ट", salesReportSub: "आपके नेटवर्क के लिए कुल राजस्व और कार्गो डेटा", downloadReport: "CSV रिपोर्ट डाउनलोड करें", revenue: "कुल राजस्व", allTime: "पूरा समय", daily: "आज", monthly: "इस महीने"
+    salesReportTitle: "वित्तीय बिक्री रिपोर्ट", salesReportSub: "आपके नेटवर्क के लिए कुल राजस्व और कार्गो डेटा", downloadReport: "CSV रिपोर्ट डाउनलोड करें", revenue: "कुल राजस्व", allTime: "पूरा समय", daily: "आज", monthly: "इस महीने",
+    profile: "मेरी प्रोफ़ाइल", updateProfile: "प्रोफ़ाइल अपडेट करें", saveChanges: "परिवर्तन सहेजें", profileUpdated: "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!", orderBread: "ब्रेड ऑर्डर करें", addToCart: "कार्ट में डालें", cart: "आपका कार्ट", checkout: "चेकआउट", quantity: "मात्रा", selectQty: "मात्रा चुनें", itemsInCart: "कार्ट में आइटम", cartTotal: "कार्ट कुल", emptyCart: "कार्ट खाली है"
   },
   ta: {
     welcome: "StockDock-ல் உங்களை வரவேற்கிறோம்", subWelcome: "என்டர்பிரைஸ் POS & சப்ளை செயின் கிளவுட்",
     storeOwner: "கடை உரிமையாளர்", distributor: "விநியோகஸ்தர்", customer: "வாடிக்கையாளர்", fullName: "முழு பெயர்",
     shopName: "அதிகாரப்பூர்வ கடை பெயர்", shopAddress: "கடை முகவரி (பகுதி, நகரம்)",
     openTime: "திறக்கும் நேரம்", closeTime: "மூடும் நேரம்", agencyName: "ஏஜென்சி / விநியோக பெயர்",
-    warehouseAddress: "கிடங்கு முகவரி", mobileNumber: "மொபைல் எண் (10 இலக்கங்கள்)",
+    warehouseAddress: "கிடங்கு முகவரி", mobileNumber: "மொபைல் எண்",
     username: "பயனர் பெயர்", password: "கடவுச்சொல்", website: "இணையதள இணைப்பு (விருப்பப்படி)", loginBtn: "போர்ட்டலைத் திறக்கவும்",
     registerBtn: "எண்டர்பிரைஸ் கணக்கைப் பதிவு செய்க", newUser: "StockDock-க்கு புதியவரா? ",
     alreadyReg: "ஏற்கனவே பதிவு செய்துள்ளீர்களா? ", createAcc: "கணக்கை உருவாக்கவும்", loginHere: "இங்கே உள்நுழையவும்",
@@ -208,7 +208,8 @@ const TRANSLATIONS = {
     menuHistoryDesc: "கடந்தகால சரக்கு விநியோகங்களை மதிப்பாய்வு செய்யவும்.", menuPaymentsDesc: "செலுத்தப்படாத பில்களைத் தீர்த்து, கடந்தகால ரசீதுகளைப் பார்க்கவும்.",
     tabDistAnalytics: "நெட்வொர்க் பகுப்பாய்வு", tabDistHistory: "நெட்வொர்க் வரலாறு", tabDistReport: "விற்பனை அறிக்கைகள்",
     menuDistAnalyticsDesc: "ஒட்டுமொத்த விற்பனை மற்றும் காலாவதி அளவீடுகளைக் காண்க.", menuDistHistoryDesc: "அனுப்பப்பட்ட அனைத்து ஆர்டர்களையும் நிர்வகிக்கவும்.", menuDistReportDesc: "தினசரி அல்லது மாதாந்திர நிதி அறிக்கைகளை உருவாக்கவும்.",
-    salesReportTitle: "நிதி விற்பனை அறிக்கை", salesReportSub: "உங்கள் நெட்வொர்க்கிற்கான மொத்த வருவாய் மற்றும் சரக்கு தரவு", downloadReport: "CSV அறிக்கையைப் பதிவிறக்கு", revenue: "மொத்த வருவாய்", allTime: "எல்லா நேரமும்", daily: "இன்று", monthly: "இந்த மாதம்"
+    salesReportTitle: "நிதி விற்பனை அறிக்கை", salesReportSub: "உங்கள் நெட்வொர்க்கிற்கான மொத்த வருவாய் மற்றும் சரக்கு தரவு", downloadReport: "CSV அறிக்கையைப் பதிவிறக்கு", revenue: "மொத்த வருவாய்", allTime: "எல்லா நேரமும்", daily: "இன்று", monthly: "இந்த மாதம்",
+    profile: "என் சுயவிவரம்", updateProfile: "சுயவிவரத்தைப் புதுப்பிக்கவும்", saveChanges: "மாற்றங்களைச் சேமி", profileUpdated: "சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!", orderBread: "பிரெட் ஆர்டர் செய்", addToCart: "கூடையில் சேர்", cart: "உங்கள் கூடை", checkout: "செக்அவுட்", quantity: "அளவு", selectQty: "அளவைத் தேர்ந்தெடுக்கவும்", itemsInCart: "கூடையில் உள்ள பொருட்கள்", cartTotal: "மொத்த தொகை", emptyCart: "கூடை காலியாக உள்ளது"
   }
 };
 
@@ -251,6 +252,15 @@ export default function App() {
     openTime: '08:00', closeTime: '22:00', websiteLink: ''
   });
 
+  // --- PROFILE UPDATE STATE ---
+  const [profileForm, setProfileForm] = useState({});
+  const [profileToast, setProfileToast] = useState(null);
+
+  // --- CUSTOMER CART STATE ---
+  const [customerCart, setCustomerCart] = useState([]);
+  const [selectedCustomerItem, setSelectedCustomerItem] = useState(null);
+  const [customerQty, setCustomerQty] = useState(1);
+
   const [orderRows, setOrderRows] = useState(
     Object.entries(MASTER_INVENTORY).map(([name, data]) => ({
       brand: data.brand,
@@ -281,8 +291,15 @@ export default function App() {
       if(user.role === 'store_owner' || user.role === 'customer') {
         fetchDistributors();
       }
+      setProfileForm(user);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (appTab === 'PROFILE' && user) {
+      setProfileForm(user);
+    }
+  }, [appTab, user]);
 
   useEffect(() => {
     if (aiToast) {
@@ -306,6 +323,11 @@ export default function App() {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
+  const getWhatsAppLink = (phone) => {
+    if (!phone || phone === 'N/A') return '#';
+    return `https://wa.me/91${phone.replace(/\D/g, '')}`;
+  };
+
   const fetchReports = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/reports`);
@@ -323,7 +345,7 @@ export default function App() {
 
   const storeOwnerOrders = useMemo(() => {
     return (recentOrders || []).filter(o => 
-      (o.storeOwnerId === user?.username || o.shopName === user?.shopName)
+      (o.storeOwnerId === user?.username || o.shopName === user?.shopName || o.shopName === user?.fullName)
     );
   }, [recentOrders, user]);
 
@@ -410,13 +432,9 @@ export default function App() {
       const res = await axios.put(`${API_BASE_URL}/api/orders/${activeCheckoutOrder._id}/pay`, {
         paymentMethod: `Paid via ${activeAcc.name} QR (${activeAcc.tag})`
       });
-      if (invoice && invoice._id === activeCheckoutOrder._id) setInvoice(res.data.order);
       fetchReports();
     } catch (err) {
-      console.warn("Backend payment route missing. Using Viva-Safe Mock Update to preserve UI state.");
-      if (invoice && invoice._id === activeCheckoutOrder._id) {
-        setInvoice({...invoice, paymentStatus: 'PAID', paymentMethod: `Paid via ${activeAcc.name} QR`});
-      }
+      console.warn("Backend payment route error. Using Viva-Safe Mock Update to preserve UI state.");
       setRecentOrders(prev => prev.map(o => 
         o._id === activeCheckoutOrder._id 
           ? { ...o, paymentStatus: 'PAID', paymentMethod: `Paid via ${activeAcc.name} QR` } 
@@ -494,7 +512,21 @@ export default function App() {
     } catch (err) { setAuthError(err.response?.data?.message || 'Server error. Is the backend running?'); }
   };
 
-  const handleLogout = () => { setUser(null); localStorage.removeItem('stalkUser'); setCurrentView('DASHBOARD'); setAppTab('MENU'); };
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.put(`${API_BASE_URL}/api/users/${user.username}`, profileForm);
+      const updatedUser = { ...user, ...res.data };
+      setUser(updatedUser);
+      localStorage.setItem('stalkUser', JSON.stringify(updatedUser));
+      setProfileToast(t.profileUpdated);
+      setTimeout(() => setProfileToast(null), 3000);
+    } catch (err) {
+      alert("Failed to update profile.");
+    }
+  };
+
+  const handleLogout = () => { setUser(null); localStorage.removeItem('stalkUser'); setCurrentView('DASHBOARD'); setAppTab('MENU'); setCustomerCart([]); };
   
   const updateRow = (name, field, val) => { 
     const numVal = Math.max(0, Number(val));
@@ -518,6 +550,42 @@ export default function App() {
       fetchReports();
       openCheckoutPage(res.data.order);
     } catch (err) { alert("Failed to generate master invoice."); }
+  };
+
+  const handleCustomerAddToCart = () => {
+    setCustomerCart(prev => {
+      const existing = prev.find(i => i.breadVariety === selectedCustomerItem.name);
+      if (existing) {
+        return prev.map(i => i.breadVariety === selectedCustomerItem.name 
+          ? { ...i, quantity: i.quantity + customerQty, itemTotal: (i.quantity + customerQty) * i.pricePerBread } 
+          : i);
+      }
+      return [...prev, {
+        breadVariety: selectedCustomerItem.name,
+        pricePerBread: selectedCustomerItem.price,
+        quantity: customerQty,
+        itemTotal: customerQty * selectedCustomerItem.price
+      }];
+    });
+    setSelectedCustomerItem(null);
+    setCustomerQty(1);
+  };
+
+  const submitCustomerOrder = async () => {
+    if (customerCart.length === 0) return;
+    const payload = {
+      storeOwnerId: user.username, 
+      shopName: user.fullName, 
+      address: user.address || 'N/A',
+      mobileNumber: user.mobileNumber || 'N/A',
+      items: customerCart
+    };
+    try {
+      const res = await axios.post(`${API_BASE_URL}/api/orders/customer`, payload);
+      setCustomerCart([]);
+      fetchReports();
+      openCheckoutPage(res.data.order);
+    } catch (err) { alert("Failed to place order."); }
   };
 
   const confirmAndDeleteOrderForever = async (orderId) => {
@@ -669,6 +737,10 @@ export default function App() {
                   </>
                 )}
 
+                {authForm.role === 'customer' && (
+                  <input type="text" name="address" value={authForm.address} onChange={e => setAuthForm({...authForm, address: e.target.value})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder="Delivery Address (Optional)" />
+                )}
+
                 <input type="tel" name="mobileNumber" maxLength="10" required value={authForm.mobileNumber} onChange={e => setAuthForm({...authForm, mobileNumber: e.target.value.replace(/\D/g, '')})} className={`w-full border rounded-xl px-4 py-4 text-base transition-all ${tInput}`} placeholder={t.mobileNumber} />
               </div>
             )}
@@ -749,7 +821,7 @@ export default function App() {
                 
                 <div className={`space-y-4 border-t-2 py-6 my-4 text-sm font-bold ${isPrinting ? 'border-black text-black' : isDark ? 'border-slate-700 text-slate-200' : 'border-gray-200 text-gray-800'}`}>
                   <div className="flex justify-between"><span className={isPrinting ? 'text-gray-600' : tSubText}>Reference Number:</span><span className={`font-mono font-black ${isPrinting ? 'text-black' : 'text-blue-600'}`}>#{activeCheckoutOrder._id.slice(-8).toUpperCase()}</span></div>
-                  <div className="flex justify-between"><span className={isPrinting ? 'text-gray-600' : tSubText}>Billed Shop:</span><span className="font-black text-base">{activeCheckoutOrder.shopName}</span></div>
+                  <div className="flex justify-between"><span className={isPrinting ? 'text-gray-600' : tSubText}>Billed To:</span><span className="font-black text-base">{activeCheckoutOrder.shopName}</span></div>
                   <div className="flex justify-between"><span className={isPrinting ? 'text-gray-600' : tSubText}>Date Generated:</span><span className="font-black">{new Date(activeCheckoutOrder.date).toLocaleDateString()}</span></div>
                 </div>
 
@@ -764,8 +836,8 @@ export default function App() {
                       </tr>
                     </thead>
                     <tbody className="font-bold">
-                      {activeCheckoutOrder.items?.map(i => (
-                        <tr key={i.breadVariety} className={`border-t ${isPrinting ? 'border-gray-300' : isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                      {activeCheckoutOrder.items?.map((i, index) => (
+                        <tr key={index} className={`border-t ${isPrinting ? 'border-gray-300' : isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                           <td className="py-4 pr-4">{i.breadVariety}</td>
                           <td className={`py-4 text-center text-lg ${isPrinting ? 'text-black' : 'text-blue-600'}`}>{i.suppliedBreads}</td>
                           <td className="py-4 text-right font-mono text-base">₹{i.itemTotal}</td>
@@ -900,7 +972,7 @@ export default function App() {
                   <span className="font-mono font-black text-emerald-600 text-xl">₹{activeCheckoutOrder.totalBillAmount}.00</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className={tSubText}>Billed Shop:</span>
+                  <span className={tSubText}>Billed To:</span>
                   <span className="font-black text-base">{activeCheckoutOrder.shopName}</span>
                 </div>
                 <div className="flex justify-between">
@@ -944,7 +1016,7 @@ export default function App() {
   }
 
   // ----------------------------------------------------------------
-  // 3. MAIN DASHBOARD: STORE OWNER, DISTRIBUTOR & CUSTOMER (MENU & TABS)
+  // 3. MAIN DASHBOARD: TABS & VIEWS
   // ----------------------------------------------------------------
   return (
     <div className={`min-h-screen font-sans selection:bg-blue-500 selection:text-white print:bg-white print:text-black transition-colors duration-300 relative ${tBg}`}>
@@ -1021,7 +1093,8 @@ export default function App() {
                 { id: 'GRAPHS', icon: <BarChart3 size={18}/>, label: t.tabGraphs },
                 { id: 'HISTORY', icon: <Clock size={18}/>, label: t.tabHistory },
                 { id: 'PAYMENTS', icon: <CreditCard size={18}/>, label: t.tabPayments },
-                { id: 'NETWORK', icon: <Users size={18}/>, label: t.tabNetwork }
+                { id: 'NETWORK', icon: <Users size={18}/>, label: t.tabNetwork },
+                { id: 'PROFILE', icon: <Settings size={18}/>, label: t.profile }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -1039,7 +1112,8 @@ export default function App() {
               {[
                 { id: 'ANALYTICS', icon: <BarChart3 size={18}/>, label: t.tabDistAnalytics },
                 { id: 'HISTORY', icon: <Clock size={18}/>, label: t.tabDistHistory },
-                { id: 'REPORT', icon: <FileSpreadsheet size={18}/>, label: t.tabDistReport }
+                { id: 'REPORT', icon: <FileSpreadsheet size={18}/>, label: t.tabDistReport },
+                { id: 'PROFILE', icon: <Settings size={18}/>, label: t.profile }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -1055,7 +1129,11 @@ export default function App() {
           {user?.role === 'customer' && (
             <>
               {[
-                { id: 'NETWORK', icon: <Users size={18}/>, label: t.tabNetwork }
+                { id: 'ORDER', icon: <ShoppingBag size={18}/>, label: t.orderBread },
+                { id: 'HISTORY', icon: <Clock size={18}/>, label: t.tabHistory },
+                { id: 'PAYMENTS', icon: <CreditCard size={18}/>, label: t.tabPayments },
+                { id: 'NETWORK', icon: <Users size={18}/>, label: t.tabNetwork },
+                { id: 'PROFILE', icon: <Settings size={18}/>, label: t.profile }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -1073,7 +1151,55 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 print:p-0 print:m-0 print:max-w-full space-y-8">
         
         {/* ============================================================================ */}
-        {/* STORE OWNER VIEWS (MENU + TABS) */}
+        {/* PROFILE TAB (SHARED) */}
+        {/* ============================================================================ */}
+        {appTab === 'PROFILE' && (
+          <div className={`max-w-3xl mx-auto border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg animate-popup ${tCard}`}>
+            <div className={`flex items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+              <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Settings size={28}/></div>
+              <div><h2 className="text-xl sm:text-2xl font-black">{t.profile}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.updateProfile}</p></div>
+            </div>
+
+            {profileToast && (
+              <div className="p-4 bg-emerald-50 border border-emerald-300 text-emerald-700 rounded-xl mb-6 font-bold flex items-center justify-center gap-2 animate-popup">
+                <CheckCircle2 size={20}/> {profileToast}
+              </div>
+            )}
+
+            <form onSubmit={handleProfileUpdate} className="space-y-5">
+              <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>{t.fullName}</label><input type="text" value={profileForm.fullName || ''} onChange={e => setProfileForm({...profileForm, fullName: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`} required/></div>
+              
+              {user?.role === 'store_owner' && (
+                <>
+                  <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>{t.shopName}</label><input type="text" value={profileForm.shopName || ''} onChange={e => setProfileForm({...profileForm, shopName: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`} required/></div>
+                  <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>{t.shopAddress}</label><input type="text" value={profileForm.address || ''} onChange={e => setProfileForm({...profileForm, address: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`} required/></div>
+                  <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>Shop Timings</label><input type="text" value={profileForm.shopTimings || ''} onChange={e => setProfileForm({...profileForm, shopTimings: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`} placeholder="e.g. 08:00 AM - 10:00 PM" required/></div>
+                </>
+              )}
+
+              {user?.role === 'distributor' && (
+                <>
+                  <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>{t.agencyName}</label><input type="text" value={profileForm.agencyName || ''} onChange={e => setProfileForm({...profileForm, agencyName: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`} required/></div>
+                  <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>{t.warehouseAddress}</label><input type="text" value={profileForm.address || ''} onChange={e => setProfileForm({...profileForm, address: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`} required/></div>
+                  <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>{t.website}</label><input type="url" value={profileForm.websiteLink || ''} onChange={e => setProfileForm({...profileForm, websiteLink: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`}/></div>
+                </>
+              )}
+
+              {user?.role === 'customer' && (
+                <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>Delivery Address</label><input type="text" value={profileForm.address || ''} onChange={e => setProfileForm({...profileForm, address: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`}/></div>
+              )}
+
+              <div><label className={`block text-xs font-black uppercase mb-2 ml-1 ${tSubText}`}>{t.mobileNumber}</label><input type="tel" maxLength="10" value={profileForm.mobileNumber || ''} onChange={e => setProfileForm({...profileForm, mobileNumber: e.target.value.replace(/\D/g, '')})} className={`w-full border rounded-xl px-4 py-3.5 text-sm font-bold transition-all ${tInput}`} required/></div>
+
+              <div className="pt-4">
+                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 min-h-[56px]"><Check size={20}/> {t.saveChanges}</button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* ============================================================================ */}
+        {/* STORE OWNER VIEWS */}
         {/* ============================================================================ */}
         {user?.role === 'store_owner' && (
           <div className="animate-popup">
@@ -1232,199 +1358,12 @@ export default function App() {
                 </div>
               </div>
             )}
-
-            {/* TAB 3: HISTORY */}
-            {appTab === 'HISTORY' && (
-              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
-                <div className={`flex items-center justify-between flex-wrap gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                  <div className="flex items-center gap-4">
-                    <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Clock size={28}/></div>
-                    <div><h2 className="text-xl sm:text-2xl font-black">{t.historyTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.historySub}</p></div>
-                  </div>
-                </div>
-                {storeOwnerOrders.length > 0 ? (
-                  <div className="overflow-x-auto border rounded-2xl border-gray-200 dark:border-slate-700 shadow-sm">
-                    <table className="w-full text-sm sm:text-base text-left min-w-[600px]">
-                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">Order Ref</th><th className="p-4 sm:p-5">Date & Time</th><th className="p-4 sm:p-5">Cargo Loaves</th><th className="p-4 sm:p-5 text-center">Payment Status</th><th className="p-4 sm:p-5 text-right">Action</th></tr></thead>
-                      <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
-                        {storeOwnerOrders.map((ord, index) => {
-                           const isEven = index % 2 === 0;
-                           return (
-                            <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                              <td className="p-4 sm:p-5 font-mono font-black text-blue-600 truncate">#{ord._id.slice(-8).toUpperCase()}</td>
-                              <td className="p-4 sm:p-5 font-black">{new Date(ord.date).toLocaleString()}</td>
-                              <td className="p-4 sm:p-5"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-black text-blue-700 shadow-sm">{ord.totalSuppliedBreads} Loaves</span></td>
-                              <td className="p-4 sm:p-5 text-center"><span className={`inline-flex whitespace-nowrap px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
-                              <td className="p-4 sm:p-5 text-right"><button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-xs sm:text-sm items-center gap-1.5 sm:gap-2 ml-auto hover:scale-105 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]"><Eye size={16}/> {t.viewBill}</button></td>
-                            </tr>
-                           )
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="py-12 text-center"><p className={`font-black text-base sm:text-lg ${tSubText}`}>{t.noHistory}</p></div>
-                )}
-              </div>
-            )}
-
-            {/* TAB 4: PAYMENTS */}
-            {appTab === 'PAYMENTS' && (
-              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
-                <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                  <div className="flex items-center gap-4">
-                    <div className="bg-rose-100 border border-rose-200 p-4 rounded-2xl text-rose-700"><CreditCard size={28}/></div>
-                    <div><h2 className="text-xl sm:text-2xl font-black">{t.paymentsTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.paymentsSub}</p></div>
-                  </div>
-                  <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-rose-100 border border-rose-300 text-rose-700 text-xs sm:text-sm font-black shadow-sm self-start sm:self-auto">
-                    {storeOwnerUnpaidOrders.length} Pending Bills
-                  </span>
-                </div>
-                {storeOwnerOrders.length > 0 ? (
-                  <div className="overflow-x-auto border rounded-2xl border-gray-200 dark:border-slate-700 shadow-sm">
-                    <table className="w-full text-sm sm:text-base text-left min-w-[700px]">
-                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">Invoice Ref</th><th className="p-4 sm:p-5">Date</th><th className="p-4 sm:p-5 text-right">Amount</th><th className="p-4 sm:p-5 text-center">Status</th><th className="p-4 sm:p-5 text-right">Action</th></tr></thead>
-                      <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
-                        {storeOwnerOrders.map((ord, index) => {
-                          const isEven = index % 2 === 0;
-                          return (
-                            <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                              <td className="p-4 sm:p-5 font-mono font-black text-blue-600 truncate">#{ord._id.slice(-8).toUpperCase()}</td>
-                              <td className="p-4 sm:p-5 font-black">{new Date(ord.date).toLocaleDateString()}</td>
-                              <td className="p-4 sm:p-5 text-right font-black font-mono text-emerald-600 text-base sm:text-lg">₹{ord.totalBillAmount}.00</td>
-                              <td className="p-4 sm:p-5 text-center"><span className={`inline-flex whitespace-nowrap px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-rose-50 text-rose-700 border-rose-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
-                              <td className="p-4 sm:p-5 text-right">
-                                {ord.paymentStatus === 'PAID' ? (
-                                  <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-5 py-2 sm:py-2.5 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-black rounded-xl text-xs sm:text-sm items-center gap-2 ml-auto transition-all cursor-pointer shadow-sm min-h-[40px] sm:min-h-[44px]"><Receipt size={16}/> View Receipt</button>
-                                ) : (
-                                  <button onClick={() => openCheckoutPage(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-5 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs sm:text-sm items-center gap-2 ml-auto hover:-translate-y-1 transition-all shadow-md cursor-pointer min-h-[40px] sm:min-h-[44px]"><CreditCard size={16}/> {t.payOnline}</button>
-                                )}
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="py-12 text-center flex flex-col items-center justify-center gap-3"><div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center border border-emerald-200 mb-2"><CheckCircle2 size={32}/></div><p className="font-black text-base sm:text-lg text-emerald-600">{t.noPayments}</p></div>
-                )}
-              </div>
-            )}
-
           </div>
         )}
 
-        {/* --- CUSTOMER DASHBOARD (MENU) --- */}
-        {user?.role === 'customer' && appTab === 'MENU' && (
-          <div className="animate-popup">
-            <div className={`border rounded-[2.5rem] p-6 sm:p-14 transition-colors duration-300 shadow-lg mb-8 ${tCard}`}>
-              <div className="text-center mb-12">
-                <div className="inline-flex p-5 bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-3xl mb-6 shadow-sm"><Users size={48} /></div>
-                <h2 className={`text-3xl sm:text-5xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>{t.customerDashTitle}</h2>
-                <p className={`text-base font-bold mt-4 ${tSubText}`}>{t.customerDashSub}</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <button onClick={() => setAppTab('NETWORK')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md md:col-span-2 ${isDark ? 'bg-slate-800 border-slate-600 hover:border-indigo-400' : 'bg-white border-gray-300 hover:border-indigo-500'}`}>
-                  <div className="bg-indigo-100 border border-indigo-200 text-indigo-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Building2 size={32}/></div>
-                  <h3 className="text-2xl font-black mb-3">{t.networkTitle}</h3>
-                  <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.networkSub}</p>
-                </button>
-              </div>
-            </div>
-
-            {/* Read-Only Bread Catalog for Customers */}
-            <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
-              <div className={`flex items-center gap-4 mb-6 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Package size={28}/></div>
-                <div>
-                  <h2 className="text-xl sm:text-2xl font-black">Bread Catalog</h2>
-                  <p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>Browse available items from our network</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {Object.entries(MASTER_INVENTORY).map(([name, data]) => (
-                  <div key={name} className={`p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all ${isDark ? 'bg-slate-800/50 border-slate-700 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-400'}`}>
-                    <div>
-                      <span className={`inline-flex whitespace-nowrap text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded border mb-2 ${data.brand === 'Relish' ? 'bg-rose-50 text-rose-700 border-rose-200' : data.brand === 'English Oven' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-blue-50 text-blue-700 border-blue-200'}`}>{data.brand}</span>
-                      <h4 className="font-black text-sm">{name.replace(`${data.brand} `, '')}</h4>
-                    </div>
-                    <span className="font-mono font-black text-lg text-emerald-600">₹{data.price}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* --- SHARED DISTRIBUTOR NETWORK TAB (Store Owner & Customer) --- */}
-        {(user?.role === 'store_owner' || user?.role === 'customer') && appTab === 'NETWORK' && (
-          <div className="animate-popup">
-            <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
-              <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                <div className="flex items-center gap-4">
-                  <div className="bg-indigo-100 border border-indigo-200 p-4 rounded-2xl text-indigo-700"><Building2 size={28}/></div>
-                  <div><h2 className="text-xl sm:text-2xl font-black">{t.networkTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.networkSub}</p></div>
-                </div>
-                <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-indigo-100 border border-indigo-300 text-indigo-700 text-xs sm:text-sm font-black shadow-sm self-start sm:self-auto">
-                  {distributorsList.length} Verified Partners
-                </span>
-              </div>
-
-              {distributorsList.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {distributorsList.map((distro, idx) => (
-                    <div key={idx} className={`border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group ${isDark ? 'bg-slate-800 border-slate-700 hover:border-indigo-500' : 'bg-white border-gray-200 hover:border-indigo-400'}`}>
-                      <div className="bg-gradient-to-r from-indigo-600 to-blue-600 p-6 flex flex-col items-center text-center relative overflow-hidden">
-                        <div className="absolute -top-10 -right-10 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-                        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-indigo-600 mb-3 shadow-md z-10">
-                          <UserIcon size={32} />
-                        </div>
-                        <h3 className="text-white font-black text-lg z-10">{distro.fullName}</h3>
-                        <span className="text-indigo-100 text-xs font-bold tracking-widest uppercase mt-1 z-10">Authorized Distributor</span>
-                      </div>
-                      
-                      <div className="p-6 space-y-4">
-                        <div className="flex items-start gap-3">
-                          <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-amber-400' : 'bg-amber-50 text-amber-600'}`}><Store size={18}/></div>
-                          <div>
-                            <span className={`text-[10px] font-black uppercase tracking-wider block ${tSubText}`}>{t.agencyName}</span>
-                            <span className="font-bold text-sm">{distro.agencyName}</span>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-start gap-3">
-                          <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-emerald-400' : 'bg-emerald-50 text-emerald-600'}`}><Phone size={18}/></div>
-                          <div>
-                            <span className={`text-[10px] font-black uppercase tracking-wider block ${tSubText}`}>Contact Number</span>
-                            <span className="font-bold text-sm font-mono">{distro.mobileNumber}</span>
-                          </div>
-                        </div>
-
-                        {distro.websiteLink && distro.websiteLink !== 'N/A' && (
-                          <div className="flex items-start gap-3 pt-2">
-                            <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-blue-400' : 'bg-blue-50 text-blue-600'}`}><Globe size={18}/></div>
-                            <div className="w-full">
-                              <span className={`text-[10px] font-black uppercase tracking-wider block mb-1 ${tSubText}`}>Website Portal</span>
-                              <a href={distro.websiteLink} target="_blank" rel="noopener noreferrer" className="inline-flex whitespace-nowrap px-4 py-2 w-full justify-center bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-lg text-xs items-center gap-2 transition-all cursor-pointer">
-                                Visit Agency Site <ArrowRight size={14}/>
-                              </a>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="py-12 text-center flex flex-col items-center justify-center gap-3"><div className="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center border border-indigo-200 mb-2"><Users size={32}/></div><p className="font-black text-base sm:text-lg text-indigo-600">No distributors registered yet.</p></div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* --- DISTRIBUTOR VIEW (KEPT CLEAN & WIDE) --- */}
+        {/* ============================================================================ */}
+        {/* DISTRIBUTOR VIEWS */}
+        {/* ============================================================================ */}
         {user?.role === 'distributor' && (
           <div className="space-y-8 print:hidden animate-popup">
             
@@ -1497,63 +1436,6 @@ export default function App() {
               </div>
             )}
 
-            {/* DISTRIBUTOR TAB 2: HISTORY (With Date Filters) */}
-            {appTab === 'HISTORY' && (
-              <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
-                <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                  <div className="flex items-center gap-4">
-                    <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Clock size={28}/></div>
-                    <div><h2 className="text-xl sm:text-2xl font-black">{t.historyTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.historySub}</p></div>
-                  </div>
-                  <div className={`flex items-center gap-3 border p-2 rounded-xl shadow-sm w-full sm:w-auto ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-gray-50 border-gray-300'}`}>
-                    <Calendar size={18} className="text-blue-600 ml-2 shrink-0"/>
-                    <span className={`text-[10px] sm:text-xs font-black uppercase tracking-wider hidden sm:inline ${tSubText}`}>{t.timeFilter}</span>
-                    <select value={distroHistoryFilter} onChange={e => setDistroHistoryFilter(e.target.value)} className={`w-full sm:w-auto border rounded-lg px-2 sm:px-4 py-2 text-xs sm:text-sm font-black text-blue-700 focus:outline-none cursor-pointer transition-colors ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-500' : 'bg-white border-gray-300 hover:border-blue-600'}`}>
-                      <option value="ALL">{t.allTime}</option>
-                      <option value="DAILY">{t.daily}</option>
-                      <option value="MONTHLY">{t.monthly}</option>
-                    </select>
-                  </div>
-                </div>
-
-                {filteredDistributorHistory.length > 0 ? (
-                  <div className={`overflow-x-auto border rounded-2xl shadow-sm ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
-                    <table className="w-full text-sm sm:text-base text-left min-w-[800px]">
-                      <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">{t.storeDetails}</th><th className="p-4 sm:p-5">{t.pkgBreakdown}</th><th className="p-4 sm:p-5">{t.totalCargoLoad}</th><th className="p-4 sm:p-5 text-right">{t.masterTotal}</th><th className="p-4 sm:p-5 text-center">{t.manage}</th></tr></thead>
-                      <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
-                        {filteredDistributorHistory.map((ord, index) => {
-                          const isEven = index % 2 === 0;
-                          return (
-                          <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
-                            <td className="p-4 sm:p-5">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-black flex items-center gap-2 text-base sm:text-lg"><Store size={18} className="text-blue-600 shrink-0"/>{ord.shopName}</span>
-                                <span className={`inline-flex whitespace-nowrap px-2 sm:px-2.5 py-0.5 rounded text-[9px] sm:text-[10px] font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>
-                                  {ord.paymentStatus || 'UNPAID'}
-                                </span>
-                              </div>
-                              <span className={`text-[10px] sm:text-xs font-black block mt-2 ${tSubText}`}>{new Date(ord.date).toLocaleString()}</span>
-                            </td>
-                            <td className={`p-4 sm:p-5 text-xs sm:text-sm font-bold max-w-xs sm:max-w-sm truncate ${tSubText}`}>{ord?.items?.map(i => `${i.suppliedBreads}x ${i.breadVariety}`).join(', ') || 'Legacy single item'}</td>
-                            <td className="p-4 sm:p-5 font-black text-blue-600"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm shadow-sm">{ord.totalSuppliedBreads} {t.totalBreads}</span></td>
-                            <td className="p-4 sm:p-5 text-right font-black font-mono text-emerald-600 text-base sm:text-lg">₹{ord.totalBillAmount}</td>
-                            <td className="p-4 sm:p-5 text-center">
-                              <div className="flex items-center justify-center gap-2 sm:gap-3">
-                                <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-xs sm:text-sm items-center gap-1.5 sm:gap-2 hover:-translate-y-1 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]"><Eye size={16}/> <span className="hidden xl:inline">{t.viewBill}</span></button>
-                                <button onClick={() => setDeletingOrderWarning(ord)} className="inline-flex whitespace-nowrap p-2 sm:p-2.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 rounded-xl hover:-translate-y-1 active:scale-90 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]" title="Delete"><Trash2 size={18}/></button>
-                              </div>
-                            </td>
-                          </tr>
-                        )})}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="py-12 text-center"><p className={`font-black text-base sm:text-lg ${tSubText}`}>{t.noHistory}</p></div>
-                )}
-              </div>
-            )}
-
             {/* DISTRIBUTOR TAB 3: MONTHLY / DAILY REPORT GENERATOR */}
             {appTab === 'REPORT' && (
               <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
@@ -1590,7 +1472,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* NEW BRAND REVENUE CARDS */}
+                    {/* BRAND REVENUE CARDS */}
                     {distributorBrandReportData.length > 0 && (
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
                         {distributorBrandReportData.map(data => (
@@ -1645,6 +1527,276 @@ export default function App() {
           </div>
         )}
 
+        {/* ============================================================================ */}
+        {/* CUSTOMER VIEWS */}
+        {/* ============================================================================ */}
+        {user?.role === 'customer' && (
+          <div className="animate-popup">
+            {appTab === 'MENU' && (
+              <div className={`border rounded-[2.5rem] p-6 sm:p-14 transition-colors duration-300 shadow-lg ${tCard}`}>
+                <div className="text-center mb-12">
+                  <div className="inline-flex p-5 bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-3xl mb-6 shadow-sm"><Users size={48} /></div>
+                  <h2 className={`text-3xl sm:text-5xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>{t.customerDashTitle}</h2>
+                  <p className={`text-base font-bold mt-4 ${tSubText}`}>{t.customerDashSub}</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                  <button onClick={() => setAppTab('ORDER')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-blue-400' : 'bg-white border-gray-300 hover:border-blue-500'}`}>
+                    <div className="bg-blue-100 border border-blue-200 text-blue-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><ShoppingBag size={32}/></div>
+                    <h3 className="text-2xl font-black mb-3">{t.orderBread}</h3>
+                    <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuOrderDesc}</p>
+                  </button>
+
+                  <button onClick={() => setAppTab('NETWORK')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-emerald-400' : 'bg-white border-gray-300 hover:border-emerald-500'}`}>
+                    <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Building2 size={32}/></div>
+                    <h3 className="text-2xl font-black mb-3">{t.networkTitle}</h3>
+                    <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.networkSub}</p>
+                  </button>
+
+                  <button onClick={() => setAppTab('HISTORY')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-amber-400' : 'bg-white border-gray-300 hover:border-amber-500'}`}>
+                    <div className="bg-amber-100 border border-amber-200 text-amber-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><Clock size={32}/></div>
+                    <h3 className="text-2xl font-black mb-3">{t.tabHistory}</h3>
+                    <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuHistoryDesc}</p>
+                  </button>
+
+                  <button onClick={() => setAppTab('PAYMENTS')} className={`p-8 sm:p-10 rounded-[2rem] border text-left transition-all hover:-translate-y-1 cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-600 hover:border-rose-400' : 'bg-white border-gray-300 hover:border-rose-500'}`}>
+                    {storeOwnerUnpaidOrders.length > 0 && (<span className="absolute top-6 right-6 sm:top-8 sm:right-8 bg-rose-600 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-md animate-pulse">{storeOwnerUnpaidOrders.length} Unpaid</span>)}
+                    <div className="bg-rose-100 border border-rose-200 text-rose-700 p-5 rounded-2xl w-fit mb-6 group-hover:scale-110 transition-transform"><CreditCard size={32}/></div>
+                    <h3 className="text-2xl font-black mb-3">{t.tabPayments}</h3>
+                    <p className={`text-base font-bold leading-relaxed ${tSubText}`}>{t.menuPaymentsDesc}</p>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* CUSTOMER TAB 1: ORDER */}
+            {appTab === 'ORDER' && (
+              <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+                <div className={`flex items-center gap-4 mb-6 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                  <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Package size={28}/></div>
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-black">{t.orderBread}</h2>
+                    <p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>Click an item to add to your cart</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-3 overflow-x-auto pb-6 mb-4 no-scrollbar">
+                  {['All', 'Relish', 'English Oven', 'Max Heath'].map(brand => (
+                    <button key={brand} type="button" onClick={() => setActiveBrandTab(brand)} className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer min-h-[44px] sm:min-h-[48px] ${activeBrandTab === brand ? 'bg-blue-600 text-white shadow-md border-transparent' : (isDark ? 'bg-slate-800 border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-white border-gray-300 text-gray-700 hover:text-gray-900 hover:bg-gray-100 shadow-sm')}`}>
+                      {brand === 'All' ? '🌐 All Brands' : `🍞 ${brand}`}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-24">
+                  {Object.entries(MASTER_INVENTORY).filter(([name, data]) => activeBrandTab === 'All' || data.brand === activeBrandTab).map(([name, data]) => (
+                    <button key={name} onClick={() => { setSelectedCustomerItem({ name, price: data.price }); setCustomerQty(1); }} className={`p-5 rounded-xl border flex flex-col justify-between shadow-sm transition-all hover:-translate-y-1 hover:shadow-md cursor-pointer text-left h-full ${isDark ? 'bg-slate-800/50 border-slate-700 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-400'}`}>
+                      <div>
+                        <span className={`inline-flex whitespace-nowrap text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded border mb-3 ${data.brand === 'Relish' ? 'bg-rose-50 text-rose-700 border-rose-200' : data.brand === 'English Oven' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-blue-50 text-blue-700 border-blue-200'}`}>{data.brand}</span>
+                        <h4 className="font-black text-base">{name.replace(`${data.brand} `, '')}</h4>
+                      </div>
+                      <div className="mt-4 flex items-center justify-between w-full">
+                        <span className="font-mono font-black text-xl text-emerald-600">₹{data.price}</span>
+                        <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><Plus size={16}/></div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* --- CUSTOMER QUANTITY MODAL --- */}
+        {selectedCustomerItem && (
+          <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-popup">
+            <div className={`border rounded-[2.5rem] shadow-2xl max-w-sm w-full p-8 text-center ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-200'}`}>
+              <div className="flex justify-between items-start mb-6">
+                <div className="text-left">
+                  <span className={`text-[10px] font-black uppercase tracking-widest ${tSubText}`}>{t.selectQty}</span>
+                  <h3 className="text-xl font-black mt-1 line-clamp-2">{selectedCustomerItem.name}</h3>
+                </div>
+                <button onClick={() => setSelectedCustomerItem(null)} className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700 transition-colors shrink-0 cursor-pointer"><X size={18}/></button>
+              </div>
+              
+              <div className="flex items-center justify-center gap-6 my-8">
+                <button onClick={() => setCustomerQty(Math.max(1, customerQty - 1))} className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 cursor-pointer transition-colors shadow-sm dark:border-slate-600 dark:hover:bg-slate-800"><Minus size={20}/></button>
+                <span className="text-4xl font-black font-mono w-12 text-center">{customerQty}</span>
+                <button onClick={() => setCustomerQty(customerQty + 1)} className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 cursor-pointer transition-colors shadow-sm dark:border-slate-600 dark:hover:bg-slate-800"><Plus size={20}/></button>
+              </div>
+              
+              <button onClick={handleCustomerAddToCart} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-md text-sm cursor-pointer min-h-[56px]">
+                <ShoppingBag size={18}/> {t.addToCart} (₹{selectedCustomerItem.price * customerQty})
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* --- CUSTOMER CART FLOATING SUMMARY --- */}
+        {user?.role === 'customer' && appTab === 'ORDER' && customerCart.length > 0 && (
+          <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 p-4 sm:p-6 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-40 flex flex-col sm:flex-row justify-between items-center gap-4 animate-slide-in">
+            <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4">
+              <div>
+                <h4 className="font-black text-lg">{t.cartTotal}</h4>
+                <p className="text-sm font-bold text-gray-500">{customerCart.length} {t.itemsInCart}</p>
+              </div>
+              <button onClick={() => setCustomerCart([])} className="text-xs font-bold text-red-600 hover:underline cursor-pointer sm:ml-4">Clear</button>
+            </div>
+            <div className="flex items-center w-full sm:w-auto gap-4">
+              <span className="text-2xl font-black text-emerald-600 font-mono hidden sm:block">₹{customerCart.reduce((sum, item) => sum + item.itemTotal, 0)}</span>
+              <button onClick={submitCustomerOrder} className="w-full sm:w-auto px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl shadow-lg transition-all min-h-[48px] flex justify-center items-center gap-2">
+                {t.checkout} <span className="sm:hidden font-mono bg-white/20 px-2 py-0.5 rounded ml-1">₹{customerCart.reduce((sum, item) => sum + item.itemTotal, 0)}</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* --- SHARED DISTRIBUTOR NETWORK TAB (Store Owner & Customer) --- */}
+        {(user?.role === 'store_owner' || user?.role === 'customer') && appTab === 'NETWORK' && (
+          <div className="animate-popup">
+            <div className={`border rounded-[2rem] p-6 sm:p-10 transition-colors duration-300 shadow-lg ${tCard}`}>
+              <div className={`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+                <div className="flex items-center gap-4">
+                  <div className="bg-indigo-100 border border-indigo-200 p-4 rounded-2xl text-indigo-700"><Building2 size={28}/></div>
+                  <div><h2 className="text-xl sm:text-2xl font-black">{t.networkTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.networkSub}</p></div>
+                </div>
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-indigo-100 border border-indigo-300 text-indigo-700 text-xs sm:text-sm font-black shadow-sm self-start sm:self-auto">
+                  {distributorsList.length} Verified Partners
+                </span>
+              </div>
+
+              {distributorsList.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {distributorsList.map((distro, idx) => (
+                    <div key={idx} className={`border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group ${isDark ? 'bg-slate-800 border-slate-700 hover:border-indigo-500' : 'bg-white border-gray-200 hover:border-indigo-400'}`}>
+                      <div className="bg-gradient-to-r from-indigo-600 to-blue-600 p-6 flex flex-col items-center text-center relative overflow-hidden">
+                        <div className="absolute -top-10 -right-10 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+                        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-indigo-600 mb-3 shadow-md z-10">
+                          <UserIcon size={32} />
+                        </div>
+                        <h3 className="text-white font-black text-lg z-10">{distro.fullName}</h3>
+                        <span className="text-indigo-100 text-xs font-bold tracking-widest uppercase mt-1 z-10">Authorized Distributor</span>
+                      </div>
+                      
+                      <div className="p-6 space-y-4">
+                        <div className="flex items-start gap-3">
+                          <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-amber-400' : 'bg-amber-50 text-amber-600'}`}><Store size={18}/></div>
+                          <div>
+                            <span className={`text-[10px] font-black uppercase tracking-wider block ${tSubText}`}>{t.agencyName}</span>
+                            <span className="font-bold text-sm">{distro.agencyName}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-start gap-3">
+                          <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-emerald-400' : 'bg-emerald-50 text-emerald-600'}`}><Phone size={18}/></div>
+                          <div>
+                            <span className={`text-[10px] font-black uppercase tracking-wider block ${tSubText}`}>Contact Number (WhatsApp)</span>
+                            <a href={getWhatsAppLink(distro.mobileNumber)} target="_blank" rel="noopener noreferrer" className="font-bold text-sm font-mono text-blue-600 hover:underline block truncate max-w-[200px]">
+                              {distro.mobileNumber}
+                            </a>
+                          </div>
+                        </div>
+
+                        {distro.websiteLink && distro.websiteLink !== 'N/A' && (
+                          <div className="flex items-start gap-3 pt-2">
+                            <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-slate-900 text-blue-400' : 'bg-blue-50 text-blue-600'}`}><Globe size={18}/></div>
+                            <div className="w-full">
+                              <span className={`text-[10px] font-black uppercase tracking-wider block mb-1 ${tSubText}`}>Website Portal</span>
+                              <a href={distro.websiteLink.startsWith('http') ? distro.websiteLink : `https://${distro.websiteLink}`} target="_blank" rel="noopener noreferrer" className="inline-flex whitespace-nowrap px-4 py-2 w-full justify-center bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-lg text-xs items-center gap-2 transition-all cursor-pointer">
+                                Visit Agency Site <ArrowRight size={14}/>
+                              </a>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-12 text-center flex flex-col items-center justify-center gap-3"><div className="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center border border-indigo-200 mb-2"><Users size={32}/></div><p className="font-black text-base sm:text-lg text-indigo-600">No distributors registered yet.</p></div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* SHARED HISTORY/PAYMENTS TABS FOR STORE OWNER & CUSTOMER */}
+        {(user?.role === 'store_owner' || user?.role === 'customer') && appTab === 'HISTORY' && (
+          <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg animate-popup ${tCard}`}>
+            <div className={`flex items-center justify-between flex-wrap gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+              <div className="flex items-center gap-4">
+                <div className="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-blue-700"><Clock size={28}/></div>
+                <div><h2 className="text-xl sm:text-2xl font-black">{t.historyTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{user.role === 'customer' ? 'Track your past bread orders' : t.historySub}</p></div>
+              </div>
+            </div>
+            {storeOwnerOrders.length > 0 ? (
+              <div className="overflow-x-auto border rounded-2xl border-gray-200 dark:border-slate-700 shadow-sm">
+                <table className="w-full text-sm sm:text-base text-left min-w-[600px]">
+                  <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">Order Ref</th><th className="p-4 sm:p-5">Date & Time</th><th className="p-4 sm:p-5">Cargo Loaves</th><th className="p-4 sm:p-5 text-center">Payment Status</th><th className="p-4 sm:p-5 text-right">Action</th></tr></thead>
+                  <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
+                    {storeOwnerOrders.map((ord, index) => {
+                        const isEven = index % 2 === 0;
+                        return (
+                        <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
+                          <td className="p-4 sm:p-5 font-mono font-black text-blue-600 truncate">#{ord._id.slice(-8).toUpperCase()}</td>
+                          <td className="p-4 sm:p-5 font-black">{new Date(ord.date).toLocaleString()}</td>
+                          <td className="p-4 sm:p-5"><span className="inline-flex whitespace-nowrap bg-blue-50 border border-blue-200 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-black text-blue-700 shadow-sm">{ord.totalSuppliedBreads} Loaves</span></td>
+                          <td className="p-4 sm:p-5 text-center"><span className={`inline-flex whitespace-nowrap px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-amber-50 text-amber-700 border-amber-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
+                          <td className="p-4 sm:p-5 text-right"><button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-black rounded-xl text-xs sm:text-sm items-center gap-1.5 sm:gap-2 ml-auto hover:scale-105 active:scale-95 transition-all shadow-sm cursor-pointer min-h-[40px] sm:min-h-[44px]"><Eye size={16}/> {t.viewBill}</button></td>
+                        </tr>
+                        )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="py-12 text-center"><p className={`font-black text-base sm:text-lg ${tSubText}`}>{t.noHistory}</p></div>
+            )}
+          </div>
+        )}
+
+        {(user?.role === 'store_owner' || user?.role === 'customer') && appTab === 'PAYMENTS' && (
+          <div className={`border rounded-[2rem] p-4 sm:p-10 transition-colors duration-300 shadow-lg animate-popup ${tCard}`}>
+            <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b pb-6 ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
+              <div className="flex items-center gap-4">
+                <div className="bg-rose-100 border border-rose-200 p-4 rounded-2xl text-rose-700"><CreditCard size={28}/></div>
+                <div><h2 className="text-xl sm:text-2xl font-black">{t.paymentsTitle}</h2><p className={`text-xs sm:text-sm font-bold mt-1 ${tSubText}`}>{t.paymentsSub}</p></div>
+              </div>
+              <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-rose-100 border border-rose-300 text-rose-700 text-xs sm:text-sm font-black shadow-sm self-start sm:self-auto">
+                {storeOwnerUnpaidOrders.length} Pending Bills
+              </span>
+            </div>
+            {storeOwnerOrders.length > 0 ? (
+              <div className="overflow-x-auto border rounded-2xl border-gray-200 dark:border-slate-700 shadow-sm">
+                <table className="w-full text-sm sm:text-base text-left min-w-[700px]">
+                  <thead className={`border-b ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-100 border-gray-300'}`}><tr className={`text-[10px] sm:text-xs font-black uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-gray-700'}`}><th className="p-4 sm:p-5">Invoice Ref</th><th className="p-4 sm:p-5">Date</th><th className="p-4 sm:p-5 text-right">Amount</th><th className="p-4 sm:p-5 text-center">Status</th><th className="p-4 sm:p-5 text-right">Action</th></tr></thead>
+                  <tbody className={`divide-y font-bold ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
+                    {storeOwnerOrders.map((ord, index) => {
+                      const isEven = index % 2 === 0;
+                      return (
+                        <tr key={ord._id} className={`transition-colors duration-150 ${isEven ? (isDark ? 'bg-slate-900' : 'bg-white') : (isDark ? 'bg-slate-800/50' : 'bg-gray-50')}`}>
+                          <td className="p-4 sm:p-5 font-mono font-black text-blue-600 truncate">#{ord._id.slice(-8).toUpperCase()}</td>
+                          <td className="p-4 sm:p-5 font-black">{new Date(ord.date).toLocaleDateString()}</td>
+                          <td className="p-4 sm:p-5 text-right font-black font-mono text-emerald-600 text-base sm:text-lg">₹{ord.totalBillAmount}.00</td>
+                          <td className="p-4 sm:p-5 text-center"><span className={`inline-flex whitespace-nowrap px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase border shadow-sm ${ord.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-rose-50 text-rose-700 border-rose-300'}`}>{ord.paymentStatus || 'UNPAID'}</span></td>
+                          <td className="p-4 sm:p-5 text-right">
+                            {ord.paymentStatus === 'PAID' ? (
+                              <button onClick={() => setViewingModalInvoice(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-5 py-2 sm:py-2.5 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-black rounded-xl text-xs sm:text-sm items-center gap-2 ml-auto transition-all cursor-pointer shadow-sm min-h-[40px] sm:min-h-[44px]"><Receipt size={16}/> View Receipt</button>
+                            ) : (
+                              <button onClick={() => openCheckoutPage(ord)} className="inline-flex whitespace-nowrap px-3 sm:px-5 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs sm:text-sm items-center gap-2 ml-auto hover:-translate-y-1 transition-all shadow-md cursor-pointer min-h-[40px] sm:min-h-[44px]"><CreditCard size={16}/> {t.payOnline}</button>
+                            )}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="py-12 text-center flex flex-col items-center justify-center gap-3"><div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center border border-emerald-200 mb-2"><CheckCircle2 size={32}/></div><p className="font-black text-base sm:text-lg text-emerald-600">{t.noPayments}</p></div>
+            )}
+          </div>
+        )}
+
         {/* MODAL 1: FLOATING INVOICE VIEWER */}
         {viewingModalInvoice && (
           <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 z-50 animate-popup print:static print:bg-white print:inset-auto print:p-0 print:block overflow-y-auto">
@@ -1670,15 +1822,22 @@ export default function App() {
                     <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest print:text-gray-600 ${tSubText}`}>{t.billedTo}</span>
                     <h4 className="text-lg sm:text-xl font-black mt-1 print:text-black">{viewingModalInvoice.shopName}</h4>
                     {viewingModalInvoice.address && <span className={`text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-2 print:text-gray-700 ${tSubText}`}><MapPin size={16} className="text-blue-600 print:text-black shrink-0"/>{viewingModalInvoice.address}</span>}
-                    {viewingModalInvoice.mobileNumber && <span className={`text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-1 print:text-gray-700 ${tSubText}`}><Phone size={16} className="text-blue-600 print:text-black shrink-0"/>{viewingModalInvoice.mobileNumber}</span>}
+                    {viewingModalInvoice.mobileNumber && (
+                      <span className={`text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-1 print:text-gray-700 ${tSubText}`}>
+                        <Phone size={16} className="text-blue-600 print:text-black shrink-0"/>
+                        <a href={getWhatsAppLink(viewingModalInvoice.mobileNumber)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                          {viewingModalInvoice.mobileNumber}
+                        </a>
+                      </span>
+                    )}
                   </div>
                   <div className="text-left sm:text-right"><span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest print:text-gray-600 ${tSubText}`}>{t.dispatchDate}</span><p className="text-sm font-black mt-1 print:text-black">{new Date(viewingModalInvoice.date).toLocaleDateString()}</p></div>
                 </div>
                 <div className={`max-h-[250px] sm:max-h-[300px] overflow-y-auto overflow-x-auto no-scrollbar border rounded-xl print:border-none print:max-h-none print:overflow-visible ${isDark ? 'border-slate-700' : 'border-gray-200'}`}>
                   <table className="w-full text-xs sm:text-sm my-0 min-w-[500px]">
-                    <thead className={`border-b-2 text-left print:border-black sticky top-0 z-10 ${isDark ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-gray-100 border-gray-300 text-gray-700'} print:bg-transparent print:text-black`}><tr><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.item}</th><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.target}</th><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.leftExp}</th><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.loaded}</th><th className="p-3 sm:p-4 text-right font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.total}</th></tr></thead>
+                    <thead className={`border-b-2 text-left print:border-black sticky top-0 z-10 ${isDark ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-gray-100 border-gray-300 text-gray-700'} print:bg-transparent print:text-black`}><tr><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.item}</th><th className="p-3 sm:p-4 font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.loaded}</th><th className="p-3 sm:p-4 text-right font-black uppercase text-[10px] sm:text-xs tracking-wider">{t.total}</th></tr></thead>
                     <tbody className={`divide-y font-bold print:divide-gray-300 ${isDark ? 'divide-slate-700 bg-slate-900' : 'divide-gray-200 bg-white'}`}>
-                      {viewingModalInvoice.items?.map(i => (<tr key={i.breadVariety} className="transition-colors"><td className="p-3 sm:p-4 font-black print:text-black max-w-[150px] truncate" title={i.breadVariety}>{i.breadVariety}</td><td className="p-3 sm:p-4">{i.targetStock}</td><td className="p-3 sm:p-4">{i.currentLeft} <span className="text-red-600 font-black print:text-red-700">({i.expired})</span></td><td className="p-3 sm:p-4 font-black text-blue-600 print:text-black text-base sm:text-lg">{i.suppliedBreads}</td><td className="p-3 sm:p-4 text-right font-mono font-black print:text-black text-sm sm:text-base">₹{i.itemTotal}</td></tr>))}
+                      {viewingModalInvoice.items?.map(i => (<tr key={i.breadVariety} className="transition-colors"><td className="p-3 sm:p-4 font-black print:text-black max-w-[150px] truncate" title={i.breadVariety}>{i.breadVariety}</td><td className="p-3 sm:p-4 font-black text-blue-600 print:text-black text-base sm:text-lg">{i.suppliedBreads}</td><td className="p-3 sm:p-4 text-right font-mono font-black print:text-black text-sm sm:text-base">₹{i.itemTotal}</td></tr>))}
                     </tbody>
                   </table>
                 </div>
