@@ -159,7 +159,7 @@ const TRANSLATIONS = {
     payOnline: "चेकआउट के लिए आगे बढ़ें", proceedToPay: "सुरक्षित भुगतान के लिए आगे बढ़ें", backToInvoice: "चालान पर वापस जाएं",
     paidBadge: "भुगतान हुआ (PAID)", unpaidBadge: "बकाया (UNPAID)", verifySettle: "मैंने भुगतान कर दिया है • पुष्टि करें", scanText: "GPay, PhonePe, Paytm या BHIM से स्कैन करें", switchAccText: "यदि सर्वर 1 बंद है तो बैंक खाता बदलें:",
     checkoutTitle: "StockDock सुरक्षित चेकआउट पोर्टल", returnDash: "डैशबोर्ड पर वापस जाएं",
-    sessionExpires: "QR कोड समाप्त होगा:", qrExpired: "QR सत्र समाप्त हो गया", regenQr: "QR कोड पुनः बनाएं", paymentDoneTitle: "भुगतान सफलतापूर्वक पूर्ण हुआ!", paymentDoneSub: "आपका लेन-देन HDFC बैंक सर्वर द्वारा सुरक्षित रूप से संसाधित किया गया।", amountPaid: "भुगतान की गई राशि:", paidTo: "खाते में जमा हुआ:", txnRef: "लेन-देन आईडी:", printReceipt: "आधिकारिक रसीद प्रिंट करें",
+    sessionExpires: "QR कोड समाप्त होगा:", qrExpired: "QR सत्र समाप्त हो गया", regenQr: "QR कोड पुनः बनाएं", paymentDoneTitle: "भुगतान सफलतापूर्वक पूर्ण हुआ!", paymentDoneSub: "आपका लेन-देन सुरक्षित रूप से संसाधित किया गया।", amountPaid: "भुगतान की गई राशि:", paidTo: "खाते में जमा हुआ:", txnRef: "लेन-देन आईडी:", printReceipt: "आधिकारिक रसीद प्रिंट करें",
     tabHome: "होम डैशबोर्ड", tabOrder: "ऑर्डर कैटलॉग", tabGraphs: "प्रदर्शन ग्राफ़", tabHistory: "ऑर्डर इतिहास", tabPayments: "भुगतान इतिहास", tabNetwork: "वितरक नेटवर्क",
     historyTitle: "ऑर्डर डिलीवरी इतिहास", historySub: "आपके नेटवर्क में पिछली सभी कार्गो डिलीवरी ट्रैक करें", paymentsTitle: "भुगतान और निपटान", paymentsSub: "अवैतनिक चालान प्रबंधित करें और पिछली भुगतान रसीदें देखें", noHistory: "आपके इतिहास में कोई ऑर्डर नहीं मिला।", noPayments: "कोई लंबित या पिछला भुगतान नहीं मिला।",
     shopPerformance: "मेरी दुकान का प्रदर्शन", shopPerformanceSub: "कल्पना करें कि कौन से उत्पाद बिक रहे हैं और कौन से एक्सपायर हो रहे हैं", networkSub: "सत्यापित आपूर्ति श्रृंखला वितरकों को देखें", networkTitle: "सत्यापित आपूर्ति नेटवर्क",
@@ -201,7 +201,7 @@ const TRANSLATIONS = {
     payOnline: "செக்அவுட் செய்ய தொடரவும்", proceedToPay: "பாதுகாப்பான கட்டணத்திற்கு தொடரவும்", backToInvoice: "ரசீதுக்கு திரும்புக",
     paidBadge: "செலுத்தப்பட்டது (PAID)", unpaidBadge: "நிலுவை (UNPAID)", verifySettle: "நான் பணம் செலுத்திவிட்டேன் • உறுதி செய்", scanText: "GPay, PhonePe, Paytm அல்லது BHIM மூலம் ஸ்கேன் செய்க", switchAccText: "வங்கி சர்வர் 1 வேலை செய்யவில்லை எனில் கணக்கை மாற்றவும்:",
     checkoutTitle: "StockDock பாதுகாப்பான செக்அவுட் போர்டல்", returnDash: "டேஷ்போர்டுக்கு திரும்பு",
-    sessionExpires: "QR காலாவதி நேரம்:", qrExpired: "QR அமர்வு காலாவதியானது", regenQr: "புதிய QR குறியீட்டை உருவாக்கு", paymentDoneTitle: "பணப்பரிவர்த்தனை வெற்றிகரமாக முடிந்தது!", paymentDoneSub: "உங்கள் பரிவர்த்தனை HDFC வங்கி சர்வர் மூலம் பாதுகாப்பாக முடிக்கப்பட்டது.", amountPaid: "செலுத்திய தொகை:", paidTo: "கணக்கில் வரவு வைக்கப்பட்டது:", txnRef: "பரிவர்த்தனை ஐடி:", printReceipt: "அதிகாரப்பூர்வ ரசீதை அச்சிடு",
+    sessionExpires: "QR காலாவதி நேரம்:", qrExpired: "QR அமர்வு காலாவதியானது", regenQr: "புதிய QR குறியீட்டை உருவாக்கு", paymentDoneTitle: "பணப்பரிவர்த்தனை வெற்றிகரமாக முடிந்தது!", paymentDoneSub: "உங்கள் பரிவர்த்தனை பாதுகாப்பாக முடிக்கப்பட்டது.", amountPaid: "செலுத்திய தொகை:", paidTo: "கணக்கில் வரவு வைக்கப்பட்டது:", txnRef: "பரிவர்த்தனை ஐடி:", printReceipt: "அதிகாரப்பூர்வ ரசீதை அச்சிடு",
     tabHome: "முகப்பு டேஷ்போர்டு", tabOrder: "ஆர்டர் பட்டியல்", tabGraphs: "செயல்திறன் வரைபடங்கள்", tabHistory: "ஆர்டர் வரலாறு", tabPayments: "கட்டண வரலாறு", tabNetwork: "விநியோகஸ்தர் நெட்வொர்க்",
     historyTitle: "ஆர்டர் டெலிவரி வரலாறு", historySub: "உங்கள் நெட்வொர்க்கில் கடந்த சரக்கு விநியோகங்களை கண்காணிக்கவும்", paymentsTitle: "கட்டணம் மற்றும் தீர்வுகள்", paymentsSub: "செலுத்தப்படாத ரசீதுகளை நிர்வகிக்கவும், கடந்த கட்டண ரசீதுகளைப் பார்க்கவும்", noHistory: "உங்கள் வரலாற்றில் ஆர்டர்கள் எதுவும் இல்லை.", noPayments: "நிலுவையில் உள்ள அல்லது கடந்த கட்டணங்கள் எதுவும் இல்லை.",
     shopPerformance: "என் கடையின் செயல்திறன்", shopPerformanceSub: "எந்த தயாரிப்புகள் விற்பனையாகின்றன, எவை காலாவதியாகின்றன என்பதைப் பார்க்கவும்", networkSub: "சரிபார்க்கப்பட்ட விநியோகஸ்தர்களைக் காணவும் தொடர்பு கொள்ளவும்", networkTitle: "சரிபார்க்கப்பட்ட சப்ளை நெட்வொர்க்",
@@ -321,6 +321,20 @@ export default function App() {
     }
   }, [currentView, checkoutStep, timeLeft]);
 
+  // --- AUTOMATIC WEBHOOK SIMULATOR (No Manual Clicks) ---
+  useEffect(() => {
+    let autoDetectTimer;
+    // We only auto-redirect for QR and App modes (to simulate a bank webhook). Cash still requires a manual click.
+    if (currentView === 'CHECKOUT' && checkoutStep === 'PAY' && checkoutPayMode !== 'CASH') {
+      // Simulates a real Payment Gateway sending a webhook after 15 seconds.
+      // (Change 15000 to 30000 if you need 30 seconds to scan during a presentation)
+      autoDetectTimer = setTimeout(() => {
+        handleManualSettlement({ preventDefault: () => {} });
+      }, 15000); 
+    }
+    return () => clearTimeout(autoDetectTimer);
+  }, [currentView, checkoutStep, checkoutPayMode]);
+
   const formatTimerDisplay = (secs) => {
     const m = Math.floor(secs / 60);
     const s = secs % 60;
@@ -430,7 +444,7 @@ export default function App() {
   };
 
   const handleManualSettlement = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     const activeAcc = MERCHANT_ACCOUNTS[selectedAccIdx];
     setCheckoutStep('SUCCESS');
 
@@ -964,7 +978,6 @@ export default function App() {
                       >
                         <Smartphone size={24}/> {t.tapToPay}
                       </a>
-                      <p className={`text-sm font-bold mt-6 px-4 ${tSubText}`}>After paying in your app, return to this screen and click the Verify button below.</p>
                     </div>
                   )}
 
@@ -983,15 +996,23 @@ export default function App() {
                 </div>
               )}
 
-              {/* 100% MANUAL BUTTON CONTROL FOR SETTLEMENT */}
-              <button 
-                type="button"
-                disabled={checkoutStep === 'EXPIRED'}
-                onClick={handleManualSettlement}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer disabled:opacity-30 disabled:pointer-events-none min-h-[56px]"
-              >
-                <CheckCircle size={20}/> {t.verifySettle}
-              </button>
+              {/* STATUS INDICATOR & AUTO-REDIRECT LOGIC */}
+              {checkoutPayMode !== 'CASH' ? (
+                <div className={`w-full font-black py-4 rounded-xl shadow-sm flex items-center justify-center gap-3 mt-4 border ${isDark ? 'bg-slate-800 border-blue-500/30 text-blue-400' : 'bg-blue-50 border-blue-200 text-blue-700'}`}>
+                  <RefreshCw className="animate-spin" size={20}/>
+                  Listening for bank confirmation...
+                </div>
+              ) : (
+                <button 
+                  type="button"
+                  disabled={checkoutStep === 'EXPIRED'}
+                  onClick={handleManualSettlement}
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-5 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer disabled:opacity-30 disabled:pointer-events-none min-h-[56px] mt-4"
+                >
+                  <CheckCircle size={20}/> Verify Cash Handover
+                </button>
+              )}
+
             </div>
           )}
 
