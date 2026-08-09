@@ -9,26 +9,25 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const JWT_SECRET = 'super_secret_stalk_key_2026';
-
-// FIXED: Now correctly uses your Render environment variable, falling back to local only if missing
+const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_stalk_key_2026';
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/stalkManager';
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected securely"))
   .catch((err) => console.error("❌ MongoDB Connection FAILED!", err.message));
 
-// --- USER SCHEMA ---
+// --- USER SCHEMA (Updated with Customer Role & Website Link) ---
 const userSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['store_owner', 'distributor'], required: true },
+  role: { type: String, enum: ['store_owner', 'distributor', 'customer'], required: true },
   mobileNumber: { type: String, required: true },
-  address: { type: String, required: true },
+  address: { type: String, default: 'N/A' },
   shopName: { type: String, default: 'N/A' },
   agencyName: { type: String, default: 'N/A' },
-  shopTimings: { type: String, default: 'N/A' }
+  shopTimings: { type: String, default: 'N/A' },
+  websiteLink: { type: String, default: '' } // Optional field for Distributors
 });
 const User = mongoose.model('User', userSchema);
 
@@ -48,12 +47,17 @@ const Order = mongoose.model('Order', orderSchema);
 
 // --- AUTH ROUTES ---
 app.post('/api/auth/register', async (req, res) => {
-  const { fullName, username, password, role, mobileNumber, address, shopName, agencyName, shopTimings } = req.body;
+  const { fullName, username, password, role, mobileNumber, address, shopName, agencyName, shopTimings, websiteLink } = req.body;
   try {
     if (await User.findOne({ username })) return res.status(400).json({ message: "Username already taken!" });
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    await (new User({ fullName, username, password: hashedPassword, role, mobileNumber, address, shopName, agencyName, shopTimings })).save();
+    await (new User({ 
+      fullName, username, password: hashedPassword, role, 
+      mobileNumber, address: address || 'N/A', 
+      shopName: shopName || 'N/A', agencyName: agencyName || 'N/A', 
+      shopTimings: shopTimings || 'N/A', websiteLink: websiteLink || '' 
+    })).save();
     res.status(201).json({ message: "Account registered successfully!" });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -64,7 +68,15 @@ app.post('/api/auth/login', async (req, res) => {
     const user = await User.findOne({ username });
     if (!user || !(await bcrypt.compare(password, user.password))) return res.status(400).json({ message: "Invalid credentials" });
     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '2h' });
-    res.json({ token, user: { id: user._id, role: user.role, fullName: user.fullName, username: user.username, shopName: user.shopName, agencyName: user.agencyName, address: user.address, mobileNumber: user.mobileNumber, shopTimings: user.shopTimings } });
+    res.json({ token, user: { id: user._id, role: user.role, fullName: user.fullName, username: user.username, shopName: user.shopName, agencyName: user.agencyName, address: user.address, mobileNumber: user.mobileNumber, shopTimings: user.shopTimings, websiteLink: user.websiteLink } });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// --- DISTRIBUTOR DIRECTORY ROUTE ---
+app.get('/api/distributors', async (req, res) => {
+  try {
+    const distributors = await User.find({ role: 'distributor' }).select('fullName agencyName mobileNumber websiteLink');
+    res.json(distributors);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
@@ -98,7 +110,7 @@ app.get('/api/reports', async (req, res) => {
 });
 
 // ==========================================
-// 💳 MARK INVOICE AS PAID ROUTE (Consolidated)
+// 💳 MARK INVOICE AS PAID ROUTE 
 // ==========================================
 app.put('/api/orders/:id/pay', async (req, res) => {
   try {
